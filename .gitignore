@@ -1,0 +1,6 @@
+bin/libGLEW.so.1.7.0
+bin/main
+bin/libGLEW*
+nbproject/
+obj/
+
