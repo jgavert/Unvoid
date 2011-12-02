@@ -1,10 +1,6 @@
-OpenGl project using newest opengl 4.x specification.
+OpenGl project focusing on 4.x specification.
 
-Opengl 4.1 it seems, either NVS 4200M doesnt support 4.2 or drivers don't...
-
-I will not support opengl 3.0 for now because I'm not interested.
-
-Goals:
+Personal Goals:
 
 Get used to OpenGl.
 Become more proficient in c++.
@@ -13,14 +9,7 @@ Learn Shade-fu.
 
 And more...
 
-DONE:
-
-Copy someone elses code and get the initial program to build.
-Run the program successfully.
-Edit Makefile to build this project.
-
 TODO:
-Rewrite the Key code to look like my own.
 Make a object that can be drawn.
 Figure out how to import models and what format. ( OTL )
 Something fun.
@@ -28,7 +17,4 @@ Particles!
 Shaders!
 Textures. ( OTL )
 Image handler. ( OTL )
-
-Note:
-OTL = Man kneeling down with his hands on ground. Korean emoticon expressing desperation /disappointment. My feelings and excitment expressed towards the goal.
 
