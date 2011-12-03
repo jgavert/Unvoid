@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include <sstream>
 #include <GL/glew.h>
-#include <SFML/System.hpp>
 #include "Renderer.h"
 #include "opengl.h"
 #include "window.h"
@@ -43,20 +42,20 @@ void Renderer::Initialize()
 {
 	GLenum GlewInitResult;
 
-        window.createWindow(800, 600);
-        glewExperimental=true;
+    window.createWindow(800, 600);
+    glewExperimental=true;
 	GlewInitResult = glewInit();
 
 	if (GLEW_OK != GlewInitResult) {
 		std::cerr << "ERROR: %s\n" << glewGetErrorString(GlewInitResult)<< std::endl;
 		exit(EXIT_FAILURE);
 	}
-        int OpenGLVersion[2];
+    int OpenGLVersion[2];
 	//std::cout << "INFO: OpenGL Version: %s\n" << glGetString(GL_VERSION) << std::endl;
-        glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
-        glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
-        std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
-        std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
+    glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
+    glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
+    std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
+    std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
 	glClearColor(0.2f, 0.4f, 0.6f, 0.0f);
 }
 
