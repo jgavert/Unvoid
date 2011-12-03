@@ -3,4 +3,8 @@ bin/main
 bin/libGLEW*
 nbproject/
 obj/
-
+windows/*.sdf
+windows/Debug
+windows/ipch
+windows/Unvoid.opensdf
+windows/Unvoid.suo

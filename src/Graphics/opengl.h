@@ -1,9 +1,9 @@
 #ifndef OPENGL_H
 #define OPENGL_H
 
-
 #ifdef _WIN32
 #include <GL\glew.h>
+#define GLEW_STATIC
 #else
 #include <GL/glew.h>
 #endif
@@ -20,8 +20,8 @@ class OpenGL
 {
 public:
 	OpenGL();
-        bool& getGL3bit();
-        void init();
+    bool& getGL3bit();
+    void init();
 };
 
 #endif

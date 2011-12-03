@@ -30,10 +30,8 @@ int main(/*int argc, char* argv[]*/)
     Renderer render(window);
     
     render.startLoop();
-    while(true)
-    {
-        std::cout << "zomg ";
-    }
+	for (int i=0; i<10; i++)
+		std::cout << "zomg ";
 
     exit(EXIT_SUCCESS);
 }

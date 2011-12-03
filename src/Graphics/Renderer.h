@@ -7,7 +7,7 @@
 
 #ifndef RENDERER_H
 #define	RENDERER_H
-#define WINDOW_TITLE_PREFIX "Project Nyajijou"
+#define WINDOW_TITLE_PREFIX "Project Unvoid"
 
 #include "window.h"
 
