@@ -1,14 +1,20 @@
-/* 
+/*
  * File:   Renderer.cpp
  * Author: juho
- * 
+ *
  * Created on November 28, 2011, 1:15 PM
  */
 #include <iostream>
 #include <string>
 #include <cstdlib>
 #include <sstream>
-#include <GL/glew.h>
+
+#ifdef _WIN32
+#include <GL\glew.h>
+#else
+#include "glew/glew.h"
+#endif
+
 #include "opengl.h"
 #include "window.h"
 #include "Renderer.h"
@@ -17,9 +23,9 @@ Renderer::Renderer(Window& w):
 	window(w)
 {
     CurrentWidth = 800;
-    CurrentHeight = 600; 
+    CurrentHeight = 600;
     WindowHandle = 0;
-	
+
     FrameCount = 0;
     window.createWindow(800, 600);
 }

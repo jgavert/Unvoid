@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Renderer.h
  * Author: juho
  *
@@ -8,7 +8,13 @@
 #ifndef RENDERER_H
 #define	RENDERER_H
 #define WINDOW_TITLE_PREFIX "Project Unvoid"
-#include <GL/glew.h>
+
+#ifdef _WIN32
+#include <GL\glew.h>
+#else
+#include "glew/glew.h"
+#endif
+
 #include "window.h"
 
 class Renderer {
@@ -19,13 +25,13 @@ public:
     void startLoop();
 private:
     int CurrentWidth;
-    int CurrentHeight; 
+    int CurrentHeight;
     int WindowHandle;
 
     unsigned FrameCount;
 	GLuint VertexShaderId, FragmentShaderId, ProgramId, VaoId, VboId, ColorBufferId;
     Window& window;
-    
+
     void Initialize();
 	void RenderLoop();
 	void CreateVBO();
