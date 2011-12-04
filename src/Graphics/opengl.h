@@ -3,9 +3,8 @@
 
 #ifdef _WIN32
 #include <GL\glew.h>
-#define GLEW_STATIC
 #else
-#include <GL/glew.h>
+#include "glew/glew.h"
 #endif
 
 #ifdef __APPLE__
