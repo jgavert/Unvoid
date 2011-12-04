@@ -8,7 +8,7 @@
 #ifndef RENDERER_H
 #define	RENDERER_H
 #define WINDOW_TITLE_PREFIX "Project Unvoid"
-
+#include <GL/glew.h>
 #include "window.h"
 
 class Renderer {
@@ -23,12 +23,19 @@ private:
     int WindowHandle;
 
     unsigned FrameCount;
+	GLuint VertexShaderId, FragmentShaderId, ProgramId, VaoId, VboId, ColorBufferId;
     Window& window;
     
     void Initialize();
+	void RenderLoop();
+	void CreateVBO();
+	void DestroyVBO();
+	void CreateShaders();
+	void DestroyShaders();
+	void Cleanup();
     //void InitWindow();
     //void ResizeFunction(int, int);
-    //void RenderFunction(void);
+    void Render();
     //void TimerFunction(int);
     //void IdleFunction(void);
 

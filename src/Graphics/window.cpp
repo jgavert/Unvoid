@@ -64,7 +64,7 @@ void Window::createWindow(int width, int height)
 	}
 	else
 	{
-		SDL_WM_SetCaption("nyajijo", "ver 0.001a");
+		SDL_WM_SetCaption("Unvoid", "ver 0.001a");
 	}
 }
 
