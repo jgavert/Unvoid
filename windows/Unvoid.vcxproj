@@ -84,11 +84,13 @@
     <ClCompile Include="..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\src\graphics\window.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="shaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\opengl.h" />
     <ClInclude Include="..\src\graphics\Renderer.h" />
     <ClInclude Include="..\src\graphics\window.h" />
+    <ClInclude Include="shaders.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
