@@ -51,7 +51,7 @@
       <EnablePREfast>true</EnablePREfast>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MinimalRebuild>false</MinimalRebuild>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\lib\win32\SDL-1.2.14\include;$(ProjectDir)..\lib\win32\pthread\include;$(ProjectDir)..\lib\win32\glew-1.7.0\include;$(ProjectDir)..\lib\win32\SDL_mixer-1.2.11\include;$(ProjectDir)..\lib\win32\libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\lib\win32\SDL-1.3\include;$(ProjectDir)..\lib\win32\pthread\include;$(ProjectDir)..\lib\win32\glew-1.7.0\include;$(ProjectDir)..\lib\win32\SDL_mixer-1.2.11\include;$(ProjectDir)..\lib\win32\libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -60,7 +60,7 @@
       <AdditionalDependencies>libpng15.lib;zlib.lib;SDL_mixer.lib;opengl32.lib;glu32.lib;glew32.lib;sdl.lib;wsock32.lib;SDLmain.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\win32\glew-1.7.0\lib;$(ProjectDir)..\lib\win32\pthread\lib;$(ProjectDir)..\lib\win32\SDL-1.2.14\lib;$(ProjectDir)..\lib\win32\libpng;$(ProjectDir)..\lib\win32\SDL_mixer-1.2.11\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\win32\glew-1.7.0\lib;$(ProjectDir)..\lib\win32\pthread\lib;$(ProjectDir)..\lib\win32\SDL-1.3\lib;$(ProjectDir)..\lib\win32\libpng;$(ProjectDir)..\lib\win32\SDL_mixer-1.2.11\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
@@ -82,15 +82,15 @@
   <ItemGroup>
     <ClCompile Include="..\src\graphics\opengl.cpp" />
     <ClCompile Include="..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\src\Graphics\shaders.cpp" />
     <ClCompile Include="..\src\graphics\window.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="shaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\opengl.h" />
     <ClInclude Include="..\src\graphics\Renderer.h" />
+    <ClInclude Include="..\src\Graphics\shaders.h" />
     <ClInclude Include="..\src\graphics\window.h" />
-    <ClInclude Include="shaders.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
