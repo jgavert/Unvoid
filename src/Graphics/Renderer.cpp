@@ -219,42 +219,11 @@ void Renderer::RenderLoop()
 	}
 }
 
-/*void Renderer::InitWindow(int argc, char* argv[])
-{
-	//glutInit(&argc, argv);
-
+/*
 	//glutInitContextVersion(4, 1);
 	//glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
 	//glutInitContextProfile(GLUT_CORE_PROFILE);
-
-	//glutSetOption(
-	//	GLUT_ACTION_ON_WINDOW_CLOSE,
-	//	GLUT_ACTION_GLUTMAINLOOP_RETURNS
-	//);
-
-	//glutInitWindowSize(CurrentWidth, CurrentHeight);
-
-	//glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-
-	//WindowHandle = glutCreateWindow(WINDOW_TITLE_PREFIX);
-
-	//if(WindowHandle < 1) {
-        //    std::cerr << "ERROR: Could not create a new rendering window." << std::endl;
-        //    exit(EXIT_FAILURE);
-	//}
-
-	//glutReshapeFunc(ResizeFunction);
-	//glutDisplayFunc(RenderFunction);
-	//glutIdleFunc(IdleFunction);
-	//glutTimerFunc(0, TimerFunction, 0);
-}
-
-void Renderer::ResizeFunction(int Width, int Height)
-{
-	CurrentWidth = Width;
-	CurrentHeight = Height;
-	glViewport(0, 0, CurrentWidth, CurrentHeight);
-}*/
+*/
 
 void Renderer::Render()
 {
@@ -264,26 +233,4 @@ void Renderer::Render()
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	window.swap_buffers();
-	//glutPostRedisplay();
 }
-
-/*void Renderer::IdleFunction(void)
-{
-	glutPostRedisplay();
-}*/
-
-/*void Renderer::TimerFunction(int Value)
-{
-	if (0 != Value) {
-		std::stringstream TempString;
-
-		TempString << WINDOW_TITLE_PREFIX << ": " << FrameCount*4 << " Frames Per Second @ "<< CurrentWidth <<" x "<< CurrentHeight;
-
-		glutSetWindowTitle(TempString.str().c_str());
-		free(TempString);
-	}
-
-	FrameCount = 0;
-	//glutTimerFunc(250, TimerFunction, 1);
-}*/
-
