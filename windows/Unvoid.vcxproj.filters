@@ -33,7 +33,7 @@
     <ClCompile Include="..\src\graphics\Renderer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="shaders.cpp">
+    <ClCompile Include="..\src\Graphics\shaders.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="..\src\graphics\window.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="shaders.h">
+    <ClInclude Include="..\src\Graphics\shaders.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
