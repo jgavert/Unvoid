@@ -4,7 +4,11 @@
 #include <windows.h>
 #endif
 
+#ifdef _WIN32
 #include <SDL.h>
+#else
+#include "sdl/SDL.h"
+#endif
 
 #include "opengl.h"
 
@@ -47,8 +51,8 @@ void Window::createWindow(int width, int height)
 	height_ = height;
 
 	//assert(!drawContext);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
 
