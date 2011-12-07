@@ -15,7 +15,7 @@ OpenGL::OpenGL() {
 }
 
 
-void OpenGL::init() 
+void OpenGL::init()
 {
     /*
     static bool haveInited = false;
@@ -24,7 +24,7 @@ void OpenGL::init()
     haveInited = true;*/
 
     GLenum status = glewInit();
-    
+
     //TODO: fix
     if (status == GLEW_OK) {
         //std::cerr << "" << std::endl;

@@ -4,7 +4,11 @@
 #include <windows.h>
 #endif
 
+#ifdef _WIN32
 #include <SDL.h>
+#else
+#include "sdl/SDL.h"
+#endif
 
 #include "opengl.h"
 
@@ -26,7 +30,7 @@ Window::Window():
 		cerr << "ERROR: SDL init failed." << endl;
 		throw std::string("Unable to init SDL");
 	}
-	
+
 	// createWindow(width, height);
 }
 
@@ -45,18 +49,18 @@ void Window::createWindow(int width, int height)
 
 	width_  = width;
 	height_ = height;
-	
+
 	//assert(!drawContext);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-	
+
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-	
+
 	drawContext = SDL_SetVideoMode(width_, height_, 0, SDL_OPENGL); // | SDL_FULLSCREEN);
 	if(drawContext == 0)
 	{
