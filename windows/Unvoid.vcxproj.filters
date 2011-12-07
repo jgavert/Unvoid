@@ -30,10 +30,10 @@
     <ClCompile Include="..\src\graphics\window.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\graphics\Renderer.cpp">
+    <ClCompile Include="..\src\Graphics\shaders.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Graphics\shaders.cpp">
+    <ClCompile Include="..\src\graphics\renderer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,13 +41,13 @@
     <ClInclude Include="..\src\graphics\opengl.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\graphics\Renderer.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\graphics\window.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Graphics\shaders.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\renderer.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

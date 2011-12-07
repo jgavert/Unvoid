@@ -34,7 +34,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\cygwin\home\Juho\Unvoid\lib\win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -81,14 +81,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\graphics\opengl.cpp" />
-    <ClCompile Include="..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\src\graphics\renderer.cpp" />
     <ClCompile Include="..\src\Graphics\shaders.cpp" />
     <ClCompile Include="..\src\graphics\window.cpp" />
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\opengl.h" />
-    <ClInclude Include="..\src\graphics\Renderer.h" />
+    <ClInclude Include="..\src\graphics\renderer.h" />
     <ClInclude Include="..\src\Graphics\shaders.h" />
     <ClInclude Include="..\src\graphics\window.h" />
   </ItemGroup>

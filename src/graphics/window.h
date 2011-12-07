@@ -1,9 +1,15 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#ifdef _WIN32
+#include <SDL.h>
+#else
+#include "sdl/SDL.h"
+#endif
+
 #include <cstddef>
 
-class SDL_Surface;
+//class SDL_Surface;
 
 class Window
 {
@@ -14,7 +20,7 @@ public:
 	size_t width() const;
 	size_t height() const;
 
-	void toggle_fullscreen() const;
+	//void toggle_fullscreen() const;
 	void swap_buffers() const;
 	/*void screenshot() const;*/
 
@@ -32,7 +38,9 @@ private:
 	size_t width_;
 	size_t height_;
 
-	SDL_Surface* drawContext;
+	SDL_Window *mainwindow;
+	SDL_GLContext drawContext;
+	//SDL_Surface* drawContext;
 };
 
 #endif
