@@ -101,12 +101,7 @@ void Renderer::CreateVBO(void)
     ErrorCheckValue = glGetError();
     if (ErrorCheckValue != GL_NO_ERROR)
     {
-        fprintf(
-            stderr,
-            "ERROR: Could not create a VBO: %s \n",
-            gluErrorString(ErrorCheckValue)
-        );
- 
+        std::cerr << "ERROR: Could not create a VBO: " << gluErrorString(ErrorCheckValue) << std::endl;
         exit(-1);
     }
 }
@@ -129,12 +124,7 @@ void Renderer::DestroyVBO()
     ErrorCheckValue = glGetError();
     if (ErrorCheckValue != GL_NO_ERROR)
     {
-        fprintf(
-            stderr,
-            "ERROR: Could not destroy the VBO: %s \n",
-            gluErrorString(ErrorCheckValue)
-        );
- 
+		std::cerr << "ERROR: Could not destroy the VBO: " << gluErrorString(ErrorCheckValue)<< std::endl;
         exit(-1);
     }
 }
@@ -188,12 +178,7 @@ void Renderer::CreateShaders(void)
     ErrorCheckValue = glGetError();
     if (ErrorCheckValue != GL_NO_ERROR)
     {
-        fprintf(
-            stderr,
-            "ERROR: Could not create the shaders: %s \n",
-            gluErrorString(ErrorCheckValue)
-        );
- 
+        std::cerr << "ERROR: Could not create the shaders: " << gluErrorString(ErrorCheckValue) << std::endl;
         exit(-1);
     }
 }
@@ -215,12 +200,7 @@ void Renderer::DestroyShaders(void)
     ErrorCheckValue = glGetError();
     if (ErrorCheckValue != GL_NO_ERROR)
     {
-        fprintf(
-            stderr,
-            "ERROR: Could not destroy the shaders: %s \n",
-            gluErrorString(ErrorCheckValue)
-        );
- 
+		std::cerr << "ERROR: Could not destroy the shaders: " << gluErrorString(ErrorCheckValue) << std::endl;
         exit(-1);
     }
 }
