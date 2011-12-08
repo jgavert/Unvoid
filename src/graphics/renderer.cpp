@@ -15,7 +15,6 @@
 #include "glew/glew.h"
 #endif
 
-#include "opengl.h"
 #include "window.h"
 #include "renderer.h"
 

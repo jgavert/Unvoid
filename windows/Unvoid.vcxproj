@@ -42,7 +42,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
@@ -80,14 +80,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\graphics\opengl.cpp" />
     <ClCompile Include="..\src\graphics\renderer.cpp" />
     <ClCompile Include="..\src\Graphics\shaders.cpp" />
     <ClCompile Include="..\src\graphics\window.cpp" />
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\graphics\opengl.h" />
     <ClInclude Include="..\src\graphics\renderer.h" />
     <ClInclude Include="..\src\Graphics\shaders.h" />
     <ClInclude Include="..\src\graphics\window.h" />
