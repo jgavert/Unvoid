@@ -28,10 +28,9 @@ Renderer::Renderer(Window& w):
     FrameCount = 0;
     window.createWindow(800, 600);
 }
-
-/*TODO: WHAT THE FUCK!?
+/*
+//whattt doesss thisss dooooo
 Renderer::Renderer(const Renderer& orig) {
-    orig.
 }*/
 
 Renderer::~Renderer() {
@@ -45,39 +44,38 @@ void Renderer::startLoop()
 
 void Renderer::Initialize()
 {
-	GLenum GlewInitResult;
+    GLenum GlewInitResult;
 
     window.createWindow(800, 600);
-    glewExperimental=true;
-	GlewInitResult = glewInit();
+    glewExperimental = GL_TRUE;
+    GlewInitResult = glewInit();
 
-	if (GLEW_OK != GlewInitResult) {
-		std::cerr << "ERROR: %s\n" << glewGetErrorString(GlewInitResult)<< std::endl;
-		exit(EXIT_FAILURE);
-	}
+    if (GLEW_OK != GlewInitResult) {
+        std::cerr << "ERROR: %s\n" << glewGetErrorString(GlewInitResult)<< std::endl;
+        exit(EXIT_FAILURE);
+    }
     int OpenGLVersion[2];
-	//std::cout << "INFO: OpenGL Version: %s\n" << glGetString(GL_VERSION) << std::endl;
     glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
     glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
     std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
     std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
-	glClearColor(0.2f, 0.4f, 0.6f, 0.0f);
-	CreateShaders();
-	CreateVBO();
+    glClearColor(0.2f, 0.4f, 0.6f, 0.0f);
+    CreateShaders();
+    CreateVBO();
 }
 
 void Renderer::CreateVBO(void)
 {
     GLfloat Vertices[] = {
-        -0.8f, -0.8f, 0.0f, 1.0f,
-         0.0f,  0.8f, 0.0f, 1.0f,
-         0.8f, -0.8f, 0.0f, 1.0f
+        -0.4f, -0.4f, 0.0f, 1.0f,
+         0.0f,  0.4f, 0.0f, 1.0f,
+         0.4f, -0.4f, 0.0f, 1.0f
     };
 
     GLfloat Colors[] = {
         1.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f
+        0.0f, 1.0f, 0.2f, 1.0f,
+        0.2f, 0.0f, 1.0f, 1.0f
     };
 
     GLenum ErrorCheckValue = glGetError();
@@ -169,8 +167,8 @@ void Renderer::CreateShaders(void)
     glCompileShader(FragmentShaderId);
 
     ProgramId = glCreateProgram();
-        glAttachShader(ProgramId, VertexShaderId);
-        glAttachShader(ProgramId, FragmentShaderId);
+    glAttachShader(ProgramId, VertexShaderId);
+    glAttachShader(ProgramId, FragmentShaderId);
     glLinkProgram(ProgramId);
     glUseProgram(ProgramId);
 
