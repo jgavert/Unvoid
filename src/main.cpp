@@ -4,8 +4,10 @@
 #include <string.h>
 #include "graphics/renderer.h"
 
-int main(/*int argc, char* argv[]*/)
+int main(int argc, char* argv[])
 {
+	argc++;
+	argv++;
     Window window;
     Renderer render(window);
 	std::cerr << "woot";
