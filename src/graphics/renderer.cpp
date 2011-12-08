@@ -219,12 +219,6 @@ void Renderer::RenderLoop()
 	}
 }
 
-/*
-	//glutInitContextVersion(4, 1);
-	//glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
-	//glutInitContextProfile(GLUT_CORE_PROFILE);
-*/
-
 void Renderer::Render()
 {
 	++FrameCount;
