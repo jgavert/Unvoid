@@ -21,7 +21,7 @@ shaderFile.open(FileName);
     while(!shaderFile.eof())
     {
         string tempholder;
-        getline(shaderFile, tempholder);      
+        getline(shaderFile, tempholder);
         ShaderString.append(tempholder);
         ShaderString.append("\n");
     }
@@ -32,6 +32,5 @@ return ShaderString;
 
 shaders::loadShaders(void)
 {
-	
-}
 
+}
