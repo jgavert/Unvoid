@@ -46,7 +46,6 @@ void Renderer::Initialize()
 {
     GLenum GlewInitResult;
 
-    window.createWindow(800, 600);
     glewExperimental = GL_TRUE;
     GlewInitResult = glewInit();
 
