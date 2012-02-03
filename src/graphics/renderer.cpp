@@ -209,7 +209,7 @@ void Renderer::Cleanup(void)
 
 void Renderer::RenderLoop()
 {
-	for (int i=0; i<100000; ++i)
+	for (int i=0; i<1000; ++i)
 	{
 		Render();
 	}

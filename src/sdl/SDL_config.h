@@ -1,7 +1,7 @@
 /* include/SDL_config.h.  Generated from SDL_config.h.in by configure.  */
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2011 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2012 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -152,6 +152,7 @@
 #define HAVE_ICONV 1
 #define HAVE_PTHREAD_SETNAME_NP 1
 /* #undef HAVE_PTHREAD_SET_NAME_NP */
+#define HAVE_SEM_TIMEDWAIT 1
 
 #else
 /* We may need some replacement for stdarg.h here */
@@ -272,6 +273,7 @@
 /* #undef SDL_VIDEO_RENDER_D3D */
 #define SDL_VIDEO_RENDER_OGL 1
 /* #undef SDL_VIDEO_RENDER_OGL_ES */
+/* #undef SDL_VIDEO_RENDER_OGL_ES2 */
 /* #undef SDL_VIDEO_RENDER_DIRECTFB */
 
 /* Enable OpenGL support */
