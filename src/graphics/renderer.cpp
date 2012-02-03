@@ -39,7 +39,8 @@ Renderer::~Renderer() {
 void Renderer::startLoop()
 {
     Initialize();
-    RenderLoop();
+    //RenderLoop();
+	Render();
 }
 
 void Renderer::Initialize()
@@ -50,7 +51,7 @@ void Renderer::Initialize()
     GlewInitResult = glewInit();
 
     if (GLEW_OK != GlewInitResult) {
-        std::cerr << "ERROR: %s\n" << glewGetErrorString(GlewInitResult)<< std::endl;
+        std::cerr << "ERROR: %s\n" << glewGetErrorString(GlewInitResult) << std::endl;
         exit(EXIT_FAILURE);
     }
     int OpenGLVersion[2];
@@ -124,7 +125,6 @@ void Renderer::DestroyVBO()
         exit(-1);
     }
 }
-
 const GLchar* VertexShader =
 {
     "#version 400\n"\
@@ -137,7 +137,7 @@ const GLchar* VertexShader =
     "{\n"\
     "   gl_Position = in_Position;\n"\
     "   ex_Color = in_Color;\n"\
-    "}\n"
+    "}\n\0"
 };
 
 const GLchar* FragmentShader =
@@ -150,9 +150,8 @@ const GLchar* FragmentShader =
     "void main(void)\n"\
     "{\n"\
     "   out_Color = ex_Color;\n"\
-    "}\n"
+    "}\n\0"
 };
-
 void Renderer::CreateShaders(void)
 {
     GLenum ErrorCheckValue = glGetError();
