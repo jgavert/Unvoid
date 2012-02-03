@@ -25,16 +25,16 @@ public:
 	/*void screenshot() const;*/
 
 	void createWindow(int, int);
-	
+	/*
 	void enable_grab() const;
 	void disable_grab() const;
 
 	bool active() const;
-	void hide() const;
+	void hide() const;*/
 private:
 	Window& operator=(const Window&); // Disabled.
 	Window(const Window&); // Disabled.
-	
+
 	size_t width_;
 	size_t height_;
 

@@ -75,7 +75,7 @@ void Window::createWindow(int width, int height)
 		throw std::runtime_error("Unable to set SDL video mode");
 	}
 drawContext = SDL_GL_CreateContext(mainwindow);
- 
+
     /* Create our opengl context and attach it to our window */
 }
 
@@ -158,7 +158,7 @@ void Window::screenshot() const
 	SDL_FreeSurface(temp);
 }*/
 
-
+/*
 void Window::enable_grab() const
 {
 	SDL_WM_GrabInput(SDL_GRAB_ON);
@@ -181,4 +181,4 @@ void Window::hide() const
 	disable_grab();
 	SDL_WM_IconifyWindow();
 }
-
+*/
