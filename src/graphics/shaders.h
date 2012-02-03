@@ -1,12 +1,18 @@
 #pragma once
 
-class shaders
+class Shaders
 {
 public:
-	shaders(void);
-	~shaders(void);
+	Shaders(void);
+	~Shaders(void);
 	void loadShaders();
+  GLint createShaders();
+  void destroyShaders();
 private:
-	string shaders[2];
+
+  GLuint VertexShaderId, FragmentShaderId, ProgramId;
+  std::string readShaderFile(std::string);
+  std::string vertex;
+  std::string fragment;
 };
 

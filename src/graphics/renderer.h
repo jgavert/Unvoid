@@ -16,6 +16,7 @@
 #endif
 
 #include "window.h"
+#include "shaders.h"
 
 class Renderer {
 public:
@@ -29,16 +30,17 @@ private:
     int WindowHandle;
 
     unsigned FrameCount;
-	GLuint VertexShaderId, FragmentShaderId, ProgramId, VaoId, VboId, ColorBufferId;
+    GLuint VaoId, VboId, ColorBufferId;
     Window& window;
+    Shaders shaders;
 
     void Initialize();
-	void RenderLoop();
-	void CreateVBO();
-	void DestroyVBO();
-	void CreateShaders();
-	void DestroyShaders();
-	void Cleanup();
+    void RenderLoop();
+    void CreateVBO();
+    void DestroyVBO();
+    //void CreateShaders();
+    //void DestroyShaders();
+    void Cleanup();
     //void InitWindow();
     //void ResizeFunction(int, int);
     void Render();

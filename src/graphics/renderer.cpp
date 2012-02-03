@@ -39,8 +39,7 @@ Renderer::~Renderer() {
 void Renderer::startLoop()
 {
     Initialize();
-    //RenderLoop();
-	Render();
+    RenderLoop();
 }
 
 void Renderer::Initialize()
@@ -51,7 +50,7 @@ void Renderer::Initialize()
     GlewInitResult = glewInit();
 
     if (GLEW_OK != GlewInitResult) {
-        std::cerr << "ERROR: %s\n" << glewGetErrorString(GlewInitResult) << std::endl;
+        std::cerr << "ERROR: %s" << glewGetErrorString(GlewInitResult) << std::endl << std::endl;
         exit(EXIT_FAILURE);
     }
     int OpenGLVersion[2];
@@ -60,7 +59,9 @@ void Renderer::Initialize()
     std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
     std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
     glClearColor(0.2f, 0.4f, 0.6f, 0.0f);
-    CreateShaders();
+    shaders.loadShaders();
+    GLint woot = shaders.createShaders();
+    glUseProgram(woot);
     CreateVBO();
 }
 
@@ -121,105 +122,30 @@ void Renderer::DestroyVBO()
     ErrorCheckValue = glGetError();
     if (ErrorCheckValue != GL_NO_ERROR)
     {
-		std::cerr << "ERROR: Could not destroy the VBO: " << gluErrorString(ErrorCheckValue)<< std::endl;
+    std::cerr << "ERROR: Could not destroy the VBO: " << gluErrorString(ErrorCheckValue)<< std::endl;
         exit(-1);
     }
 }
-const GLchar* VertexShader =
-{
-    "#version 400\n"\
-
-    "layout(location=0) in vec4 in_Position;\n"\
-    "layout(location=1) in vec4 in_Color;\n"\
-    "out vec4 ex_Color;\n"\
-
-    "void main(void)\n"\
-    "{\n"\
-    "   gl_Position = in_Position;\n"\
-    "   ex_Color = in_Color;\n"\
-    "}\n\0"
-};
-
-const GLchar* FragmentShader =
-{
-    "#version 400\n"\
-
-    "in vec4 ex_Color;\n"\
-    "out vec4 out_Color;\n"\
-
-    "void main(void)\n"\
-    "{\n"\
-    "   out_Color = ex_Color;\n"\
-    "}\n\0"
-};
-void Renderer::CreateShaders(void)
-{
-    GLenum ErrorCheckValue = glGetError();
-
-    VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(VertexShaderId, 1, &VertexShader, NULL);
-    glCompileShader(VertexShaderId);
-
-    FragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(FragmentShaderId, 1, &FragmentShader, NULL);
-    glCompileShader(FragmentShaderId);
-
-    ProgramId = glCreateProgram();
-    glAttachShader(ProgramId, VertexShaderId);
-    glAttachShader(ProgramId, FragmentShaderId);
-    glLinkProgram(ProgramId);
-    glUseProgram(ProgramId);
-
-    ErrorCheckValue = glGetError();
-    if (ErrorCheckValue != GL_NO_ERROR)
-    {
-        std::cerr << "ERROR: Could not create the shaders: " << gluErrorString(ErrorCheckValue) << std::endl;
-        exit(-1);
-    }
-}
-
-void Renderer::DestroyShaders(void)
-{
-    GLenum ErrorCheckValue = glGetError();
-
-    glUseProgram(0);
-
-    glDetachShader(ProgramId, VertexShaderId);
-    glDetachShader(ProgramId, FragmentShaderId);
-
-    glDeleteShader(FragmentShaderId);
-    glDeleteShader(VertexShaderId);
-
-    glDeleteProgram(ProgramId);
-
-    ErrorCheckValue = glGetError();
-    if (ErrorCheckValue != GL_NO_ERROR)
-    {
-		std::cerr << "ERROR: Could not destroy the shaders: " << gluErrorString(ErrorCheckValue) << std::endl;
-        exit(-1);
-    }
-}
-
 void Renderer::Cleanup(void)
 {
-    DestroyShaders();
+    shaders.destroyShaders();
     DestroyVBO();
 }
 
 void Renderer::RenderLoop()
 {
-	for (int i=0; i<1000; ++i)
-	{
-		Render();
-	}
+  for (int i=0; i<1000; ++i)
+  {
+    Render();
+  }
 }
 
 void Renderer::Render()
 {
-	++FrameCount;
+  ++FrameCount;
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	window.swap_buffers();
+  window.swap_buffers();
 }
