@@ -30,7 +30,7 @@ std::string Shaders::readShaderFile(std::string FileName)
   {
     std::string tempholder;
     getline(shaderFile, tempholder);
-    ShaderString += tempholder;
+    ShaderString += tempholder + "\n";
   }
   shaderFile.close();
   return ShaderString;
