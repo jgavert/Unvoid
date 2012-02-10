@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{8b7c5bb0-69c9-4b2b-878a-495f102a94af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\System">
+      <UniqueIdentifier>{25e94644-2e1f-4ae0-9abb-8944805df317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System">
+      <UniqueIdentifier>{9cfc5dee-9ae4-4ac8-a6b2-18a7c999fd87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -33,6 +39,9 @@
     <ClCompile Include="..\src\graphics\renderer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\system\keyboard.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\window.h">
@@ -43,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="..\src\graphics\renderer.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\system\keyboard.h">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -84,11 +84,13 @@
     <ClCompile Include="..\src\Graphics\shaders.cpp" />
     <ClCompile Include="..\src\graphics\window.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\system\keyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\renderer.h" />
     <ClInclude Include="..\src\Graphics\shaders.h" />
     <ClInclude Include="..\src\graphics\window.h" />
+    <ClInclude Include="..\src\system\keyboard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
