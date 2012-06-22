@@ -4,12 +4,12 @@ PROGRAM_DIRS := $(DIRS)
 INCLUDE_DIRS := -I src
 WARNINGS := -pedantic -Wall -Werror -Wextra
 
-PACKAGES := gl glu sdl libpng
+PACKAGES := gl glu libpng
 CXX      := g++
-CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++0x -O3 $(INCLUDE_DIRS)
+CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++0x -Ofast $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
-LIBS := -lSDL_mixer -L ./lib/linux -lGLEW -lSDL
+LIBS := -L ./lib/linux -lGLEW -lSDL2
 LIBS += $(shell pkg-config --libs $(PACKAGES))
 
 PROGRAM = bin/main
