@@ -149,6 +149,5 @@ void Renderer::Render()
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
 
-  sleep(1000);
   window.swap_buffers();
 }
