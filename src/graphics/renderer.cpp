@@ -39,6 +39,7 @@ Renderer::~Renderer() {
 void Renderer::startLoop()
 {
     Initialize();
+    std::cout << "lol" << std::endl;
     RenderLoop();
 }
 
@@ -147,5 +148,7 @@ void Renderer::Render()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
+
+  sleep(1000);
   window.swap_buffers();
 }

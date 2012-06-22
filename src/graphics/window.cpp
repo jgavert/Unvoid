@@ -32,7 +32,7 @@ Window::Window()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  24);
-	
+
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  8);
@@ -74,7 +74,8 @@ void Window::createWindow(int width, int height)
 		cerr << "ERROR: drawContext = " << drawContext << endl;
 		throw std::runtime_error("Unable to set SDL video mode");
 	}
-drawContext = SDL_GL_CreateContext(mainwindow);
+  drawContext = SDL_GL_CreateContext(mainwindow);
+
 
     /* Create our opengl context and attach it to our window */
 }
