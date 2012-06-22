@@ -1,20 +1,4 @@
 OpenGl project focusing on 4.x specification.
 
-Personal Goals:
-
-Get used to OpenGl.
-Become more proficient in c++.
-Learn how to make GUI.
-Learn Shade-fu.
-
-And more...
-
-TODO:
-Make a object that can be drawn.
-Figure out how to import models and what format. ( OTL )
-Something fun.
-Particles!
-Shaders!
-Textures. ( OTL )
-Image handler. ( OTL )
-
+features:
+can draw a multicolored triangle.
