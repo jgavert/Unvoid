@@ -9,7 +9,7 @@ CXX      := g++-4.7
 CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++11 -Ofast $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
-LIBS := -L ./lib/linux/SDL2/lib -L ./lib/linux/glew/lib -lGLEW -lSDL2
+LIBS := -L ./lib/linux/ -lGLEW -lSDL2
 LIBS += $(shell pkg-config --libs $(PACKAGES))
 
 PROGRAM = bin/main
