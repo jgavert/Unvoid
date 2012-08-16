@@ -1,7 +1,7 @@
 DIRS := src src/graphics
 PROGRAM_DIRS := $(DIRS)
 
-INCLUDE_DIRS := -I src -I lib/linux/SDL2/include -I lib/linux/glew/include
+INCLUDE_DIRS := -I lib/linux/SDL2/include -I lib/linux/glew/include
 WARNINGS := -pedantic -Wall -Werror -Wextra
 
 PACKAGES := gl glu libpng
