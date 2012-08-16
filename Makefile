@@ -5,7 +5,7 @@ INCLUDE_DIRS := -I lib/linux/SDL2/include -I lib/linux/glew/include
 WARNINGS := -pedantic -Wall -Werror -Wextra
 
 PACKAGES := gl glu libpng
-CXX      := g++
+CXX      := g++-4.7
 CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++0x -Ofast $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
