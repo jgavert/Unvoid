@@ -1,0 +1,21 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"settings":
+	    {
+	       "sublimeclang_options":
+	       [
+	         "-Wall",
+	         "-Wextra",
+	         "-pedantic",
+	         "-I/lib/linux/SDL2/include/SDL2",
+	         "-I/lib/linux/glew/include/GL",
+	         "-I${folder:${project_path:unvoid.sublime-project}}/src",
+	         "-std=c++0x"
+	       ]
+	    }
+}

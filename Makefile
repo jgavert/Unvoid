@@ -1,15 +1,15 @@
-DIRS := src src/graphics src/glew
+DIRS := src src/graphics
 PROGRAM_DIRS := $(DIRS)
 
-INCLUDE_DIRS := -I src
+INCLUDE_DIRS := -I src -I lib/linux/SDL2/include -I lib/linux/glew/include
 WARNINGS := -pedantic -Wall -Werror -Wextra
 
-PACKAGES := gl glu sdl libpng
+PACKAGES := gl glu libpng
 CXX      := g++
-CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++0x -O3 $(INCLUDE_DIRS)
+CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++0x -Ofast $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
-LIBS := -lSDL_mixer -L ./lib/linux -lGLEW -lSDL
+LIBS := -L ./lib/linux -lGLEW -lSDL2
 LIBS += $(shell pkg-config --libs $(PACKAGES))
 
 PROGRAM = bin/main

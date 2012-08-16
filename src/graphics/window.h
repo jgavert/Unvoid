@@ -4,7 +4,7 @@
 #ifdef _WIN32
 #include <SDL.h>
 #else
-#include "sdl/SDL.h"
+#include "SDL2/SDL.h"
 #endif
 
 #include <cstddef>
