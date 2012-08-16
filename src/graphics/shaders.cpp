@@ -6,8 +6,8 @@
 #include <SDL.h>
 #include <GL\glew.h>
 #else
-#include "sdl/SDL.h"
-#include "glew/glew.h"
+#include "SDL2/SDL.h"
+#include "GL/glew.h"
 #endif
 #include "shaders.h"
 

@@ -12,7 +12,7 @@
 #ifdef _WIN32
 #include <GL\glew.h>
 #else
-#include "glew/glew.h"
+#include "GL/glew.h"
 #endif
 
 #include "window.h"
