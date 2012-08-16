@@ -6,7 +6,7 @@ WARNINGS := -pedantic -Wall -Werror -Wextra
 
 PACKAGES := gl glu libpng
 CXX      := g++-4.7
-CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++0x -Ofast $(INCLUDE_DIRS)
+CXXFLAGS := $(WARNINGS) -fopenmp -lpthread -std=c++11 -Ofast $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
 LIBS := -L ./lib/linux -lGLEW -lSDL2
