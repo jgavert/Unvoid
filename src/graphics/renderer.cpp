@@ -21,133 +21,114 @@
 Renderer::Renderer(Window& w):
 	window(w)
 {
-    CurrentWidth = 800;
-    CurrentHeight = 600;
-    WindowHandle = 0;
+  CurrentWidth = 800;
+  CurrentHeight = 600;
+  WindowHandle = 0;
 
-    FrameCount = 0;
-    window.createWindow(800, 600);
+  FrameCount = 0;
+  window.createWindow(800, 600);
 }
-/*
-//whattt doesss thisss dooooo
-Renderer::Renderer(const Renderer& orig) {
-}*/
 
 Renderer::~Renderer() {
 }
 
-void Renderer::startLoop()
+void Renderer::initialize()
 {
-    Initialize();
-    std::cout << "lol" << std::endl;
-    RenderLoop();
-}
+  GLenum GlewInitResult;
 
-void Renderer::Initialize()
-{
-    GLenum GlewInitResult;
+  glewExperimental = GL_TRUE;
+  GlewInitResult = glewInit();
 
-    glewExperimental = GL_TRUE;
-    GlewInitResult = glewInit();
-
-    if (GLEW_OK != GlewInitResult) {
-        std::cerr << "ERROR: %s" << glewGetErrorString(GlewInitResult) << std::endl << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    int OpenGLVersion[2];
-    glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
-    glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
-    std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
-    std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
-    glClearColor(0.2f, 0.4f, 0.6f, 0.0f);
-    shaders.loadShaders();
-    GLint woot = shaders.createShaders();
-    glUseProgram(woot);
-    CreateVBO();
+  if (GLEW_OK != GlewInitResult) {
+    std::cerr << "ERROR: %s" << glewGetErrorString(GlewInitResult) << std::endl << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  int OpenGLVersion[2];
+  glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
+  glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
+  std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
+  std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
+  glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
+  shaders.loadShaders();
+  GLint woot = shaders.createShaders();
+  glUseProgram(woot);
+  CreateVBO();
 }
 
 void Renderer::CreateVBO(void)
 {
-    GLfloat Vertices[] = {
-        -0.4f, -0.4f, 0.0f, 1.0f,
-         0.0f,  0.4f, 0.0f, 1.0f,
-         0.4f, -0.4f, 0.0f, 1.0f
-    };
+  GLfloat Vertices[] = {
+    -0.4f, -0.4f, 0.0f, 1.0f,
+     0.0f,  0.4f, 0.0f, 1.0f,
+     0.4f, -0.4f, 0.0f, 1.0f
+  };
 
-    GLfloat Colors[] = {
-        1.0f, 0.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.2f, 1.0f,
-        0.2f, 0.0f, 1.0f, 1.0f
-    };
+  GLfloat Colors[] = {
+    1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 1.0f, 0.2f, 1.0f,
+    0.2f, 0.0f, 1.0f, 1.0f
+  };
 
-    GLenum ErrorCheckValue = glGetError();
+  GLenum ErrorCheckValue = glGetError();
 
-    glGenVertexArrays(1, &VaoId);
-    glBindVertexArray(VaoId);
+  glGenVertexArrays(1, &VaoId);
+  glBindVertexArray(VaoId);
 
-    glGenBuffers(1, &VboId);
-    glBindBuffer(GL_ARRAY_BUFFER, VboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(0);
+  glGenBuffers(1, &VboId);
+  glBindBuffer(GL_ARRAY_BUFFER, VboId);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(0);
 
-    glGenBuffers(1, &ColorBufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, ColorBufferId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Colors), Colors, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(1);
+  glGenBuffers(1, &ColorBufferId);
+  glBindBuffer(GL_ARRAY_BUFFER, ColorBufferId);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Colors), Colors, GL_STATIC_DRAW);
+  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(1);
 
-    ErrorCheckValue = glGetError();
-    if (ErrorCheckValue != GL_NO_ERROR)
-    {
-        std::cerr << "ERROR: Could not create a VBO: " << gluErrorString(ErrorCheckValue) << std::endl;
-        exit(-1);
-    }
+  ErrorCheckValue = glGetError();
+  if (ErrorCheckValue != GL_NO_ERROR)
+  {
+    std::cerr << "ERROR: Could not create a VBO: " << gluErrorString(ErrorCheckValue) << std::endl;
+    exit(-1);
+  }
 }
 
 void Renderer::DestroyVBO()
 {
-    GLenum ErrorCheckValue = glGetError();
+  GLenum ErrorCheckValue = glGetError();
 
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glDeleteBuffers(1, &ColorBufferId);
-    glDeleteBuffers(1, &VboId);
+  glDeleteBuffers(1, &ColorBufferId);
+  glDeleteBuffers(1, &VboId);
 
-    glBindVertexArray(0);
-    glDeleteVertexArrays(1, &VaoId);
+  glBindVertexArray(0);
+  glDeleteVertexArrays(1, &VaoId);
 
-    ErrorCheckValue = glGetError();
-    if (ErrorCheckValue != GL_NO_ERROR)
-    {
+  ErrorCheckValue = glGetError();
+  if (ErrorCheckValue != GL_NO_ERROR)
+  {
     std::cerr << "ERROR: Could not destroy the VBO: " << gluErrorString(ErrorCheckValue)<< std::endl;
-        exit(-1);
-    }
+    exit(-1);
+  }
 }
 void Renderer::Cleanup(void)
 {
-    shaders.destroyShaders();
-    DestroyVBO();
+  shaders.destroyShaders();
+  DestroyVBO();
 }
 
-void Renderer::RenderLoop()
-{
-  for (int i=0; i<1000; ++i)
-  {
-    Render();
-  }
-}
 
-void Renderer::Render()
+void Renderer::render()
 {
   ++FrameCount;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glDrawArrays(GL_TRIANGLES, 0, 3);
-
 
   window.swap_buffers();
 }

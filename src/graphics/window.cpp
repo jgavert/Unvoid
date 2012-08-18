@@ -22,14 +22,11 @@ using namespace std;
 
 Window::Window()
 {
-
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		cerr << "ERROR: SDL init failed." << endl;
 		throw std::string("Unable to init SDL");
 	}
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  24);
 
@@ -37,12 +34,10 @@ Window::Window()
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-	// createWindow(width, height);
 }
 
 Window::~Window()
 {
-//	SDL_VideoQuit();
 	SDL_Quit();
 }
 
@@ -56,28 +51,13 @@ void Window::createWindow(int width, int height)
 	width_  = width;
 	height_ = height;
 
-	//assert(!drawContext);
-	/*SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  24);
-
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  8);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);*/
-
 	mainwindow = SDL_CreateWindow("woot", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width_, height_, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-	//drawContext = SDL_SetVideoMode(width_, height_, 0, SDL_OPENGL); // | SDL_FULLSCREEN);
 	if(!mainwindow)
 	{
 		cerr << "ERROR: drawContext = " << drawContext << endl;
 		throw std::runtime_error("Unable to set SDL video mode");
 	}
   drawContext = SDL_GL_CreateContext(mainwindow);
-
-
-    /* Create our opengl context and attach it to our window */
 }
 
 size_t Window::width() const

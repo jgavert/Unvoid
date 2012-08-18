@@ -1,4 +1,4 @@
-DIRS := src src/graphics
+DIRS := src src/graphics src/input
 PROGRAM_DIRS := $(DIRS)
 
 INCLUDE_DIRS := -I lib/linux/SDL2/include -I lib/linux/glew/include

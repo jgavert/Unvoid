@@ -3,16 +3,19 @@
 #include <iostream>
 #include <string.h>
 #include "graphics/renderer.h"
+#include "input/controller.h"
 
-int main(int argc, char* argv[])
+int main(void)
 {
-  argc++;
-  argv++;
   Window window;
   Renderer render(window);
-  std::cerr << "woot";
-  render.startLoop();
-  for (int i=0; i<10; i++)
-  std::cout << "zomg ";
+  Controller input;
+  render.initialize();
+  while(!input.hasQuit()) {
+  	input.update();
+  	if (input.getKeyState(ESC))
+  		break;
+  	render.render();
+  }
   exit(EXIT_SUCCESS);
 }

@@ -20,34 +20,29 @@
 
 class Renderer {
 public:
-    Renderer(Window& window);
-    //Renderer(const Renderer& orig);
-    virtual ~Renderer();
-    void startLoop();
+  Renderer(Window& window);
+  virtual ~Renderer();
+  void initialize();
+  virtual void render();
 private:
-    int CurrentWidth;
-    int CurrentHeight;
-    int WindowHandle;
+  int CurrentWidth;
+  int CurrentHeight;
+  int WindowHandle;
 
-    unsigned FrameCount;
-    GLuint VaoId, VboId, ColorBufferId;
-    Window& window;
-    Shaders shaders;
+  unsigned FrameCount;
+  GLuint VaoId, VboId, ColorBufferId;
+  Window& window;
+  Shaders shaders;
 
-    void Initialize();
-    void RenderLoop();
-    void CreateVBO();
-    void DestroyVBO();
-    //void CreateShaders();
-    //void DestroyShaders();
-    void Cleanup();
-    //void InitWindow();
-    //void ResizeFunction(int, int);
-    void Render();
-    //void TimerFunction(int);
-    //void IdleFunction(void);
-
+  void CreateVBO();
+  void DestroyVBO();
+  //void CreateShaders();
+  //void DestroyShaders();
+  void Cleanup();
+  //void InitWindow();
+  //void ResizeFunction(int, int);
+  //void TimerFunction(int);
+  //void IdleFunction(void);
 };
 
 #endif	/* RENDERER_H */
-

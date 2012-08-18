@@ -9,8 +9,6 @@
 
 #include <cstddef>
 
-//class SDL_Surface;
-
 class Window
 {
 public:
