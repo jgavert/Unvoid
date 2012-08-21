@@ -5,12 +5,13 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <vector>
 #ifdef _WIN32
 #include <SDL.h>
 #include <GL\glew.h>
 #else
-#include "SDL2/SDL.h"
-#include "GL/glew.h"
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
 #endif
 
 class Shaders
@@ -26,6 +27,9 @@ private:
   std::string readShaderFile(std::string);
   std::string vertex;
   std::string fragment;
+  std::vector<std::string> shaderSources;
+  std::vector<GLint> shaders;
+  std::vector<GLint> programs;
 };
 
 

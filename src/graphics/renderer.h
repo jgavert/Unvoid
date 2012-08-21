@@ -12,11 +12,12 @@
 #ifdef _WIN32
 #include <GL\glew.h>
 #else
-#include "GL/glew.h"
+#include <GL/glew.h>
 #endif
 
 #include "window.h"
 #include "shaders.h"
+#include <vector>
 
 class Renderer {
 public:
@@ -33,16 +34,14 @@ private:
   GLuint VaoId, VboId, ColorBufferId;
   Window& window;
   Shaders shaders;
+  //TODO: implement below
+  std::vector<int> screenStack;
+  std::vector<GLuint> vbos, vaos, colorbufferids;
+  //void onResize() ?
 
   void CreateVBO();
   void DestroyVBO();
-  //void CreateShaders();
-  //void DestroyShaders();
   void Cleanup();
-  //void InitWindow();
-  //void ResizeFunction(int, int);
-  //void TimerFunction(int);
-  //void IdleFunction(void);
 };
 
 #endif	/* RENDERER_H */

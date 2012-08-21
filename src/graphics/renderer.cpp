@@ -12,7 +12,7 @@
 #ifdef _WIN32
 #include <GL\glew.h>
 #else
-#include "GL/glew.h"
+#include <GL/glew.h>
 #endif
 
 #include "window.h"
@@ -55,6 +55,7 @@ void Renderer::initialize()
   CreateVBO();
 }
 
+//TODO: get rid of this
 void Renderer::CreateVBO(void)
 {
   GLfloat Vertices[] = {

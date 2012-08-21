@@ -4,7 +4,7 @@
 #ifdef _WIN32
 #include <SDL.h>
 #else
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 #endif
 
 #include <cstddef>
@@ -13,7 +13,7 @@ class Window
 {
 public:
 	Window();
-	~Window();
+		~Window();
 
 	size_t width() const;
 	size_t height() const;
@@ -42,5 +42,3 @@ private:
 };
 
 #endif
-
-

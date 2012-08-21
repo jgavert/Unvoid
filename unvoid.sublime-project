@@ -12,10 +12,11 @@
 	         "-Wall",
 	         "-Wextra",
 	         "-pedantic",
-	         "-I/lib/linux/SDL2/include/SDL2",
-	         "-I/lib/linux/glew/include/GL",
+	         "-I${folder:${project_path:unvoid.sublime-project}}/lib/linux/SDL2/include",
+	         "-I${folder:${project_path:unvoid.sublime-project}}/lib/linux/glew/include",
+	         "-I${folder:${project_path:unvoid.sublime-project}}/lib/linux/glmlib",
 	         "-I${folder:${project_path:unvoid.sublime-project}}/src",
-	         "-std=c++0x"
+	         "-std=c++11"
 	       ]
 	    }
 }
