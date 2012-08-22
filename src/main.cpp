@@ -15,18 +15,28 @@ inline long getMilliSecs() {
 
 int main(void)
 {
-  auto time1 = getMilliSecs();
+  long timing[2];
+  timing[0] = getMilliSecs();
   Window window;
   Renderer render(window);
   Controller input;
   render.initialize();
+  timing[1] = getMilliSecs();
+  std::cout << "Initialisation took " <<timing[1] - timing[0] << "ms." << std::endl;
+  //unsigned asd = 0;
+  timing[0] = timing[1];
   while(!input.hasQuit()) {
   	input.update();
-  	render.render();
-    auto time2 = getMilliSecs();
-    if (time2 - time1 > 1000) {
-      std::cout << render.getResetFrames() << std::endl;
-      time1 = time2;
+   	render.render();
+    timing[1] = getMilliSecs();
+
+    if (timing[1] - timing[0] > 5000) {
+      auto frames = render.getResetFrames();
+      std::cout << frames/5 <<" FPS"<< std::endl;
+      timing[0] = timing[1];
+      /*++asd;
+      if (asd == 5)
+        break;*/
     }
   }
   exit(EXIT_SUCCESS);

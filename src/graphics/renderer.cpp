@@ -26,7 +26,7 @@ Renderer::Renderer(Window& w):
   WindowHandle = 0;
 
   FrameCount = 0;
-  window.createWindow(800, 600);
+  window.createWindow(CurrentWidth, CurrentHeight);
 }
 
 Renderer::~Renderer() {
@@ -134,7 +134,7 @@ void Renderer::render()
   window.swap_buffers();
 }
 
-unsigned Renderer::getResetFrames() 
+unsigned Renderer::getResetFrames()
 {
   unsigned temp = FrameCount;
   FrameCount = 0;
