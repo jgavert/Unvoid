@@ -25,6 +25,7 @@ public:
   virtual ~Renderer();
   void initialize();
   virtual void render();
+  unsigned getResetFrames();
 private:
   int CurrentWidth;
   int CurrentHeight;

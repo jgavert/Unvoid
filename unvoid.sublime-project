@@ -12,6 +12,7 @@
 	         "-Wall",
 	         "-Wextra",
 	         "-pedantic",
+	         "-mllvm --x86-asm-syntax=intel",
 	         "-I${folder:${project_path:unvoid.sublime-project}}/lib/linux/SDL2/include",
 	         "-I${folder:${project_path:unvoid.sublime-project}}/lib/linux/glew/include",
 	         "-I${folder:${project_path:unvoid.sublime-project}}/lib/linux/glmlib",

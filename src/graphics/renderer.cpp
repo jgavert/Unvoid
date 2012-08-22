@@ -133,3 +133,10 @@ void Renderer::render()
 
   window.swap_buffers();
 }
+
+unsigned Renderer::getResetFrames() 
+{
+  unsigned temp = FrameCount;
+  FrameCount = 0;
+  return temp;
+}
