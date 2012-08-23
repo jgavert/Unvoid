@@ -11,12 +11,20 @@
 
 #ifdef _WIN32
 #include <GL\glew.h>
+#include <glm\glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\type_ptr.hpp>
 #else
 #include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #endif
+
 
 #include "window.h"
 #include "shaders.h"
+#include "vbo.h"
 #include <vector>
 
 class Renderer {
@@ -25,23 +33,24 @@ public:
   virtual ~Renderer();
   void initialize();
   virtual void render();
-  unsigned getResetFrames();
+  virtual void lookAt(float, float, float, float, float);
+  long long getFrames();
 private:
   int CurrentWidth;
   int CurrentHeight;
   int WindowHandle;
 
-  unsigned FrameCount;
-  GLuint VaoId, VboId, ColorBufferId;
+  long long FrameCount;
   Window& window;
   Shaders shaders;
+  glm::mat4 view, projection;
+  GLint viewMatrix, projectionMatrix, modelMatrix;
   //TODO: implement below
   std::vector<int> screenStack;
-  std::vector<GLuint> vbos, vaos, colorbufferids;
+  std::vector<VBO> vbos;
   //void onResize() ?
 
-  void CreateVBO();
-  void DestroyVBO();
+  void DestroyVBOs();
   void Cleanup();
 };
 

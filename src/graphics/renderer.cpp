@@ -49,53 +49,37 @@ void Renderer::initialize()
   std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
   std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
   glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
+
+  glEnable( GL_DEPTH_TEST );
+  //glDepthFunc(GL_LEQUAL);
+  //glEnable( GL_CULL_FACE);
+  //glCullFace(GL_BACK);
+  //glFrontFace(GL_CCW);
+
   shaders.loadShaders();
-  GLint woot = shaders.createShaders();
-  glUseProgram(woot);
-  CreateVBO();
+  GLint shaderProgram = shaders.createShaders();
+  glUseProgram(shaderProgram);
+  viewMatrix = glGetUniformLocation( shaderProgram, "ViewMatrix" );
+  projectionMatrix = glGetUniformLocation( shaderProgram, "ProjectionMatrix" );
+  modelMatrix = glGetUniformLocation( shaderProgram, "ModelMatrix" );
+  projection =view= glm::mat4();
+  view = glm::lookAt(
+    glm::vec3( -5.0f, 0.0f, -1.0f ), //missä olen
+    glm::vec3( 0.0f, 0.0f, 0.0f ), //minne katon
+    glm::vec3( 0.0f, 0.0f, 1.0f )  //vektori ylöspäin kamerasta
+  );
+  projection = glm::perspective( 45.0f, 800.0f / 600.0f, 1.0f, 100.0f );
+
+  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+
+  vbos.push_back(VBO());
+  vbos[0].loadToGpu();
 }
 
-//TODO: get rid of this
-void Renderer::CreateVBO(void)
-{
-  GLfloat Vertices[] = {
-    -0.4f, -0.4f, 0.0f, 1.0f,
-     0.0f,  0.4f, 0.0f, 1.0f,
-     0.4f, -0.4f, 0.0f, 1.0f
-  };
 
-  GLfloat Colors[] = {
-    1.0f, 0.0f, 0.0f, 1.0f,
-    0.0f, 1.0f, 0.2f, 1.0f,
-    0.2f, 0.0f, 1.0f, 1.0f
-  };
 
-  GLenum ErrorCheckValue = glGetError();
-
-  glGenVertexArrays(1, &VaoId);
-  glBindVertexArray(VaoId);
-
-  glGenBuffers(1, &VboId);
-  glBindBuffer(GL_ARRAY_BUFFER, VboId);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-  glEnableVertexAttribArray(0);
-
-  glGenBuffers(1, &ColorBufferId);
-  glBindBuffer(GL_ARRAY_BUFFER, ColorBufferId);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Colors), Colors, GL_STATIC_DRAW);
-  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-  glEnableVertexAttribArray(1);
-
-  ErrorCheckValue = glGetError();
-  if (ErrorCheckValue != GL_NO_ERROR)
-  {
-    std::cerr << "ERROR: Could not create a VBO: " << gluErrorString(ErrorCheckValue) << std::endl;
-    exit(-1);
-  }
-}
-
-void Renderer::DestroyVBO()
+void Renderer::DestroyVBOs()
 {
   GLenum ErrorCheckValue = glGetError();
 
@@ -104,11 +88,7 @@ void Renderer::DestroyVBO()
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-  glDeleteBuffers(1, &ColorBufferId);
-  glDeleteBuffers(1, &VboId);
-
   glBindVertexArray(0);
-  glDeleteVertexArrays(1, &VaoId);
 
   ErrorCheckValue = glGetError();
   if (ErrorCheckValue != GL_NO_ERROR)
@@ -120,23 +100,39 @@ void Renderer::DestroyVBO()
 void Renderer::Cleanup(void)
 {
   shaders.destroyShaders();
-  DestroyVBO();
+  DestroyVBOs();
 }
 
+void Renderer::lookAt(float x, float y, float z, float mx, float my)
+{
+  view = glm::lookAt(
+    glm::vec3( x, y, z ), //missä olen
+    glm::vec3( 0, 0, z+1.f ), //minne katon
+    glm::vec3( 0.0f, 0.0f, 1.0f )  //vektori ylöspäin kamerasta
+  );
+  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+
+}
 
 void Renderer::render()
 {
   ++FrameCount;
 
+  glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+
+  glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
+  vbos[0].modelMatrix = glm::rotate(
+        vbos[0].modelMatrix,
+        0.5f,
+        glm::vec3( 0.0f, 0.0f, 1.0f )
+      );
+  vbos[0].draw();
 
   window.swap_buffers();
 }
 
-unsigned Renderer::getResetFrames()
+long long Renderer::getFrames()
 {
-  unsigned temp = FrameCount;
-  FrameCount = 0;
-  return temp;
+  return FrameCount;
 }
