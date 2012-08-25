@@ -14,6 +14,10 @@ Controller::~Controller(void) {
 void Controller::update() {
 	SDL_Event event;
 
+  SDL_GetMouseState(&mouse[0], &mouse[1]);
+  mouse[0] -=300;
+  mouse[1] -=300;
+
 	while(SDL_PollEvent(&event)) {
     switch(event.type) {
       case SDL_QUIT:
@@ -82,4 +86,9 @@ void Controller::handleKeyUpEvent(SDL_Event keyevent) {
 bool Controller::getKeyState(Key key)
 {
 	return (keyboard & keys[key]) != 0;
+}
+
+int* Controller::getRelativeMouseState()
+{
+  return mouse;
 }

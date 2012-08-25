@@ -23,10 +23,9 @@ public:
 	/*void screenshot() const;*/
 
 	void createWindow(int, int);
-	/*
-	void enable_grab() const;
-	void disable_grab() const;
-
+	void enable_grab();
+	void disable_grab();
+/*
 	bool active() const;
 	void hide() const;*/
 private:
@@ -38,6 +37,7 @@ private:
 
 	SDL_Window *mainwindow;
 	SDL_GLContext drawContext;
+	bool grab;
 	//SDL_Surface* drawContext;
 };
 

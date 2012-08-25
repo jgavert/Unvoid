@@ -33,7 +33,7 @@ public:
   virtual ~Renderer();
   void initialize();
   virtual void render();
-  virtual void lookAt(float, float, float, float, float);
+  virtual void lookAt(float, float, float, float, float, float);
   long long getFrames();
 private:
   int CurrentWidth;

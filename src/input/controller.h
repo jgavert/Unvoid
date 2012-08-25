@@ -21,10 +21,12 @@ public:
 	void handleKeyDownEvent(SDL_Event keyevent);
 	void handleKeyUpEvent(SDL_Event keyevent);
 	bool getKeyState(Key key);
+	int* getRelativeMouseState();
 private:
 	int keys[100];
 	bool quit;
 	int keyboard;
+	int mouse[2];
 };
 
 #endif	/* CONTROLLER_H */

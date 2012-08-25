@@ -103,16 +103,17 @@ void Renderer::Cleanup(void)
   DestroyVBOs();
 }
 
-void Renderer::lookAt(float x, float y, float z, float mx, float my)
+void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
 {
   view = glm::lookAt(
     glm::vec3( x, y, z ), //missä olen
-    glm::vec3( 0, 0, z+1.f ), //minne katon
+    glm::vec3( tx, ty, tz ), //minne katon
     glm::vec3( 0.0f, 0.0f, 1.0f )  //vektori ylöspäin kamerasta
   );
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
 
 }
+
 
 void Renderer::render()
 {

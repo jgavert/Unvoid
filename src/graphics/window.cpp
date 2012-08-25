@@ -77,6 +77,8 @@ size_t Window::height() const
 
 void Window::swap_buffers() const
 {
+	if (grab)
+		SDL_WarpMouseInWindow(mainwindow, 300, 300);
 	SDL_GL_SwapWindow(mainwindow);
 }
 /*
@@ -139,19 +141,21 @@ void Window::screenshot() const
 	SDL_FreeSurface(temp);
 }*/
 
-/*
-void Window::enable_grab() const
+
+void Window::enable_grab()
 {
-	SDL_WM_GrabInput(SDL_GRAB_ON);
+	grab = true;
+	SDL_SetWindowGrab(mainwindow, SDL_TRUE);
 	SDL_ShowCursor(0);
 }
 
-void Window::disable_grab() const
+void Window::disable_grab()
 {
-	SDL_WM_GrabInput(SDL_GRAB_OFF);
+	grab = false;
+	SDL_SetWindowGrab(mainwindow, SDL_FALSE);
 	SDL_ShowCursor(1);
 }
-
+/*
 bool Window::active() const
 {
 	return SDL_GetAppState() & SDL_APPACTIVE;
