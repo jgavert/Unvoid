@@ -77,8 +77,8 @@ size_t Window::height() const
 
 void Window::swap_buffers() const
 {
-	if (grab)
-		SDL_WarpMouseInWindow(mainwindow, 300, 300);
+	//if (grab)
+	//	SDL_WarpMouseInWindow(mainwindow, 300, 300);
 	SDL_GL_SwapWindow(mainwindow);
 }
 /*
@@ -145,6 +145,7 @@ void Window::screenshot() const
 void Window::enable_grab()
 {
 	grab = true;
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	SDL_SetWindowGrab(mainwindow, SDL_TRUE);
 	SDL_ShowCursor(0);
 }
@@ -152,6 +153,7 @@ void Window::enable_grab()
 void Window::disable_grab()
 {
 	grab = false;
+	SDL_SetRelativeMouseMode(SDL_FALSE);
 	SDL_SetWindowGrab(mainwindow, SDL_FALSE);
 	SDL_ShowCursor(1);
 }

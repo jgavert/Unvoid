@@ -18,6 +18,7 @@ public:
 	~Controller(void);
 	void update();
 	bool hasQuit(void);
+	void handleMouseMotionEvent(SDL_Event event);
 	void handleKeyDownEvent(SDL_Event keyevent);
 	void handleKeyUpEvent(SDL_Event keyevent);
 	bool getKeyState(Key key);

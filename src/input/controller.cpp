@@ -14,9 +14,10 @@ Controller::~Controller(void) {
 void Controller::update() {
 	SDL_Event event;
 
-  SDL_GetMouseState(&mouse[0], &mouse[1]);
-  mouse[0] -=300;
-  mouse[1] -=300;
+  //SDL_GetMouseState(&mouse[0], &mouse[1]);
+  SDL_GetRelativeMouseState(&mouse[0], &mouse[1]);
+  //mouse[0] -=300;
+  //mouse[1] -=300;
 
 	while(SDL_PollEvent(&event)) {
     switch(event.type) {
@@ -29,6 +30,8 @@ void Controller::update() {
      	case SDL_KEYUP:
      		handleKeyUpEvent(event);
      		break;
+      case SDL_MOUSEMOTION:
+        handleMouseMotionEvent(event);
       default:
         break;
     }
@@ -39,6 +42,15 @@ void Controller::update() {
 
 bool Controller::hasQuit(void) {
 	return quit;
+}
+
+void Controller::handleMouseMotionEvent(SDL_Event event)
+{
+  mouse[0] = event.motion.xrel;
+  mouse[1] = event.motion.yrel;
+  //std::cout << "mouse x: " << x << std::endl;
+
+
 }
 
 void Controller::handleKeyDownEvent(SDL_Event keyevent) {
@@ -57,6 +69,21 @@ void Controller::handleKeyDownEvent(SDL_Event keyevent) {
       break;
     case SDLK_RIGHT:
       keyboard |= 16;
+      break;
+    case SDLK_w:
+      keyboard |= 2;
+      break;
+    case SDLK_s:
+      keyboard |= 4;
+      break;
+    case SDLK_a:
+      keyboard |= 8;
+      break;
+    case SDLK_d:
+      keyboard |= 16;
+      break;
+    case SDLK_1:
+      keyboard |= keys[K1];
     default:
       break;
 	}
@@ -78,6 +105,21 @@ void Controller::handleKeyUpEvent(SDL_Event keyevent) {
       break;
     case SDLK_RIGHT:
       keyboard &= (~16);
+      break;
+    case SDLK_w:
+      keyboard &= (~2);
+      break;
+    case SDLK_s:
+      keyboard &= (~4);
+      break;
+    case SDLK_a:
+      keyboard &= (~8);
+      break;
+    case SDLK_d:
+      keyboard &= (~16);
+      break;
+    case SDLK_1:
+      keyboard &= (~keys[K1]);
     default:
       break;
 	}
