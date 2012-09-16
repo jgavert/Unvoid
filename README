@@ -1,4 +1,5 @@
 OpenGl project focusing on 4.x specification.
 
 features:
-can draw a multicolored triangle.
+Can draw a multicolored and rotating cube.
+Movement with wasd or arrow keys, and look with mouse. Press '1' to grab input.
