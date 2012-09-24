@@ -37,8 +37,8 @@ void look(Renderer& render, Controller& input)
   mouse = input.getRelativeMouseState();
 //  std::cout << mouse[0] << std::endl;
 //  std::cout << mouse[1] << std::endl;
-  if (mouse[1]+mouse[0] == 0)
-    return;
+  //if (mouse[1]+mouse[0] == 0)
+  //  return;
   y_a += (float)mouse[1]*0.001f;
   zx_a += (float)mouse[0]*0.001f;
   //std::cout << "zx_a: " << zx_a << std::endl;
@@ -82,7 +82,7 @@ int main(void)
     // Enable/Disable keygrab
     if (input.getKeyState(K1))
     {
-      if (!clicked) 
+      if (!clicked)
       {
         if (flip)
         {
