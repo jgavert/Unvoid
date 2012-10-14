@@ -82,5 +82,7 @@ void VBO::draw()
 
 glm::mat4 VBO::getModelMatrix()
 {
-
+  return modelMatrix;
 }
+
+

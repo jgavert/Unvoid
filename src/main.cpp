@@ -109,7 +109,7 @@ int main(void)
     if (timing[1] - timing[0] > 5000) {
       auto asd = render.getFrames();
       auto frames = asd - fbefore;
-      std::cout << frames/5 << " FPS" << std::endl;
+      std::cout << "fps " << (frames/5) << " per second"<< std::endl;
       timing[0] = timing[1];
       fbefore = asd;
     }

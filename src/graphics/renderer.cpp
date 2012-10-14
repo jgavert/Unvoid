@@ -24,7 +24,7 @@ Renderer::Renderer(Window& w):
   CurrentWidth = 800;
   CurrentHeight = 600;
   WindowHandle = 0;
-
+  timeGLV = 0.f;
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
 }
@@ -44,6 +44,7 @@ void Renderer::initialize()
     exit(EXIT_FAILURE);
   }
   int OpenGLVersion[2];
+  //SDL_GL_SetAttribute(GL_CONTEXT_, int value)
   glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
   glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
   std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
@@ -62,7 +63,12 @@ void Renderer::initialize()
   viewMatrix = glGetUniformLocation( shaderProgram, "ViewMatrix" );
   projectionMatrix = glGetUniformLocation( shaderProgram, "ProjectionMatrix" );
   modelMatrix = glGetUniformLocation( shaderProgram, "ModelMatrix" );
-  projection =view= glm::mat4();
+  timeGLP = glGetUniformLocation( shaderProgram, "time");
+  resolutionGLP = glGetUniformLocation( shaderProgram, "resolution");
+  glm::vec2 res = glm::vec2(800.f,600.f);
+  glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
+
+  projection = view = glm::mat4();
   view = glm::lookAt(
     glm::vec3( -5.0f, 0.0f, -1.0f ), //missä olen
     glm::vec3( 0.0f, 0.0f, 0.0f ), //minne katon
@@ -118,15 +124,18 @@ void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
 void Renderer::render()
 {
   ++FrameCount;
+  timeGLV += 0.02f;
 
   glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
+  glUniform1fv(timeGLP, 1, &timeGLV);
+
   vbos[0].modelMatrix = glm::rotate(
         vbos[0].modelMatrix,
-        0.5f,
-        glm::vec3( 0.0f, 0.0f, 1.0f )
+        0.01f,
+        glm::vec3( 0.0f, 0.0f, 0.1f )
       );
   vbos[0].draw();
 
