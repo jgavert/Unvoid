@@ -81,7 +81,7 @@ int main(void)
   std::cout << "Initialisation took " << timing[1] - timing[0] << "ms." << std::endl;
   timing[0] = timing[1];
   auto fbefore = 0;
-  bool flip = true, clicked = false, clicked2 = false;
+  bool flip = true, clicked = false, clicked2 = false, clicked3 = false, limit = true;
   while(!input.hasQuit()) {
     timing[2] = getMilliSecs();
     input.update();
@@ -120,6 +120,18 @@ int main(void)
       clicked2 = false;
     }
 
+    if (input.getKeyState(K3))
+    {
+      if (!clicked3)
+      {
+        limit = limit ? false : true;
+        clicked3 = true;
+      }
+    }
+    else {
+      clicked3 = false;
+    }
+
     // grab ends
 
     look(render, input); //where to look at
@@ -127,7 +139,8 @@ int main(void)
     timing[1] = getMilliSecs();
     timing[2] = timing[1] - timing[2];
     //std::cout << timing[2]*1000 << std::endl;
-    std::this_thread::sleep_for(std::chrono::nanoseconds( FPSLIMIT - (timing[2]*1000000) ));
+    if (limit)
+      std::this_thread::sleep_for(std::chrono::nanoseconds( FPSLIMIT - (timing[2]*1000000) ));
     if (timing[1] - timing[0] > 5000) {
       auto asd = render.getFrames();
       auto frames = asd - fbefore;
