@@ -8,6 +8,11 @@
 #include <sys/time.h>
 #include <cmath>
 
+#include <chrono>
+#include <thread>
+
+#define FPSLIMIT 1000000000/60
+
 inline long getMilliSecs() {
   timeval t;
   gettimeofday(&t, NULL);
@@ -37,7 +42,8 @@ void look(Renderer& render, Controller& input)
   mouse = input.getRelativeMouseState();
 //  std::cout << mouse[0] << std::endl;
 //  std::cout << mouse[1] << std::endl;
-  //if (mouse[1]+mouse[0] == 0)
+  //if (mouse[1]+mouse[0] != 0)
+  //{
   //  return;
   y_a += (float)mouse[1]*0.001f;
   zx_a += (float)mouse[0]*0.001f;
@@ -45,7 +51,7 @@ void look(Renderer& render, Controller& input)
   tx = cosf(zx_a);
   tz = sinf(zx_a);
   ty = -y_a;
-
+//}
   //std::cout << "tx: " << tx << std::endl;
   //std::cout << "tz: " << tz << std::endl;
   x += (-tz)*SPD*strafe;
@@ -65,7 +71,7 @@ void look(Renderer& render, Controller& input)
 
 int main(void)
 {
-  long timing[2];
+  long timing[3];
   timing[0] = getMilliSecs();
   Window window;
   Renderer render(window);
@@ -77,6 +83,7 @@ int main(void)
   auto fbefore = 0;
   bool flip = true, clicked = false, clicked2 = false;
   while(!input.hasQuit()) {
+    timing[2] = getMilliSecs();
     input.update();
 
     // Enable/Disable keygrab
@@ -116,10 +123,11 @@ int main(void)
     // grab ends
 
     look(render, input); //where to look at
-
     render.render(); //renders the scene
-
     timing[1] = getMilliSecs();
+    timing[2] = timing[1] - timing[2];
+    //std::cout << timing[2]*1000 << std::endl;
+    std::this_thread::sleep_for(std::chrono::nanoseconds( FPSLIMIT - (timing[2]*1000000) ));
     if (timing[1] - timing[0] > 5000) {
       auto asd = render.getFrames();
       auto frames = asd - fbefore;
@@ -127,6 +135,7 @@ int main(void)
       timing[0] = timing[1];
       fbefore = asd;
     }
+    timing[2] = timing[1];
   }
   exit(EXIT_SUCCESS);
 }

@@ -47,9 +47,8 @@ void Renderer::initialize()
   //SDL_GL_SetAttribute(GL_CONTEXT_, int value)
   glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
   glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
-  std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
-  std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
-  glClearColor(0.3f, 0.1f, 0.2f, 0.0f);
+  std::cout << "Using OpenGL " << OpenGLVersion[0] << "." << OpenGLVersion[1] << std::endl << std::endl;
+  glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
 
   glEnable( GL_DEPTH_TEST );
   //glDepthFunc(GL_LEQUAL);
