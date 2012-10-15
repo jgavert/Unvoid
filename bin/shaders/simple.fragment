@@ -6,17 +6,17 @@ uniform vec2 resolution;
 in vec4 ex_Color;
 out vec4 out_Color;
 
-//void main(void)
-//{
-//   out_Color = ex_Color;
-//   //out_Color = vec4(0.5, 0.5, 0.5, 1.0);
-//}
+void main(void)
+{
+   out_Color = ex_Color;
+   //out_Color = vec4(0.5, 0.5, 0.5, 1.0);
+}
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(5,-5))) * 431.5453);
 }
 
-void main(void)
+void main2(void)
 {
   vec2 position = ( gl_FragCoord.xy / resolution.xy )+ 4.0 / 4.0;
 

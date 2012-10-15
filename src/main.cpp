@@ -75,7 +75,7 @@ int main(void)
   std::cout << "Initialisation took " << timing[1] - timing[0] << "ms." << std::endl;
   timing[0] = timing[1];
   auto fbefore = 0;
-  bool flip = true, clicked = false;
+  bool flip = true, clicked = false, clicked2 = false;
   while(!input.hasQuit()) {
     input.update();
 
@@ -99,6 +99,20 @@ int main(void)
     else {
       clicked = false;
     }
+
+    if (input.getKeyState(K2))
+    {
+      if (!clicked2)
+      {
+        std::cout << "Reloading shaders..." << std::endl;
+          render.reloadShaders();
+        clicked2 = true;
+      }
+    }
+    else {
+      clicked2 = false;
+    }
+
     // grab ends
 
     look(render, input); //where to look at

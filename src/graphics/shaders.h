@@ -21,9 +21,10 @@ public:
 	~Shaders(void);
 	void loadShaders();
   GLint createShaders();
+  void reload();
   void destroyShaders();
-private:
   GLuint VertexShaderId, FragmentShaderId, ProgramId;
+private:
   std::string readShaderFile(std::string);
   std::string vertex;
   std::string fragment;

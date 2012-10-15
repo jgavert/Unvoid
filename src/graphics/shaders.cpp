@@ -78,6 +78,28 @@ GLint Shaders::createShaders(void)
   return ProgramId;
 }
 
+void Shaders::reload()
+{
+  glUseProgram(0);
+  loadShaders();
+  const GLchar *VertexShader = vertex.c_str();
+  const GLchar *FragmentShader = fragment.c_str();
+
+  glDetachShader(ProgramId, VertexShaderId);
+  glDetachShader(ProgramId, FragmentShaderId);
+
+  glShaderSource(VertexShaderId, 1, &VertexShader, NULL);
+  glCompileShader(VertexShaderId);
+
+  glShaderSource(FragmentShaderId, 1, &FragmentShader, NULL);
+  glCompileShader(FragmentShaderId);
+
+  glAttachShader(ProgramId, VertexShaderId);
+  glAttachShader(ProgramId, FragmentShaderId);
+  glLinkProgram(ProgramId);
+  glUseProgram(ProgramId);
+}
+
 void Shaders::destroyShaders(void)
 {
   GLenum ErrorCheckValue = glGetError();

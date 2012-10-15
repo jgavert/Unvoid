@@ -49,7 +49,7 @@ void Renderer::initialize()
   glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
   std::cout << "OpenGL major version = " << OpenGLVersion[0] << std::endl;
   std::cout << "OpenGL minor version = " << OpenGLVersion[1] << std::endl << std::endl;
-  glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
+  glClearColor(0.3f, 0.1f, 0.2f, 0.0f);
 
   glEnable( GL_DEPTH_TEST );
   //glDepthFunc(GL_LEQUAL);
@@ -120,16 +120,23 @@ void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
 
 }
 
+void Renderer::reloadShaders() {
+  shaders.reload();
+  viewMatrix = glGetUniformLocation( shaders.ProgramId, "ViewMatrix" );
+  projectionMatrix = glGetUniformLocation( shaders.ProgramId, "ProjectionMatrix" );
+  modelMatrix = glGetUniformLocation( shaders.ProgramId, "ModelMatrix" );
+  timeGLP = glGetUniformLocation( shaders.ProgramId, "time");
+  resolutionGLP = glGetUniformLocation( shaders.ProgramId, "resolution");
+}
 
 void Renderer::render()
 {
   ++FrameCount;
   timeGLV += 0.02f;
-
-  glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
+  glUseProgram(shaders.ProgramId);
+  glClearColor(1.3f, 1.1f, 1.3f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
   glUniform1fv(timeGLP, 1, &timeGLV);
 
   vbos[0].modelMatrix = glm::rotate(
@@ -137,7 +144,11 @@ void Renderer::render()
         0.01f,
         glm::vec3( 0.0f, 0.0f, 0.1f )
       );
+  glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
+  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
   vbos[0].draw();
+  glUseProgram(0);
 
   window.swap_buffers();
 }

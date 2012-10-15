@@ -35,6 +35,7 @@ public:
   virtual void render();
   virtual void lookAt(float, float, float, float, float, float);
   long long getFrames();
+  void reloadShaders();
 private:
   int CurrentWidth;
   int CurrentHeight;
