@@ -133,14 +133,14 @@ void Renderer::render()
   ++FrameCount;
   timeGLV += 0.02f;
   glUseProgram(shaders.ProgramId);
-  glClearColor(1.3f, 1.1f, 1.3f, 0.0f);
+  glClearColor(0.f, 0.f, 0.f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glUniform1fv(timeGLP, 1, &timeGLV);
 
   vbos[0].modelMatrix = glm::rotate(
         vbos[0].modelMatrix,
-        0.01f,
+        1.f,
         glm::vec3( 0.0f, 0.0f, 0.1f )
       );
   glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );

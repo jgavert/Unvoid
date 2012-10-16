@@ -16,7 +16,7 @@ float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(5,-5))) * 431.5453);
 }
 
-void main2(void)
+void main(void)
 {
   vec2 position = ( gl_FragCoord.xy / resolution.xy )+ 4.0 / 4.0;
 

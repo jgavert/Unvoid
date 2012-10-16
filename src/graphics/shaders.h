@@ -25,6 +25,7 @@ public:
   void destroyShaders();
   GLuint VertexShaderId, FragmentShaderId, ProgramId;
 private:
+  std::string parseShaderForComments(std::string);
   std::string readShaderFile(std::string);
   std::string vertex;
   std::string fragment;

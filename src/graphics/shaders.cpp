@@ -22,7 +22,36 @@ std::string Shaders::readShaderFile(std::string FileName)
     ShaderString += tempholder + "\n";
   }
   shaderFile.close();
-  return ShaderString;
+  auto parsed = parseShaderForComments(ShaderString);
+  return parsed;
+}
+
+// just so that shader files support easy commenting with '/*' and '*/'
+std::string Shaders::parseShaderForComments(std::string unparsed)
+{
+  bool start = false;
+  std::string parsed;
+  for (unsigned i = 0; i<unparsed.length(); i++){
+    if (unparsed[i] == '/')
+      if (unparsed[i+1] == '*') {
+        start = true;
+        i+=2;
+        continue;
+      }
+
+
+    if (unparsed[i] == '*')
+      if (unparsed[i+1] == '/'){
+        start = false;
+        i+=2;
+        continue;
+      }
+    if (start)
+      continue;
+    parsed += unparsed[i];
+  }
+  return parsed;
+
 }
 
 void Shaders::loadShaders(void)
