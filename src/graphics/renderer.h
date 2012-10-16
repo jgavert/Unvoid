@@ -46,7 +46,7 @@ private:
   Window& window;
   Shaders shaders;
   glm::mat4 view, projection;
-  GLint viewMatrix, projectionMatrix, modelMatrix, timeGLP, resolutionGLP;
+  GLint viewMatrix, projectionMatrix, modelMatrix, timeGLP, resolutionGLP, cameraPosGLP;
   //TODO: implement below
   std::vector<int> screenStack;
   std::vector<VBO> vbos;

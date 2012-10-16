@@ -2,16 +2,33 @@
 
 uniform float time;
 uniform vec2 resolution;
+uniform vec3 cameraPos;
 
 in vec4 ex_Color;
 out vec4 out_Color;
 
-void main(void)
+float linearize(float z)
 {
-   out_Color = ex_Color;
-   //out_Color = vec4(0.5, 0.5, 0.5, 1.0);
+    float zNear = 1.0;
+    float zFar = 100.0;
+    float z_n = 2.0 * z - 1.0;
+    float z_e = 2.0 * zNear * zFar / (zFar + zNear - z_n * (zFar - zNear));
+    return z_e;
 }
 
+void main(void)
+{
+
+  float color = 0.0;
+
+  color = 0.25*linearize(gl_FragCoord.z);
+
+  out_Color = vec4((1.0-color)*ex_Color.x, (1.0-color)*ex_Color.y, (1.0-color)*ex_Color.z, 1.0);
+  //out_Color = ex_Color;
+  //out_Color = vec4(0.5, 0.5, 0.5, 1.0);
+}
+
+/*
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(5,-5))) * 431.5453);
 }
@@ -27,4 +44,4 @@ void main(void)
   color *= sin( time / 10.0 ) * 0.5;
   vec4 lol = vec4( vec3( sin( color + time / 3.0 ) * ex_Color.x*2.0 ,sin( color + time / 5.0 ) * ex_Color.y * 2.0, sin( color + time / 8.0 ) * ex_Color.z * 2.0 ), 1.0 );
   out_Color = lol;
-}
+}*/

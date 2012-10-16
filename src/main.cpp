@@ -25,6 +25,7 @@ float forward=0.f, strafe=0.f;
 float zx_a=0.f, y_a=0.f;
 int* mouse;
 const float SPD = 0.15f;
+bool capturedMouse = false;
 
 void look(Renderer& render, Controller& input)
 {
@@ -40,6 +41,9 @@ void look(Renderer& render, Controller& input)
     strafe += SPD;
 
   mouse = input.getRelativeMouseState();
+  if (!capturedMouse) {
+    mouse[0] = 0; mouse[1] = 0;
+  }
 //  std::cout << mouse[0] << std::endl;
 //  std::cout << mouse[1] << std::endl;
   //if (mouse[1]+mouse[0] != 0)
@@ -95,9 +99,11 @@ int main(void)
         {
           window.enable_grab();
           flip = false;
+          capturedMouse = true;
         }
         else{
           window.disable_grab();
+          capturedMouse = false;
           flip = true;
         }
         clicked = true;

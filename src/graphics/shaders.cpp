@@ -35,7 +35,7 @@ std::string Shaders::parseShaderForComments(std::string unparsed)
     if (unparsed[i] == '/')
       if (unparsed[i+1] == '*') {
         start = true;
-        i+=2;
+        i+=1;
         continue;
       }
 
@@ -43,7 +43,7 @@ std::string Shaders::parseShaderForComments(std::string unparsed)
     if (unparsed[i] == '*')
       if (unparsed[i+1] == '/'){
         start = false;
-        i+=2;
+        i+=1;
         continue;
       }
     if (start)

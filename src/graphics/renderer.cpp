@@ -64,6 +64,7 @@ void Renderer::initialize()
   modelMatrix = glGetUniformLocation( shaderProgram, "ModelMatrix" );
   timeGLP = glGetUniformLocation( shaderProgram, "time");
   resolutionGLP = glGetUniformLocation( shaderProgram, "resolution");
+  cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
   glm::vec2 res = glm::vec2(800.f,600.f);
   glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
 
@@ -116,6 +117,8 @@ void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
     glm::vec3( 0.0f, 1.0f, 0.0f )  //vektori ylöspäin kamerasta
   );
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+  glm::vec3 pos = glm::vec3(x+tx, y+ty, z+tz);
+  glUniform3fv(cameraPosGLP,1, glm::value_ptr(pos));
 
 }
 
@@ -126,6 +129,7 @@ void Renderer::reloadShaders() {
   modelMatrix = glGetUniformLocation( shaders.ProgramId, "ModelMatrix" );
   timeGLP = glGetUniformLocation( shaders.ProgramId, "time");
   resolutionGLP = glGetUniformLocation( shaders.ProgramId, "resolution");
+  cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
 }
 
 void Renderer::render()
