@@ -90,6 +90,7 @@ int main(void)
     timing[2] = getMilliSecs();
     input.update();
 
+    //TODO: this is horrible, do something about it...
     // Enable/Disable keygrab
     if (input.getKeyState(K1))
     {
