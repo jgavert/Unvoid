@@ -30,10 +30,10 @@
 class Renderer {
 public:
   Renderer(Window& window);
-  virtual ~Renderer();
+  ~Renderer();
   void initialize();
-  virtual void render();
-  virtual void lookAt(float, float, float, float, float, float);
+  void render(float time);
+  void lookAt(float, float, float, float, float, float);
   long long getFrames();
   void reloadShaders();
 private:

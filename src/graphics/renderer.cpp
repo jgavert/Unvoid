@@ -51,10 +51,10 @@ void Renderer::initialize()
   glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
 
   glEnable( GL_DEPTH_TEST );
-  //glDepthFunc(GL_LEQUAL);
-  //glEnable( GL_CULL_FACE);
-  //glCullFace(GL_BACK);
-  //glFrontFace(GL_CCW);
+  glDepthFunc(GL_LEQUAL);
+  glEnable( GL_CULL_FACE);
+  glCullFace(GL_BACK);
+  glFrontFace(GL_CCW);
 
   shaders.loadShaders();
   GLint shaderProgram = shaders.createShaders();
@@ -132,7 +132,7 @@ void Renderer::reloadShaders() {
   cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
 }
 
-void Renderer::render()
+void Renderer::render(float time)
 {
   ++FrameCount;
   timeGLV += 0.02f;
@@ -144,8 +144,8 @@ void Renderer::render()
 
   vbos[0].modelMatrix = glm::rotate(
         vbos[0].modelMatrix,
-        1.f,
-        glm::vec3( 0.0f, 0.0f, 0.1f )
+        1.f*time,
+        glm::vec3( 0.0f, 0.0f, 0.01 )
       );
   glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
@@ -159,4 +159,8 @@ void Renderer::render()
 long long Renderer::getFrames()
 {
   return FrameCount;
+
+
+  glm::mat3 asd(glm::vec3(1,0,0), glm::vec3(0,1,0), glm::vec3(0,0,1));
+  float* qsd = glm::value_ptr(asd);
 }

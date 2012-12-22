@@ -21,10 +21,10 @@ VBO::VBO():
     1.0f, -1.0f, -1.0f, 1.0f
   },
   colors{
-    0.0f, 0.0f, 1.0f, 0.5f,
-    1.0f, 0.0f, 0.0f, 0.5f,
-    0.0f, 1.0f, 0.0f, 0.5f,
-    1.0f, 1.0f, 0.0f, 0.5f,
+    0.0f, 0.0f, 1.0f, 1.0f,
+    1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 1.0f, 0.0f, 1.0f,
+    1.0f, 1.0f, 0.0f, 1.0f,
     1.0f, 1.0f, 1.0f, 1.0f,
     1.0f, 0.0f, 0.0f, 1.0f,
     1.0f, 0.0f, 1.0f, 1.0f,
@@ -73,10 +73,10 @@ void VBO::loadToGpu()
 
 void VBO::draw()
 {
-	//glBindVertexArray(vaoId);
+	glBindVertexArray(vaoId);
 	// bind VBOs for vertex array and index array
-	//glBindBuffer(GL_ARRAY_BUFFER, vboId);         // for vertex coordinates
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId); // for indices
+	glBindBuffer(GL_ARRAY_BUFFER, vboId);         // for vertex coordinates
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId); // for indices
 	glDrawElements( GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0 );
 }
 

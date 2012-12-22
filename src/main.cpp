@@ -11,13 +11,8 @@
 #include <chrono>
 #include <thread>
 
-#define FPSLIMIT 1000000000/60
+#define FPSLIMIT 16666667 //nanoseconds
 
-inline long getMilliSecs() {
-  timeval t;
-  gettimeofday(&t, NULL);
-  return t.tv_sec*1000 + t.tv_usec/1000;
-}
 
 float x=-4.f,y=0.f,z=0.f;
 float tx=0.f,ty=0.f,tz=0.f;
@@ -75,19 +70,22 @@ void look(Renderer& render, Controller& input)
 
 int main(void)
 {
-  long timing[3];
-  timing[0] = getMilliSecs();
+  auto fpslimit = std::chrono::nanoseconds(FPSLIMIT);
+  auto timing0 = std::chrono::high_resolution_clock::now();
   Window window;
   Renderer render(window);
   Controller input;
   render.initialize();
-  timing[1] = getMilliSecs();
-  std::cout << "Initialisation took " << timing[1] - timing[0] << "ms." << std::endl;
-  timing[0] = timing[1];
+  auto timing1 = std::chrono::high_resolution_clock::now();
+  std::cout << "Initialisation took " << std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() << "ms." << std::endl;
+  timing0 = timing1;
+  auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
   bool flip = true, clicked = false, clicked2 = false, clicked3 = false, limit = true;
+  auto timing3 = std::chrono::high_resolution_clock::now();
+
   while(!input.hasQuit()) {
-    timing[2] = getMilliSecs();
+    timing2 = std::chrono::high_resolution_clock::now();
     input.update();
 
     // Enable/Disable keygrab
@@ -118,7 +116,7 @@ int main(void)
       if (!clicked2)
       {
         std::cout << "Reloading shaders..." << std::endl;
-          render.reloadShaders();
+        render.reloadShaders();
         clicked2 = true;
       }
     }
@@ -131,6 +129,7 @@ int main(void)
       if (!clicked3)
       {
         limit = limit ? false : true;
+        std::cout << "limit " << limit << std::endl;
         clicked3 = true;
       }
     }
@@ -141,20 +140,25 @@ int main(void)
     // grab ends
 
     look(render, input); //where to look at
-    render.render(); //renders the scene
-    timing[1] = getMilliSecs();
-    timing[2] = timing[1] - timing[2];
+    timing1 = std::chrono::high_resolution_clock::now();
     //std::cout << timing[2]*1000 << std::endl;
-    if (limit)
-      std::this_thread::sleep_for(std::chrono::nanoseconds( FPSLIMIT - (timing[2]*1000000) ));
-    if (timing[1] - timing[0] > 5000) {
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() > 5000) {
       auto asd = render.getFrames();
       auto frames = asd - fbefore;
       std::cout << "fps " << (frames/5) << " per second"<< std::endl;
-      timing[0] = timing[1];
+      timing0 = timing1;
       fbefore = asd;
     }
-    timing[2] = timing[1];
+    long long currentframe  = std::chrono::duration_cast<std::chrono::nanoseconds>(timing1 - timing3).count();
+    float lol = (float)currentframe / (float)FPSLIMIT;
+    render.render(lol); //renders the scene
+    timing3 = timing1;
+    timing1 = std::chrono::high_resolution_clock::now();
+    currentframe  = std::chrono::duration_cast<std::chrono::nanoseconds>(timing1 - timing2).count();
+    //std::cout << lol << ", what?" << std::endl;
+    if (limit)
+      std::this_thread::sleep_for(std::chrono::nanoseconds(FPSLIMIT - currentframe));
+    timing2 = timing1;
   }
   exit(EXIT_SUCCESS);
 }

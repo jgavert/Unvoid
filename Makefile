@@ -5,7 +5,7 @@ INCLUDE_DIRS := -I lib/linux/SDL2/include -I lib/linux/glew/include -I lib/linux
 WARNINGS := -pedantic -Wall -Wextra
 
 PACKAGES := gl glu libpng
-CXX      := clang++
+CXX      := g++
 CXXFLAGS := $(WARNINGS) -std=c++11 -O0 $(INCLUDE_DIRS) -march=corei7-avx
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
