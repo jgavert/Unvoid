@@ -2,11 +2,11 @@ DIRS := src src/graphics src/input
 PROGRAM_DIRS := $(DIRS)
 
 INCLUDE_DIRS := -I lib/linux/SDL2/include -I lib/linux/glew/include -I lib/linux/glmlib
-WARNINGS := -pedantic -Wall -Wextra
+WARNINGS := -pedantic -Wall -Wextra -Wno-parentheses
 
 PACKAGES := gl glu libpng
-CXX      := g++
-CXXFLAGS := $(WARNINGS) -std=c++11 -O0 $(INCLUDE_DIRS) -march=corei7-avx
+CXX      := clang++
+CXXFLAGS := $(WARNINGS) -std=c++11 -O0 $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
 LIBS := -L ./lib/linux/ -lGLEW -lSDL2

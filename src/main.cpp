@@ -19,10 +19,10 @@ float tx=0.f,ty=0.f,tz=0.f;
 float forward=0.f, strafe=0.f;
 float zx_a=0.f, y_a=0.f;
 int* mouse;
-const float SPD = 0.15f;
+const float SPD = 0.38f;
 bool capturedMouse = false;
 
-void look(Renderer& render, Controller& input)
+void look(Renderer& render, Controller& input, float speedMod)
 {
   forward = strafe = 0.f;
 
@@ -53,12 +53,13 @@ void look(Renderer& render, Controller& input)
 //}
   //std::cout << "tx: " << tx << std::endl;
   //std::cout << "tz: " << tz << std::endl;
-  x += (-tz)*SPD*strafe;
-  x += tx*SPD*forward;
+  float applySpeed = SPD*speedMod;
+  x += (-tz)*applySpeed*strafe;
+  x += tx*applySpeed*forward;
   //x += SPD*strafe*tz;
-  y += ty*SPD*forward;
-  z += tz*SPD*forward;
-  z += tx*SPD*strafe;
+  y += ty*applySpeed*forward;
+  z += tz*applySpeed*forward;
+  z += tx*applySpeed*strafe;
   //z += SPD*strafe*tx;
 
 //std::cout << x << ", " << tx << std::endl;
@@ -139,7 +140,7 @@ int main(void)
 
     // grab ends
 
-    look(render, input); //where to look at
+    //look(render, input); //where to look at
     timing1 = std::chrono::high_resolution_clock::now();
     //std::cout << timing[2]*1000 << std::endl;
     if (std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() > 5000) {
@@ -150,8 +151,9 @@ int main(void)
       fbefore = asd;
     }
     long long currentframe  = std::chrono::duration_cast<std::chrono::nanoseconds>(timing1 - timing3).count();
-    float lol = (float)currentframe / (float)FPSLIMIT;
-    render.render(lol); //renders the scene
+    float speedMod = (float)currentframe / (float)FPSLIMIT;
+    render.render(speedMod); //renders the scene
+    look(render, input, speedMod); //where to look at
     timing3 = timing1;
     timing1 = std::chrono::high_resolution_clock::now();
     currentframe  = std::chrono::duration_cast<std::chrono::nanoseconds>(timing1 - timing2).count();
