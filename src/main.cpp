@@ -89,6 +89,7 @@ int main(void)
     timing2 = std::chrono::high_resolution_clock::now();
     input.update();
 
+    //TODO: this is horrible, do something about it...
     // Enable/Disable keygrab
     if (input.getKeyState(K1))
     {
