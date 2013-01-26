@@ -30,8 +30,8 @@ void Controller::update() {
      	case SDL_KEYUP:
      		handleKeyUpEvent(event);
      		break;
-      case SDL_MOUSEMOTION:
-        handleMouseMotionEvent(event);
+      /*case SDL_MOUSEMOTION:
+        handleMouseMotionEvent(event);*/
       default:
         break;
     }

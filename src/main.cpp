@@ -44,8 +44,12 @@ void look(Renderer& render, Controller& input, float speedMod)
   //if (mouse[1]+mouse[0] != 0)
   //{
   //  return;
-  y_a += (float)mouse[1]*0.001f;
-  zx_a += (float)mouse[0]*0.001f;
+  y_a += ((float)mouse[1])*0.001f;
+  zx_a += ((float)mouse[0])*0.001f;
+  //TODO: wtf, solve strange mouse behaviour
+  std::cout << "speedMod = " << speedMod;
+  std::cout << ", mouse = " << mouse[1];
+  std::cout << ", combines = " << (float(mouse[1] * speedMod)) << std::endl;
   //std::cout << "zx_a: " << zx_a << std::endl;
   tx = cosf(zx_a);
   tz = sinf(zx_a);

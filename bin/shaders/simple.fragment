@@ -7,6 +7,8 @@ uniform vec3 cameraPos;
 in vec4 ex_Color;
 out vec4 out_Color;
 
+
+//Linearizes z-buffer values, zNear and zFar values must match camera values!!
 float linearize(float z)
 {
     float zNear = 1.0;
