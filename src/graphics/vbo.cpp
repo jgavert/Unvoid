@@ -1,7 +1,8 @@
 #include "vbo.h"
 #include <iostream>
 
-VBO::VBO() {
+VBO::VBO()
+{
   modelMatrix = viewMatrix = glm::mat4();
 }
 

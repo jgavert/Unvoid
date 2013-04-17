@@ -1,11 +1,10 @@
-
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
 #include "graphics/renderer.h"
 #include "input/controller.h"
 
-#include <sys/time.h>
+//#include <sys/time.h>
 #include <cmath>
 
 #include <chrono>
@@ -44,9 +43,8 @@ void look(Renderer& render, Controller& input, float speedMod)
   //if (mouse[1]+mouse[0] != 0)
   //{
   //  return;
-  y_a += ((float)mouse[1])*0.001f;
-  zx_a += ((float)mouse[0])*0.001f;
-  //TODO: wtf, solve strange mouse behaviour
+  y_a += (float)mouse[1]*0.001f;
+  zx_a += (float)mouse[0]*0.001f;
   //std::cout << "zx_a: " << zx_a << std::endl;
   tx = cosf(zx_a);
   tz = sinf(zx_a);
@@ -70,7 +68,7 @@ void look(Renderer& render, Controller& input, float speedMod)
   render.lookAt(x, y, z, x+tx, y+ty, z+tz);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
   auto fpslimit = std::chrono::nanoseconds(FPSLIMIT);
   auto timing0 = std::chrono::high_resolution_clock::now();
