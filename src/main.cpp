@@ -5,7 +5,7 @@
 #include "graphics/renderer.h"
 #include "input/controller.h"
 
-#include <sys/time.h>
+//#include <sys/time.h>
 #include <cmath>
 
 #include <chrono>
@@ -69,7 +69,7 @@ void look(Renderer& render, Controller& input, float speedMod)
   render.lookAt(x, y, z, x+tx, y+ty, z+tz);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
   auto fpslimit = std::chrono::nanoseconds(FPSLIMIT);
   auto timing0 = std::chrono::high_resolution_clock::now();
