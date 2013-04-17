@@ -18,8 +18,8 @@ class VBO {
 public:
 	glm::mat4 modelMatrix,viewMatrix;
 	GLuint vaoId, vboId, eboId, colorBufferId, shaderProgramId;
-	GLuint indices[36];
-	float vertices[32], colors[32];
+	std::vector<GLuint> indices;
+	std::vector<float> vertices, colors;
 	VBO();
 	~VBO();
 	void loadToGpu();
