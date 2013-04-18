@@ -124,21 +124,38 @@ void Renderer::loadObject(std::string unparsedData){
 
     switch(currentChoice) {
       case 1:
-        indices.push_back(std::atoi(it.c_str()));
+        indices.push_back(static_cast<GLuint>(std::atoi(it.c_str())));
         break;
       case 2:
-        vertices.push_back(std::atof(it.c_str()));
+        vertices.push_back(static_cast<float>(std::atof(it.c_str())));
         break;
       case 3:
-        colors.push_back(std::atof(it.c_str()));
+        colors.push_back(static_cast<float>(std::atof(it.c_str())));
       default:
         break;
     }
   }
-  VBO vbo;
+  VBO vbo = VBO();
   vbo.colors = colors;
   vbo.indices = indices;
   vbo.vertices = vertices;
+  //vbo.modelMatrix = vbo.viewMatrix = glm::mat4();
+    for (auto &it: vbo.indices)
+  {
+    std::cout << it << " ";
+  }
+  std::cout << std::endl;
+    for (auto &it: vbo.vertices)
+  {
+    std::cout << it << " ";
+  }
+  std::cout << std::endl;
+    for (auto &it: vbo.colors)
+  {
+    std::cout << it << " ";
+  }
+  std::cout << std::endl;
+
   vbo.loadToGpu();
   vbos.push_back(vbo);
 }
@@ -206,6 +223,11 @@ void Renderer::render(float time)
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
 
   for (auto &it: vbos) {
+    it.modelMatrix = glm::rotate(
+        vbos[0].modelMatrix,
+        1.f*time,
+        glm::vec3( 0.0f, 0.0f, 0.01 )
+      );
     glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
     it.draw();
   }
