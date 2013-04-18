@@ -3,6 +3,7 @@ OpenGL project focusing on 4.x specification.
 
 Targets
 -------
+* Getting used to OpenGL development
 * Experiment with multithreading in various tasks and study the effects of applying it.
 * Physics! Very far off target.
 * Machine Learning! Same as above. You got to have dreams, right?
@@ -12,11 +13,11 @@ Features
 --------
 * Can draw a multicolored and rotating cube.
 * Works on Win/Linux!
-* Ability to hack it in your favorite editor {project files for Visual Studio 2012 and sublime text2 with sublimeclang} 
+* Ability to hack it in your favourite editor {project files for Visual Studio 2012 and sublime text2 with sublimeclang} 
 
 Controls
 --------
-* Movement with wasd or arrow keys, and look with mouse. 
+* Movement with 'wasd' or arrow keys, and look with mouse. 
 * '1' to grab mouse.
 * '2' to reload shaders.
 * '3' to toggle fps limit. 
