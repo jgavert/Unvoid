@@ -21,11 +21,15 @@
 #include <glm/gtc/type_ptr.hpp>
 #endif
 
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <sstream>
+#include <vector>
 
 #include "window.h"
 #include "shaders.h"
 #include "vbo.h"
-#include <vector>
 
 class Renderer {
 public:
@@ -36,6 +40,7 @@ public:
   void lookAt(float, float, float, float, float, float);
   long long getFrames();
   void reloadShaders();
+  void loadObject(std::string);
 private:
   int CurrentWidth;
   int CurrentHeight;

@@ -68,6 +68,22 @@ void look(Renderer& render, Controller& input, float speedMod)
   render.lookAt(x, y, z, x+tx, y+ty, z+tz);
 }
 
+std::string getBoxData() {
+  std::string objectString = "";
+  std::ifstream objectFile;
+  objectFile.open("data/box.uo");
+  while(!objectFile.eof())
+  {
+    std::string tempholder;
+    getline(objectFile, tempholder);
+    objectString += tempholder + " ";
+    //std::cout << tempholder << std::endl;
+  }
+  objectFile.close();
+
+  return objectString;
+}
+
 int main(int argc, char *argv[])
 {
   auto fpslimit = std::chrono::nanoseconds(FPSLIMIT);
@@ -75,7 +91,11 @@ int main(int argc, char *argv[])
   Window window;
   Renderer render(window);
   Controller input;
+  std::cout << "initializing\n";
   render.initialize();
+  std::cout << "loading objects...\n";
+  std::string boxData = getBoxData();
+  render.loadObject(boxData);
   auto timing1 = std::chrono::high_resolution_clock::now();
   std::cout << "Initialisation took " << std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() << "ms." << std::endl;
   timing0 = timing1;

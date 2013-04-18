@@ -4,11 +4,6 @@
  *
  * Created on November 28, 2011, 1:15 PM
  */
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <sstream>
-
 #ifdef _WIN32
 #include <GL\glew.h>
 #else
@@ -79,11 +74,75 @@ void Renderer::initialize()
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
 
-  vbos.push_back(VBO());
-  vbos[0].loadToGpu();
+  //vbos.push_back(VBO());
+  //vbos[0].loadToGpu();
 }
 
+void Renderer::loadObject(std::string unparsedData){
+  std::string buf; // Have a buffer string
+  std::stringstream ss(unparsedData); // Insert the string into a stream
 
+  std::vector<std::string> tokens; // Create vector to hold our words
+
+  while (ss >> buf) {
+    tokens.push_back(buf);
+  }
+
+  //std::cout << objectString << std::endl;
+  //std::cout << "" << std::endl;
+  //std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
+  //std::cout << "" << std::endl;
+  std::vector<GLuint> indices;
+  std::vector<float> vertices, colors;
+  int itemCount = 3;
+  int currentChoice = 0;
+  bool end = false;
+
+  for (auto &it: tokens){
+    if (it == "ORDER") {
+      currentChoice = 1;
+      continue;
+    }
+    else if (it == "VERTICES") {
+      currentChoice = 2;
+      continue;
+    }
+    else if (it == "COLORS") {
+      currentChoice = 3;
+      continue;
+    }
+    else if (it == "END") {
+      currentChoice = 0;
+      itemCount--;
+      if (itemCount <= 0)
+        end = true;
+      else
+        continue;
+    }
+    if (end)
+      break;
+
+    switch(currentChoice) {
+      case 1:
+        indices.push_back(static_cast<GLuint>(std::atoi(it.c_str())));
+        break;
+      case 2:
+        vertices.push_back(static_cast<float>(std::atof(it.c_str())));
+        break;
+      case 3:
+        colors.push_back(static_cast<float>(std::atof(it.c_str())));
+      default:
+        break;
+    }
+  }
+  VBO vbo;
+  vbo.colors = colors;
+  vbo.indices = indices;
+  vbo.vertices = vertices;
+
+  vbos.push_back(vbo);
+  vbos.back().loadToGpu();
+}
 
 void Renderer::DestroyVBOs()
 {
@@ -142,19 +201,7 @@ void Renderer::render(float time)
 
   glUniform1fv(timeGLP, 1, &timeGLV);
 
-/*
-  vbos[0].modelMatrix = glm::rotate(
-        vbos[0].modelMatrix,
-        1.f*time,
-        glm::vec3( 0.0f, 0.0f, 0.01 )
-      );
-  glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
-  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
-  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-  vbos[0].draw();
-*/
 
-  //glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
 
@@ -175,8 +222,4 @@ void Renderer::render(float time)
 long long Renderer::getFrames()
 {
   return FrameCount;
-
-
-  //glm::mat3 asd(glm::vec3(1,0,0), glm::vec3(0,1,0), glm::vec3(0,0,1));
-  //float* qsd = glm::value_ptr(asd);
 }

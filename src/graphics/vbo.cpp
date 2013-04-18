@@ -40,8 +40,7 @@ VBO::~VBO() {
 	glDeleteVertexArrays( 1, &vaoId );
 }
 
-void VBO::loadToGpu()
-{
+void VBO::loadToGpu() {
   GLenum ErrorCheckValue = glGetError();
   glGenVertexArrays(1, &vaoId);
   glBindVertexArray(vaoId);
@@ -65,6 +64,7 @@ void VBO::loadToGpu()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId); // for indices
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof( GLuint ) * indices.size(), indices.data(), GL_STATIC_DRAW );
   std::cout << "indices size: " << indices.size() << std::endl;
+
   ErrorCheckValue = glGetError();
   if (ErrorCheckValue != GL_NO_ERROR)
   {
@@ -73,8 +73,7 @@ void VBO::loadToGpu()
   }
 }
 
-void VBO::draw()
-{
+void VBO::draw() {
 	glBindVertexArray(vaoId);
 	// bind VBOs for vertex array and index array
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);         // for vertex coordinates
@@ -82,8 +81,7 @@ void VBO::draw()
 	glDrawElements( GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0 );
 }
 
-glm::mat4 VBO::getModelMatrix()
-{
+glm::mat4 VBO::getModelMatrix() {
   return modelMatrix;
 }
 
