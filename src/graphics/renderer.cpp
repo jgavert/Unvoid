@@ -4,11 +4,6 @@
  *
  * Created on November 28, 2011, 1:15 PM
  */
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <sstream>
-
 #ifdef _WIN32
 #include <GL\glew.h>
 #else
@@ -79,11 +74,74 @@ void Renderer::initialize()
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
 
-  vbos.push_back(VBO());
-  vbos[0].loadToGpu();
+  //vbos.push_back(VBO());
+  //vbos[0].loadToGpu();
 }
 
+void Renderer::loadObject(std::string unparsedData){
+  std::string buf; // Have a buffer string
+  std::stringstream ss(unparsedData); // Insert the string into a stream
 
+  std::vector<std::string> tokens; // Create vector to hold our words
+
+  while (ss >> buf) {
+    tokens.push_back(buf);
+  }
+
+  //std::cout << objectString << std::endl;
+  //std::cout << "" << std::endl;
+  //std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
+  //std::cout << "" << std::endl;
+  std::vector<GLuint> indices;
+  std::vector<float> vertices, colors;
+  int itemCount = 3;
+  int currentChoice = 0;
+  bool end = false;
+
+  for (auto &it: tokens){
+    if (it == "ORDER") {
+      currentChoice = 1;
+      continue;
+    }
+    else if (it == "VERTICES") {
+      currentChoice = 2;
+      continue;
+    }
+    else if (it == "COLORS") {
+      currentChoice = 3;
+      continue;
+    }
+    else if (it == "END") {
+      currentChoice = 0;
+      itemCount--;
+      if (itemCount <= 0)
+        end = true;
+      else
+        continue;
+    }
+    if (end)
+      break;
+
+    switch(currentChoice) {
+      case 1:
+        indices.push_back(std::atoi(it.c_str()));
+        break;
+      case 2:
+        vertices.push_back(std::atof(it.c_str()));
+        break;
+      case 3:
+        colors.push_back(std::atof(it.c_str()));
+      default:
+        break;
+    }
+  }
+  VBO vbo;
+  vbo.colors = colors;
+  vbo.indices = indices;
+  vbo.vertices = vertices;
+  vbo.loadToGpu();
+  vbos.push_back(vbo);
+}
 
 void Renderer::DestroyVBOs()
 {
@@ -147,8 +205,11 @@ void Renderer::render(float time)
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
 
-  for (auto &it: vbos)
+  for (auto &it: vbos) {
+    glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
     it.draw();
+  }
+  //std::cout << vbos.size() << std::endl;
   
   glUseProgram(0);
 
