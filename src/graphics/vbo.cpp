@@ -1,16 +1,14 @@
 #include "vbo.h"
 #include <iostream>
-
-VBO::VBO():
-	indices{
+	GLuint indices[36] = {
     0,2,1, 0,3,2,
     4,3,0, 4,7,3,
     4,1,5, 4,0,1,
     3,6,2, 3,7,6,
     1,6,5, 1,2,6,
     7,5,6, 7,4,5
-	},
-  vertices{
+	};
+   float vertices[32] = {
    -1.0f, -1.0f,  1.0f, 1.0f,
    -1.0f,  1.0f,  1.0f, 1.0f,
     1.0f,  1.0f,  1.0f, 1.0f,
@@ -19,8 +17,8 @@ VBO::VBO():
    -1.0f,  1.0f, -1.0f, 1.0f,
     1.0f,  1.0f, -1.0f, 1.0f,
     1.0f, -1.0f, -1.0f, 1.0f
-  },
-  colors{
+  };
+  float colors[32] = {
     0.0f, 0.0f, 1.0f, 1.0f,
     1.0f, 0.0f, 0.0f, 1.0f,
     0.0f, 1.0f, 0.0f, 1.0f,
@@ -29,7 +27,8 @@ VBO::VBO():
     1.0f, 0.0f, 0.0f, 1.0f,
     1.0f, 0.0f, 1.0f, 1.0f,
     0.0f, 0.0f, 1.0f, 1.0f
-  }
+  };
+VBO::VBO()
 {
   modelMatrix = viewMatrix = glm::mat4();
 }
