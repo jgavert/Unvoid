@@ -142,6 +142,7 @@ void Renderer::render(float time)
 
   glUniform1fv(timeGLP, 1, &timeGLV);
 
+/*
   vbos[0].modelMatrix = glm::rotate(
         vbos[0].modelMatrix,
         1.f*time,
@@ -151,6 +152,21 @@ void Renderer::render(float time)
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
   vbos[0].draw();
+*/
+
+  //glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( vbos[0].modelMatrix ) );
+  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+
+  for (auto &it: vbos) {
+    it.modelMatrix = glm::rotate(
+        vbos[0].modelMatrix,
+        1.f*time,
+        glm::vec3( 0.0f, 0.0f, 0.01 )
+      );
+    glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
+    it.draw();
+  }
   glUseProgram(0);
 
   window.swap_buffers();
