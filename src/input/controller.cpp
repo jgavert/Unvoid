@@ -6,6 +6,8 @@ Controller::Controller(void) {
 	keys[0] = 1;
 	for (int i=1;i<20;i++)
 		keys[i] = keys[i-1] * 2;
+  for (int i=0;i<60;i++)
+    keysPressed[i] = false;
 }
 
 Controller::~Controller(void) {
@@ -13,6 +15,8 @@ Controller::~Controller(void) {
 
 void Controller::update() {
 	SDL_Event event;
+  //for (int i=0;i<60;i++)
+    //keysPressed[i] = false;
 
   //SDL_GetMouseState(&mouse[0], &mouse[1]);
   SDL_GetRelativeMouseState(&mouse[0], &mouse[1]);
@@ -49,26 +53,24 @@ void Controller::handleMouseMotionEvent(SDL_Event event)
   mouse[0] = event.motion.xrel;
   mouse[1] = event.motion.yrel;
   //std::cout << "mouse x: " << x << std::endl;
-
-
 }
 
 void Controller::handleKeyDownEvent(SDL_Event keyevent) {
 	switch(keyevent.key.keysym.sym){
     case SDLK_ESCAPE:
-    	keyboard |= 1;
+    	keyboard |= keys[ESC];
       break;
     case SDLK_UP:
-      keyboard |= 2;
+      keyboard |= keys[UP];
       break;
     case SDLK_DOWN:
-      keyboard |= 4;
+      keyboard |= keys[DOWN];
       break;
     case SDLK_LEFT:
-      keyboard |= 8;
+      keyboard |= keys[LEFT];
       break;
     case SDLK_RIGHT:
-      keyboard |= 16;
+      keyboard |= keys[RIGHT];
       break;
     case SDLK_w:
       keyboard |= 2;
@@ -98,19 +100,19 @@ void Controller::handleKeyDownEvent(SDL_Event keyevent) {
 void Controller::handleKeyUpEvent(SDL_Event keyevent) {
 	switch(keyevent.key.keysym.sym){
     case SDLK_ESCAPE:
-    	keyboard &= (~1);
+    	keyboard &= (~keys[ESC]);
       break;
     case SDLK_UP:
-      keyboard &= (~2);
+      keyboard &= (~keys[UP]);
       break;
     case SDLK_DOWN:
-      keyboard &= (~4);
+      keyboard &= (~keys[DOWN]);
       break;
     case SDLK_LEFT:
-      keyboard &= (~8);
+      keyboard &= (~keys[LEFT]);
       break;
     case SDLK_RIGHT:
-      keyboard &= (~16);
+      keyboard &= (~keys[RIGHT]);
       break;
     case SDLK_w:
       keyboard &= (~2);
@@ -140,6 +142,20 @@ void Controller::handleKeyUpEvent(SDL_Event keyevent) {
 bool Controller::getKeyState(Key key)
 {
 	return (keyboard & keys[key]) != 0;
+}
+
+bool Controller::getKeyOnce(Key key)
+{
+  if (getKeyState(key)){
+    if (!keysPressed[key]) {
+      keysPressed[key] = true;
+      return true;
+    }
+  }
+  else {
+   keysPressed[key] = false;
+  }
+  return false;
 }
 
 int* Controller::getRelativeMouseState()

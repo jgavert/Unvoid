@@ -38,8 +38,6 @@ std::string Shaders::parseShaderForComments(std::string unparsed)
         i+=1;
         continue;
       }
-
-
     if (unparsed[i] == '*')
       if (unparsed[i+1] == '/'){
         start = false;
@@ -62,76 +60,98 @@ void Shaders::loadShaders(void)
   vertex = readShaderFile("shaders/simple.vertex");
   fragment = readShaderFile("shaders/simple.fragment");
   compute = readShaderFile("shaders/simple.compute");
-  std::cout << compute << std::endl;
+}
+
+void Shaders::checkShaderCompileStatus(GLint ShaderID, std::string ShaderName)
+{
+  int rvalue;
+  glGetShaderiv(ShaderID, GL_COMPILE_STATUS, &rvalue);
+  if (!rvalue) {
+	  std::cerr << "Error in compiling " << ShaderName << " shader." << std::endl;
+    GLsizei length;
+    glGetShaderiv(ShaderID, GL_INFO_LOG_LENGTH, &length);
+    GLchar* log = (GLchar*)malloc(sizeof(GLchar)*length);
+	  glGetShaderInfoLog(ShaderID, length, &length, log);
+	  std::cerr << "Compiler log:" << std::endl << log << std::endl;
+  } 
+}
+
+void Shaders::checkProgramLinkStatus(GLint ProgramID, std::string ProgramName)
+{
+  int rvalue;
+  glGetProgramiv(ProgramID, GL_LINK_STATUS, &rvalue);
+  if (!rvalue) {
+	  std::cerr << "Error in linking " << ProgramName << " program." << std::endl;
+    GLsizei length;
+    glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &length);
+    GLchar* log = (GLchar*)malloc(sizeof(GLchar)*length);
+	  glGetProgramInfoLog(ProgramID, length, &length, log);
+	  std::cerr << "Compiler log:" << std::endl << log << std::endl;
+  } 
+}
+
+void Shaders::checkForGLError(std::string info)
+{
+  GLenum ErrorCheckValue = glGetError();
+  if (ErrorCheckValue != GL_NO_ERROR)
+  {
+    std::cerr << "GL_ERROR \"" << info << "\":" << gluErrorString(ErrorCheckValue) << std::endl;
+    //exit(-1);
+  }
 }
 
 GLint Shaders::createShaders(void)
 {
 	glUseProgram(0);
-  const GLchar *VertexShader = vertex.c_str();
-  const GLchar *FragmentShader = fragment.c_str();
-  const GLchar *ComputeShader = compute.c_str();
-  GLenum ErrorCheckValue = glGetError();
+  checkForGLError("What!?");
+  const char *VertexShader = vertex.c_str();
+  const char *FragmentShader = fragment.c_str();
+  const char *ComputeShader = compute.c_str();
 
   VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(VertexShaderId, 1, &VertexShader, NULL);
-  glCompileShader(VertexShaderId);
+  checkForGLError("Creating VertexShader");
 
- //did this fail
-  int status;
-  glGetShaderiv(VertexShaderId,  GL_COMPILE_STATUS, &status);
-  int asdfg = 0;
-  glGetShaderiv(VertexShaderId, GL_INFO_LOG_LENGTH, &asdfg);
-  char* infoLog = (char*)malloc(sizeof(char)*1000);
-  glGetShaderInfoLog(VertexShaderId, asdfg, &asdfg, infoLog);
-    /*glGetShader(shaderID, GL_INFO_LOG_LENGTH, length); // length of log, needed for reading it back
-      glGetShaderInfoLog(shaderID, length, infoLog); // read back info log*/
+  int length =  vertex.size();
+  glShaderSource(VertexShaderId, 1, &VertexShader, &length);
+  glCompileShader(VertexShaderId);
+  checkShaderCompileStatus(VertexShaderId, "Vertex");
+
   FragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(FragmentShaderId, 1, &FragmentShader, NULL);
+  checkForGLError("Creating FragmentShader");
+
+  length =  fragment.size();
+  glShaderSource(FragmentShaderId, 1, &FragmentShader, &length);
   glCompileShader(FragmentShaderId);
+  checkShaderCompileStatus(FragmentShaderId, "Fragment");
 
   ProgramId = glCreateProgram();
+  checkForGLError("Creating Program");
+
   glAttachShader(ProgramId, VertexShaderId);
   glAttachShader(ProgramId, FragmentShaderId);
   glLinkProgram(ProgramId);
-  //glUseProgram(ProgramId);
+  checkForGLError("Linking Program Basic");
+  checkProgramLinkStatus(ProgramId, "Basic");
 
-  ErrorCheckValue = glGetError();
-  if (ErrorCheckValue != GL_NO_ERROR)
-  {
-    std::cerr << "ERROR6: Could not create the shaders: " << gluErrorString(ErrorCheckValue) << std::endl;
-    exit(-1);
-  }
 
   //computeshader stuff --------------------------------------------------
-  ComProgramId = glCreateProgram();
+
   ComputeShaderId = glCreateShader(GL_COMPUTE_SHADER);
+  checkForGLError("Creating ComputeShader");
 
-  glShaderSource(ComputeShaderId, 2, &ComputeShader, NULL);
-glCompileShader(ComputeShaderId);
-int rvalue;
-glGetShaderiv(ComputeShaderId, GL_COMPILE_STATUS, &rvalue);
-if (!rvalue) {
-	fprintf(stderr, "Error in compiling the compute shader\n");
-	GLchar log[10240];
-	GLsizei length;
-	glGetShaderInfoLog(ComputeShaderId, 10239, &length, log);
-	fprintf(stderr, "Compiler log:\n%s\n", log);
-}
+  length =  compute.size();
+  glShaderSource(ComputeShaderId, 1, &ComputeShader, &length);
+  glCompileShader(ComputeShaderId);
+  checkShaderCompileStatus(ComputeShaderId, "Compute");
 
-glAttachShader(ComProgramId, ComputeShaderId);
+  ComProgramId = glCreateProgram();
+  checkForGLError("Creating ComputeShaderProgram");
 
-glLinkProgram(ComProgramId);
-glGetProgramiv(ComProgramId, GL_LINK_STATUS, &rvalue);
-if (!rvalue) {
-	fprintf(stderr, "Error in linking compute shader program\n");
-	GLchar log[10240];
-	GLsizei length;
-	glGetProgramInfoLog(ComProgramId, 10239, &length, log);
-	fprintf(stderr, "Linker log:\n%s\n", log);
-}
-std::cout << ComProgramId << std::endl;
-std::cout << ProgramId << std::endl;
+  glAttachShader(ComProgramId, ComputeShaderId);
+  glLinkProgram(ComProgramId);
+  checkForGLError("Linking ComProgramId");
+  checkProgramLinkStatus(ProgramId, "ComProgramId");
+
 //--------------------------------------------------------------------
 
   return ProgramId;
@@ -149,14 +169,16 @@ void Shaders::reload()
 
   glShaderSource(VertexShaderId, 1, &VertexShader, NULL);
   glCompileShader(VertexShaderId);
+  checkShaderCompileStatus(VertexShaderId, "VertexShaderId");
 
   glShaderSource(FragmentShaderId, 1, &FragmentShader, NULL);
   glCompileShader(FragmentShaderId);
+  checkShaderCompileStatus(FragmentShaderId, "FragmentShaderId");
 
   glAttachShader(ProgramId, VertexShaderId);
   glAttachShader(ProgramId, FragmentShaderId);
   glLinkProgram(ProgramId);
-  glUseProgram(ProgramId);
+  checkProgramLinkStatus(ProgramId, "ComProgramId");
 }
 
 void Shaders::destroyShaders(void)

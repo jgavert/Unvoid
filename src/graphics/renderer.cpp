@@ -27,6 +27,16 @@ Renderer::Renderer(Window& w):
 Renderer::~Renderer() {
 }
 
+void checkForGLError(std::string info)
+{
+  GLenum ErrorCheckValue = glGetError();
+  if (ErrorCheckValue != GL_NO_ERROR)
+  {
+    std::cerr << "GL_ERROR \"" << info << "\":" << gluErrorString(ErrorCheckValue) << std::endl;
+    //exit(-1);
+  }
+}
+
 void Renderer::initialize()
 {
   GLenum GlewInitResult;
@@ -38,6 +48,7 @@ void Renderer::initialize()
     std::cerr << "ERROR: %s" << glewGetErrorString(GlewInitResult) << std::endl << std::endl;
     exit(EXIT_FAILURE);
   }
+  
   int OpenGLVersion[2];
   //SDL_GL_SetAttribute(GL_CONTEXT_, int value)
   glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
@@ -73,9 +84,6 @@ void Renderer::initialize()
 
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-
-  //vbos.push_back(VBO());
-  //vbos[0].loadToGpu();
 }
 
 void Renderer::loadObject(std::string unparsedData){

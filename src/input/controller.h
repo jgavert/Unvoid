@@ -23,8 +23,10 @@ public:
 	void handleKeyUpEvent(SDL_Event keyevent);
 	bool getKeyState(Key key);
 	int* getRelativeMouseState();
+  bool getKeyOnce(Key key);
 private:
-	int keys[100];
+	int keys[60];
+  bool keysPressed[60];
 	bool quit;
 	int keyboard;
 	int mouse[2];

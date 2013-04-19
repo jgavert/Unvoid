@@ -27,6 +27,9 @@ public:
 private:
   std::string parseShaderForComments(std::string);
   std::string readShaderFile(std::string);
+  void checkProgramLinkStatus(GLint, std::string);
+  void checkShaderCompileStatus(GLint, std::string);
+  void checkForGLError(std::string);
   std::string vertex;
   std::string fragment;
   std::string compute;

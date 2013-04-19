@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
   timing0 = timing1;
   auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
-  bool flip = true, clicked = false, clicked2 = false, clicked3 = false, limit = true;
+  bool flip = true,limit = true;
   auto timing3 = std::chrono::high_resolution_clock::now();
 
   while(!input.hasQuit()) {
@@ -110,52 +110,31 @@ int main(int argc, char *argv[])
 
     //TODO: this is horrible, do something about it...
     // Enable/Disable keygrab
-    if (input.getKeyState(K1))
+    if (input.getKeyOnce(K1))
     {
-      if (!clicked)
+      if (flip)
       {
-        if (flip)
-        {
-          window.enable_grab();
-          flip = false;
-          capturedMouse = true;
-        }
-        else{
-          window.disable_grab();
-          capturedMouse = false;
-          flip = true;
-        }
-        clicked = true;
+        window.enable_grab();
+        flip = false;
+        capturedMouse = true;
       }
-    }
-    else {
-      clicked = false;
+      else{
+        window.disable_grab();
+        capturedMouse = false;
+        flip = true;
+      }
     }
 
-    if (input.getKeyState(K2))
+    if (input.getKeyOnce(K2))
     {
-      if (!clicked2)
-      {
-        std::cout << "Reloading shaders..." << std::endl;
-        render.reloadShaders();
-        clicked2 = true;
-      }
-    }
-    else {
-      clicked2 = false;
+      std::cout << "Reloading shaders..." << std::endl;
+      render.reloadShaders();
     }
 
-    if (input.getKeyState(K3))
+    if (input.getKeyOnce(K3))
     {
-      if (!clicked3)
-      {
-        limit = limit ? false : true;
-        std::cout << "limit " << limit << std::endl;
-        clicked3 = true;
-      }
-    }
-    else {
-      clicked3 = false;
+      limit = limit ? false : true;
+      std::cout << "fpslimit " << (limit ? "on" : "off") << std::endl;
     }
 
     // grab ends
@@ -166,7 +145,7 @@ int main(int argc, char *argv[])
     if (std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() > 5000) {
       auto asd = render.getFrames();
       auto frames = asd - fbefore;
-      std::cout << "fps " << (frames/5) << " per second"<< std::endl;
+      //std::cout << "fps " << (frames/5) << " per second"<< std::endl;
       timing0 = timing1;
       fbefore = asd;
     }

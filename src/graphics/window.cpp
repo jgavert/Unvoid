@@ -10,8 +10,15 @@
 #include <SDL2/SDL.h>
 #endif
 
+#ifdef _WIN32
+#include <GL\glew.h>
+#else
+#include <GL/glew.h>
+#endif
+
 #include <iostream>
 #include <vector>
+#include <string>
 #include <fstream>
 #include <sstream>
 #include <cassert>
@@ -19,6 +26,16 @@
 #include <stdexcept>
 
 using namespace std;
+
+void checkForGLError2(std::string info)
+{
+  GLenum ErrorCheckValue = glGetError();
+  if (ErrorCheckValue != GL_NO_ERROR)
+  {
+    std::cerr << "GL_ERROR \"" << info << "\":" << gluErrorString(ErrorCheckValue) << std::endl;
+    //exit(-1);
+  }
+}
 
 Window::Window()
 {
@@ -50,9 +67,8 @@ void Window::createWindow(int width, int height)
 
 	width_  = width;
 	height_ = height;
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,4);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,3);
-
+  //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,4);
+  //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,2);
 	mainwindow = SDL_CreateWindow("woot", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width_, height_, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if(!mainwindow)
 	{
