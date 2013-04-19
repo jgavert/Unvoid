@@ -51,7 +51,7 @@ void Window::createWindow(int width, int height)
 	width_  = width;
 	height_ = height;
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,4);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,3);
 
 	mainwindow = SDL_CreateWindow("woot", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width_, height_, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if(!mainwindow)

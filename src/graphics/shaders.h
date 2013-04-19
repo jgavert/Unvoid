@@ -23,12 +23,13 @@ public:
   GLint createShaders();
   void reload();
   void destroyShaders();
-  GLuint VertexShaderId, FragmentShaderId, ProgramId;
+  GLuint VertexShaderId, FragmentShaderId, ProgramId, ComProgramId, ComputeShaderId;
 private:
   std::string parseShaderForComments(std::string);
   std::string readShaderFile(std::string);
   std::string vertex;
   std::string fragment;
+  std::string compute;
   std::vector<std::string> shaderSources;
   std::vector<GLint> shaders;
   std::vector<GLint> programs;

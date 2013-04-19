@@ -57,22 +57,20 @@ std::string Shaders::parseShaderForComments(std::string unparsed)
 void Shaders::loadShaders(void)
 {
   //debug for windows file management
-  /*std::ofstream myfile("example.txt");
-  if (myfile.is_open())
-  {
-    myfile << "This is a line." << std::endl;
-    myfile << "This is another line." << std::endl;
-    myfile.close();
-  }*/
   //remove after clear
   //local directory is the one where you run the main from
   vertex = readShaderFile("shaders/simple.vertex");
   fragment = readShaderFile("shaders/simple.fragment");
+  compute = readShaderFile("shaders/simple.compute");
+  std::cout << compute << std::endl;
 }
+
 GLint Shaders::createShaders(void)
 {
+	glUseProgram(0);
   const GLchar *VertexShader = vertex.c_str();
   const GLchar *FragmentShader = fragment.c_str();
+  const GLchar *ComputeShader = compute.c_str();
   GLenum ErrorCheckValue = glGetError();
 
   VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
@@ -104,6 +102,38 @@ GLint Shaders::createShaders(void)
     std::cerr << "ERROR6: Could not create the shaders: " << gluErrorString(ErrorCheckValue) << std::endl;
     exit(-1);
   }
+
+  //computeshader stuff --------------------------------------------------
+  ComProgramId = glCreateProgram();
+  ComputeShaderId = glCreateShader(GL_COMPUTE_SHADER);
+
+  glShaderSource(ComputeShaderId, 2, &ComputeShader, NULL);
+glCompileShader(ComputeShaderId);
+int rvalue;
+glGetShaderiv(ComputeShaderId, GL_COMPILE_STATUS, &rvalue);
+if (!rvalue) {
+	fprintf(stderr, "Error in compiling the compute shader\n");
+	GLchar log[10240];
+	GLsizei length;
+	glGetShaderInfoLog(ComputeShaderId, 10239, &length, log);
+	fprintf(stderr, "Compiler log:\n%s\n", log);
+}
+
+glAttachShader(ComProgramId, ComputeShaderId);
+
+glLinkProgram(ComProgramId);
+glGetProgramiv(ComProgramId, GL_LINK_STATUS, &rvalue);
+if (!rvalue) {
+	fprintf(stderr, "Error in linking compute shader program\n");
+	GLchar log[10240];
+	GLsizei length;
+	glGetProgramInfoLog(ComProgramId, 10239, &length, log);
+	fprintf(stderr, "Linker log:\n%s\n", log);
+}
+std::cout << ComProgramId << std::endl;
+std::cout << ProgramId << std::endl;
+//--------------------------------------------------------------------
+
   return ProgramId;
 }
 
