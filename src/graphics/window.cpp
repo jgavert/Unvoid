@@ -88,10 +88,16 @@ size_t Window::height() const
 	return height_;
 }
 
-/*void Window::toggle_fullscreen() const
+void Window::toggle_fullscreen()
 {
-	SDL_SetWindowFullscreen(mainwindow, SDL_bool);
-}*/
+  if (fullscreen) {
+    SDL_SetWindowFullscreen(mainwindow, SDL_FALSE);
+    fullscreen = false;
+  } else {
+    SDL_SetWindowFullscreen(mainwindow, SDL_TRUE);
+    fullscreen = true;
+  }
+}
 
 void Window::swap_buffers() const
 {

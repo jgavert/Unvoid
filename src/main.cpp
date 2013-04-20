@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
   timing0 = timing1;
   auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
-  bool flip = true,limit = true, particlesEnabled = true;
+  bool flip = true,limit = true, particlesEnabled = false;
   auto timing3 = std::chrono::high_resolution_clock::now();
 
   while(!input.hasQuit()) {
@@ -132,12 +132,15 @@ int main(int argc, char *argv[])
       particlesEnabled = particlesEnabled ? false : true;
       std::cout << "particles " << (particlesEnabled ? "on" : "off") << std::endl;
     }
+    if (input.getKeyOnce(K5)) {
+      window.toggle_fullscreen();
+    }
 
     timing1 = std::chrono::high_resolution_clock::now();
     if (std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() > 5000) {
       auto asd = render.getFrames();
       auto frames = asd - fbefore;
-      //std::cout << "fps " << (frames/5) << " per second"<< std::endl;
+      std::cout << "fps " << (frames/5) << " per second"<< std::endl;
       timing0 = timing1;
       fbefore = asd;
     }

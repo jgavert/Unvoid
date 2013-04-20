@@ -1,6 +1,6 @@
 #include "particleManager.h"
 #include <random>
-#define WORK_GROUP_SIZE 12
+#define WORK_GROUP_SIZE 254
 
 ParticleManager::ParticleManager()
 {
@@ -36,8 +36,8 @@ void ParticleManager::Initialize(int computeProgram)
 
   std::tr1::mt19937 eng;
   std::tr1::uniform_real_distribution<float> dist(-10.0f,10.0f);
-  std::tr1::uniform_real_distribution<float> dist2(0.0f,0.1f);
-  std::tr1::uniform_real_distribution<float> dist3(10.f,50.f);
+  std::tr1::uniform_real_distribution<float> dist2(0.0f,0.005f);
+  std::tr1::uniform_real_distribution<float> dist3(500.f,1000.f);
 
   for(int i = 0; i < numParticles; ++i){
     particles[i].currPosition = glm::vec4(0.f,0.f,0.f,1.f);
@@ -60,7 +60,7 @@ void ParticleManager::Simulate(float time, glm::vec4 targetPos)
   glUniform1fv(uniTimeDiff, 1, &time);
   glUniform1ui(uniParticleCount, numParticles);
 
-  glDispatchCompute((numParticles/WORK_GROUP_SIZE)+1, 1, 1);
+  glDispatchCompute((numParticles/WORK_GROUP_SIZE), 1, 1);
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT);
 }
 

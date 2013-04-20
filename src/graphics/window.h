@@ -18,7 +18,7 @@ public:
 	size_t width() const;
 	size_t height() const;
 
-	//void toggle_fullscreen() const;
+	void toggle_fullscreen();
 	void swap_buffers() const;
 	/*void screenshot() const;*/
 
@@ -37,7 +37,7 @@ private:
 
 	SDL_Window *mainwindow;
 	SDL_GLContext drawContext;
-	bool grab;
+	bool grab, fullscreen;
 	//SDL_Surface* drawContext;
 };
 

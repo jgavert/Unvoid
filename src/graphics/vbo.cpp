@@ -43,14 +43,13 @@ void VBO::loadToGpu() {
     std::cerr << "ERROR: Could not create a VBO: " << gluErrorString(ErrorCheckValue) << std::endl;
     exit(-1);
   }
+  glBindVertexArray(0);
 }
 
 void VBO::draw() {
 	glBindVertexArray(vaoId);
-	// bind VBOs for vertex array and index array
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);         // for vertex coordinates
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId); // for indices
 	glDrawElements( GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0 );
+  glBindVertexArray(0);
 }
 
 glm::mat4 VBO::getModelMatrix() {

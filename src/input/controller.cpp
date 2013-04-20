@@ -93,6 +93,9 @@ void Controller::handleKeyDownEvent(SDL_Event keyevent) {
     case SDLK_1:
       keyboard |= keys[K1];
       break;
+    case SDLK_5:
+      keyboard |= keys[K5];
+      break;
     case SDLK_2:
       keyboard |= keys[K2];
     default:
@@ -128,6 +131,9 @@ void Controller::handleKeyUpEvent(SDL_Event keyevent) {
       break;
     case SDLK_d:
       keyboard &= (~16);
+      break;
+    case SDLK_5:
+      keyboard &= (~keys[K5]);
       break;
     case SDLK_4:
       keyboard &= (~keys[K4]);

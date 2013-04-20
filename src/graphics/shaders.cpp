@@ -57,9 +57,13 @@ void Shaders::loadShaders(void)
   //debug for windows file management
   //remove after clear
   //local directory is the one where you run the main from
+  shaderSources = std::vector<std::string>();
   vertex = readShaderFile("shaders/simple.vertex");
   fragment = readShaderFile("shaders/simple.fragment");
   compute = readShaderFile("shaders/simple.compute");
+  shaderSources.push_back(readShaderFile("shaders/compute.vertex"));
+  shaderSources.push_back(readShaderFile("shaders/compute.fragment"));
+
 }
 
 void Shaders::checkShaderCompileStatus(GLint ShaderID, std::string ShaderName)
@@ -102,6 +106,8 @@ void Shaders::checkForGLError(std::string info)
 
 GLint Shaders::createShaders(void)
 {
+  shaders = std::vector<GLint>();
+  programs = std::vector<GLint>();
 	glUseProgram(0);
   checkForGLError("What!?");
   const char *VertexShader = vertex.c_str();
@@ -130,6 +136,7 @@ GLint Shaders::createShaders(void)
   glAttachShader(ProgramId, VertexShaderId);
   glAttachShader(ProgramId, FragmentShaderId);
   glLinkProgram(ProgramId);
+  programs.push_back(ProgramId);
   checkForGLError("Linking Program Basic");
   checkProgramLinkStatus(ProgramId, "Basic");
 
@@ -149,8 +156,40 @@ GLint Shaders::createShaders(void)
 
   glAttachShader(ComProgramId, ComputeShaderId);
   glLinkProgram(ComProgramId);
+  programs.push_back(ComProgramId);
   checkForGLError("Linking ComProgramId");
   checkProgramLinkStatus(ProgramId, "ComProgramId");
+
+  //visualasation of particles
+  int compVertex = glCreateShader(GL_VERTEX_SHADER);
+  shaders.push_back(compVertex);
+  checkForGLError("Creating GL_VERTEX_SHADER");
+  int compFragment = glCreateShader(GL_FRAGMENT_SHADER);
+  shaders.push_back(compFragment);
+  checkForGLError("Creating GL_FRAGMENT_SHADER");
+
+  VertexShader = shaderSources.at(0).c_str();
+  FragmentShader = shaderSources.at(1).c_str();
+
+  length =  shaderSources.at(0).size();
+  glShaderSource(compVertex, 1, &VertexShader, &length);
+  glCompileShader(compVertex);
+  checkShaderCompileStatus(compVertex, "ComputeVertex");
+
+  length =  shaderSources.at(1).size();
+  glShaderSource(compFragment, 1, &FragmentShader, &length);
+  glCompileShader(compFragment);
+  checkShaderCompileStatus(compFragment, "ComputeFragment");
+
+  int computevisualprogram = glCreateProgram();
+  checkForGLError("Creating computevisualprogram");
+
+  glAttachShader(computevisualprogram, compVertex);
+  glAttachShader(computevisualprogram, compFragment);
+  glLinkProgram(computevisualprogram);
+  programs.push_back(computevisualprogram);
+  checkForGLError("Linking Program VisualCompute");
+  checkProgramLinkStatus(computevisualprogram, "VisualCompute");
 
 //--------------------------------------------------------------------
 
@@ -179,6 +218,30 @@ void Shaders::reload()
   glAttachShader(ProgramId, FragmentShaderId);
   glLinkProgram(ProgramId);
   checkProgramLinkStatus(ProgramId, "ComProgramId");
+
+  // particle shader reload
+    VertexShader = shaderSources.at(0).c_str();
+  FragmentShader = shaderSources.at(1).c_str();
+
+  glDetachShader(programs.at(2), shaders.at(0));
+  glDetachShader(programs.at(2), shaders.at(1));
+
+  int length =  shaderSources.at(0).size();
+  glShaderSource(shaders.at(0), 1, &VertexShader, &length);
+  glCompileShader(shaders.at(0));
+  checkShaderCompileStatus(shaders.at(0), "ComputeVertex");
+
+  length =  shaderSources.at(1).size();
+  glShaderSource(shaders.at(1), 1, &FragmentShader, &length);
+  glCompileShader(shaders.at(1));
+  checkShaderCompileStatus(shaders.at(1), "ComputeFragment");
+
+
+  glAttachShader(programs.at(2), shaders.at(0));
+  glAttachShader(programs.at(2), shaders.at(1));
+  glLinkProgram(programs.at(2));
+  checkForGLError("Linking Program VisualCompute");
+  checkProgramLinkStatus(programs.at(2), "VisualCompute");
 }
 
 void Shaders::destroyShaders(void)

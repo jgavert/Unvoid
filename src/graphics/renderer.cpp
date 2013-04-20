@@ -16,13 +16,13 @@
 Renderer::Renderer(Window& w):
 	window(w)
 {
-  CurrentWidth = 800;
-  CurrentHeight = 600;
+  CurrentWidth = 1280;
+  CurrentHeight = 720;
   WindowHandle = 0;
   timeGLV = 0.f;
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
-  particleManager = ParticleManager(100);
+  particleManager = ParticleManager(100000);
 }
 
 Renderer::~Renderer() {
@@ -69,7 +69,7 @@ void Renderer::initialize()
   timeGLP = glGetUniformLocation( shaderProgram, "time");
   resolutionGLP = glGetUniformLocation( shaderProgram, "resolution");
   cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
-  glm::vec2 res = glm::vec2(800.f,600.f);
+  glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
   glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
 
   projection = view = glm::mat4();
@@ -78,11 +78,15 @@ void Renderer::initialize()
     glm::vec3( 0.0f, 0.0f, 0.0f ), //minne katon
     glm::vec3( 0.0f, 0.0f, 1.0f )  //vektori ylöspäin kamerasta
   );
-  projection = glm::perspective( 45.0f, 800.0f / 600.0f, 1.0f, 100.0f );
+  projection = glm::perspective( 45.0f, static_cast<float>(CurrentWidth) / static_cast<float>(CurrentHeight), 0.01f, 100.0f );
 
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
 
+  compVisProjection = glGetUniformLocation(shaders.programs.at(2), "ProjectionMatrix");
+  compVisView = glGetUniformLocation(shaders.programs.at(2), "ViewMatrix");
+  compVisTime = glGetUniformLocation(shaders.programs.at(2), "time" );
+  compResolutionGLP = glGetUniformLocation(shaders.programs.at(2), "resolution");
   particleManager.Initialize(shaders.ComProgramId);
 }
 
@@ -148,8 +152,8 @@ void Renderer::loadObject(std::string unparsedData){
   vbo.indices = indices;
   vbo.vertices = vertices;
 
-  vbos.push_back(vbo);
-  vbos.back().loadToGpu();
+  //vbos.push_back(vbo);
+  //vbos.back().loadToGpu();
 }
 
 void Renderer::DestroyVBOs()
@@ -202,28 +206,28 @@ void Renderer::reloadShaders() {
 void Renderer::render(float time, bool pEnabled)
 {
   ++FrameCount;
-  timeGLV += 0.02f;
+  timeGLV += 0.02f*time;
 
   glClearColor(0.f, 0.f, 0.f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+  
   if (pEnabled){
-    particleManager.Simulate(time, glm::vec4(5.f,0.f,0.f,1.f));
-    glUseProgram(shaders.ProgramId);
+    particleManager.Simulate(time, glm::vec4(0.f,0.f,0.f,1.f));
+    glUseProgram(shaders.programs.at(2));
 
-    glUniform1fv(timeGLP, 1, &timeGLV);
-    glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
-    glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-    glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( glm::vec4(1.f,1.f,1.f,1.f) ) );
+    glUniform1fv(compVisTime, 1, &timeGLV);
+    glUniformMatrix4fv( compVisView, 1, GL_FALSE, glm::value_ptr( view ) );
+    glUniformMatrix4fv( compVisProjection, 1, GL_FALSE, glm::value_ptr( projection ) );
 
     glBindBuffer(GL_ARRAY_BUFFER, particleManager.getBufferID());
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)0);
     glEnableVertexAttribArray(0);
-    glEnableClientState(GL_VERTEX_ARRAY);
+    //glEnableClientState(GL_VERTEX_ARRAY);
     glDrawArrays(GL_POINTS, 0, particleManager.getParticleCount());
-    glDisableClientState(GL_VERTEX_ARRAY);
+    //glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
+  
   glUseProgram(shaders.ProgramId);
   glUniform1fv(timeGLP, 1, &timeGLV);
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
@@ -237,7 +241,8 @@ void Renderer::render(float time, bool pEnabled)
       );
     glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
     it.draw();
-  }*/
+  }
+  */
   
   glUseProgram(0);
 
