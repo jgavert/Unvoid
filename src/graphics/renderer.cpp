@@ -22,7 +22,7 @@ Renderer::Renderer(Window& w):
   timeGLV = 0.f;
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
-  particleManager = ParticleManager(100000);
+  particleManager = ParticleManager(300000);
 }
 
 Renderer::~Renderer() {
@@ -152,8 +152,8 @@ void Renderer::loadObject(std::string unparsedData){
   vbo.indices = indices;
   vbo.vertices = vertices;
 
-  //vbos.push_back(vbo);
-  //vbos.back().loadToGpu();
+  vbos.push_back(vbo);
+  vbos.back().loadToGpu();
 }
 
 void Renderer::DestroyVBOs()
@@ -232,7 +232,7 @@ void Renderer::render(float time, bool pEnabled)
   glUniform1fv(timeGLP, 1, &timeGLV);
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-  /*
+
   for (auto &it: vbos) {
     it.modelMatrix = glm::rotate(
         vbos[0].modelMatrix,
@@ -242,7 +242,7 @@ void Renderer::render(float time, bool pEnabled)
     glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
     it.draw();
   }
-  */
+
   
   glUseProgram(0);
 

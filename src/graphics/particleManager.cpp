@@ -21,9 +21,6 @@ ParticleManager::~ParticleManager()
 void ParticleManager::Initialize(int computeProgram)
 {
   computeProg = computeProgram;
-  //uniform vec4 originPoint;
-  //uniform float frameTimeDiff;
-  //uniform uint maxParticles;
   uniOriginPoint = glGetUniformLocation(computeProg, "originPoint");
   uniTimeDiff = glGetUniformLocation(computeProg, "frameTimeDiff");
   uniParticleCount = glGetUniformLocation(computeProg, "maxParticles");
