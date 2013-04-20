@@ -101,47 +101,39 @@ int main(int argc, char *argv[])
   timing0 = timing1;
   auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
-  bool flip = true,limit = true;
+  bool flip = true,limit = true, particlesEnabled = true;
   auto timing3 = std::chrono::high_resolution_clock::now();
 
   while(!input.hasQuit()) {
     timing2 = std::chrono::high_resolution_clock::now();
     input.update();
 
-    //TODO: this is horrible, do something about it...
-    // Enable/Disable keygrab
-    if (input.getKeyOnce(K1))
-    {
-      if (flip)
-      {
+    if (input.getKeyOnce(K1)) {
+      if (flip) {
         window.enable_grab();
         flip = false;
         capturedMouse = true;
-      }
-      else{
+      } else {
         window.disable_grab();
         capturedMouse = false;
         flip = true;
       }
     }
 
-    if (input.getKeyOnce(K2))
-    {
+    if (input.getKeyOnce(K2)) {
       std::cout << "Reloading shaders..." << std::endl;
       render.reloadShaders();
     }
-
-    if (input.getKeyOnce(K3))
-    {
+    if (input.getKeyOnce(K3)) {
       limit = limit ? false : true;
       std::cout << "fpslimit " << (limit ? "on" : "off") << std::endl;
     }
+    if (input.getKeyOnce(K4)) {
+      particlesEnabled = particlesEnabled ? false : true;
+      std::cout << "particles " << (particlesEnabled ? "on" : "off") << std::endl;
+    }
 
-    // grab ends
-
-    //look(render, input); //where to look at
     timing1 = std::chrono::high_resolution_clock::now();
-    //std::cout << timing[2]*1000 << std::endl;
     if (std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() > 5000) {
       auto asd = render.getFrames();
       auto frames = asd - fbefore;
@@ -151,7 +143,7 @@ int main(int argc, char *argv[])
     }
     long long currentframe  = std::chrono::duration_cast<std::chrono::nanoseconds>(timing1 - timing3).count();
     float speedMod = (float)currentframe / (float)FPSLIMIT;
-    render.render(speedMod); //renders the scene
+    render.render(speedMod, particlesEnabled); //renders the scene
     look(render, input, speedMod); //where to look at
     timing3 = timing1;
     timing1 = std::chrono::high_resolution_clock::now();

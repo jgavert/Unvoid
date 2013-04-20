@@ -45,6 +45,9 @@
     <ClCompile Include="..\src\graphics\vbo.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\graphics\particleManager.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\window.h">
@@ -60,6 +63,12 @@
       <Filter>Header Files\input</Filter>
     </ClInclude>
     <ClInclude Include="..\src\graphics\vbo.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\particle.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\particleManager.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

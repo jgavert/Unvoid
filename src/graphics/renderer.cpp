@@ -22,6 +22,7 @@ Renderer::Renderer(Window& w):
   timeGLV = 0.f;
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
+  particleManager = ParticleManager(100);
 }
 
 Renderer::~Renderer() {
@@ -48,12 +49,8 @@ void Renderer::initialize()
     std::cerr << "ERROR: %s" << glewGetErrorString(GlewInitResult) << std::endl << std::endl;
     exit(EXIT_FAILURE);
   }
-  
-  int OpenGLVersion[2];
   //SDL_GL_SetAttribute(GL_CONTEXT_, int value)
-  glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
-  glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
-  std::cout << "Using OpenGL " << OpenGLVersion[0] << "." << OpenGLVersion[1] << std::endl << std::endl;
+  std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
   glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
 
   glEnable( GL_DEPTH_TEST );
@@ -61,6 +58,7 @@ void Renderer::initialize()
   glEnable( GL_CULL_FACE);
   glCullFace(GL_BACK);
   glFrontFace(GL_CCW);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
   shaders.loadShaders();
   GLint shaderProgram = shaders.createShaders();
@@ -84,6 +82,8 @@ void Renderer::initialize()
 
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+
+  particleManager.Initialize(shaders.ComProgramId);
 }
 
 void Renderer::loadObject(std::string unparsedData){
@@ -199,20 +199,36 @@ void Renderer::reloadShaders() {
   cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
 }
 
-void Renderer::render(float time)
+void Renderer::render(float time, bool pEnabled)
 {
   ++FrameCount;
   timeGLV += 0.02f;
-  glUseProgram(shaders.ProgramId);
+
   glClearColor(0.f, 0.f, 0.f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  if (pEnabled){
+    particleManager.Simulate(time, glm::vec4(5.f,0.f,0.f,1.f));
+    glUseProgram(shaders.ProgramId);
+
+    glUniform1fv(timeGLP, 1, &timeGLV);
+    glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+    glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+    glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( glm::vec4(1.f,1.f,1.f,1.f) ) );
+
+    glBindBuffer(GL_ARRAY_BUFFER, particleManager.getBufferID());
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)0);
+    glEnableVertexAttribArray(0);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glDrawArrays(GL_POINTS, 0, particleManager.getParticleCount());
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+  }
+  glUseProgram(shaders.ProgramId);
   glUniform1fv(timeGLP, 1, &timeGLV);
-
-
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-
+  /*
   for (auto &it: vbos) {
     it.modelMatrix = glm::rotate(
         vbos[0].modelMatrix,
@@ -221,7 +237,8 @@ void Renderer::render(float time)
       );
     glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
     it.draw();
-  }
+  }*/
+  
   glUseProgram(0);
 
   window.swap_buffers();

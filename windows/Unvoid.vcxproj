@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\graphics\particleManager.cpp" />
     <ClCompile Include="..\src\graphics\renderer.cpp" />
     <ClCompile Include="..\src\Graphics\shaders.cpp" />
     <ClCompile Include="..\src\graphics\vbo.cpp" />
@@ -100,6 +101,8 @@
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\graphics\particle.h" />
+    <ClInclude Include="..\src\graphics\particleManager.h" />
     <ClInclude Include="..\src\graphics\renderer.h" />
     <ClInclude Include="..\src\Graphics\shaders.h" />
     <ClInclude Include="..\src\graphics\vbo.h" />

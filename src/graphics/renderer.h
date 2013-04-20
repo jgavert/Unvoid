@@ -30,13 +30,14 @@
 #include "window.h"
 #include "shaders.h"
 #include "vbo.h"
+#include "particleManager.h"
 
 class Renderer {
 public:
   Renderer(Window& window);
   ~Renderer();
   void initialize();
-  void render(float time);
+  void render(float time, bool pEnabled);
   void lookAt(float, float, float, float, float, float);
   long long getFrames();
   void reloadShaders();
@@ -46,6 +47,7 @@ private:
   int CurrentHeight;
   int WindowHandle;
 
+  ParticleManager particleManager;
   long long FrameCount;
   GLfloat timeGLV;
   Window& window;
