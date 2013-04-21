@@ -22,7 +22,7 @@ Renderer::Renderer(Window& w):
   timeGLV = 0.f;
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
-  particleManager = ParticleManager(300000);
+  particleManager = ParticleManager(500000);
 }
 
 Renderer::~Renderer() {

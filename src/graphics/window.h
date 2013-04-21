@@ -25,6 +25,7 @@ public:
 	void createWindow(int, int);
 	void enable_grab();
 	void disable_grab();
+  void toggle_vsync();
 /*
 	bool active() const;
 	void hide() const;*/
@@ -37,7 +38,7 @@ private:
 
 	SDL_Window *mainwindow;
 	SDL_GLContext drawContext;
-	bool grab, fullscreen;
+	bool grab, fullscreen, vsync;
 	//SDL_Surface* drawContext;
 };
 

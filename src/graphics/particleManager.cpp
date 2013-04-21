@@ -1,6 +1,6 @@
 #include "particleManager.h"
 #include <random>
-#define WORK_GROUP_SIZE 254
+#define WORK_GROUP_SIZE 128
 
 ParticleManager::ParticleManager()
 {
@@ -57,7 +57,7 @@ void ParticleManager::Simulate(float time, glm::vec4 targetPos)
   glUniform1fv(uniTimeDiff, 1, &time);
   glUniform1ui(uniParticleCount, numParticles);
 
-  glDispatchCompute((numParticles/WORK_GROUP_SIZE), 1, 1);
+  glDispatchCompute((numParticles/WORK_GROUP_SIZE)+1, 1, 1);
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT);
 }
 

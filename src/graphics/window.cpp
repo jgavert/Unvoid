@@ -69,6 +69,7 @@ void Window::createWindow(int width, int height)
 	height_ = height;
   //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,4);
   //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,2);
+  fullscreen = false;
 	mainwindow = SDL_CreateWindow("woot", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width_, height_, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	if(!mainwindow)
 	{
@@ -86,6 +87,16 @@ size_t Window::width() const
 size_t Window::height() const
 {
 	return height_;
+}
+
+void Window::toggle_vsync() {
+  if (!vsync) {
+    SDL_GL_SetSwapInterval(1); //probably doesnt work
+    vsync = true;
+  } else {
+    SDL_GL_SetSwapInterval(0);
+    vsync = false;
+  }
 }
 
 void Window::toggle_fullscreen()

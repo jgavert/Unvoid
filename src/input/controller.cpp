@@ -93,6 +93,12 @@ void Controller::handleKeyDownEvent(SDL_Event keyevent) {
     case SDLK_1:
       keyboard |= keys[K1];
       break;
+    case SDLK_7:
+      keyboard |= keys[K7];
+      break;
+    case SDLK_6:
+      keyboard |= keys[K6];
+      break;
     case SDLK_5:
       keyboard |= keys[K5];
       break;
@@ -131,6 +137,12 @@ void Controller::handleKeyUpEvent(SDL_Event keyevent) {
       break;
     case SDLK_d:
       keyboard &= (~16);
+      break;
+    case SDLK_7:
+      keyboard &= (~keys[K7]);
+      break;
+    case SDLK_6:
+      keyboard &= (~keys[K6]);
       break;
     case SDLK_5:
       keyboard &= (~keys[K5]);

@@ -21,6 +21,9 @@ Controls
 * '1' to grab mouse.
 * '2' to reload shaders.
 * '3' to toggle fps limit. 
+* '4' to toggle particles.
+* '5' to toggle fullscreen. (careful on linux(nvidia+cinerama) sets the mode for the first screen and wont revert)
+* '6' to toggle movement speed.
 
 Building tips
 -------------

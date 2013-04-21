@@ -18,7 +18,7 @@ float tx=0.f,ty=0.f,tz=0.f;
 float forward=0.f, strafe=0.f;
 float zx_a=0.f, y_a=0.f;
 int* mouse;
-const float SPD = 0.38f;
+float SPD = 0.4f;
 bool capturedMouse = false;
 
 void look(Renderer& render, Controller& input, float speedMod)
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
   timing0 = timing1;
   auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
-  bool flip = true,limit = true, particlesEnabled = false;
+  bool flip = true,limit = true, particlesEnabled = false, highspeed = true;
   auto timing3 = std::chrono::high_resolution_clock::now();
 
   while(!input.hasQuit()) {
@@ -134,6 +134,16 @@ int main(int argc, char *argv[])
     }
     if (input.getKeyOnce(K5)) {
       window.toggle_fullscreen();
+      std::cout << "Toggling fullscreen/windowed" << std::endl;
+    }
+    if (input.getKeyOnce(K6)) {
+      SPD = highspeed ? 0.025f : 0.4f;
+      highspeed = highspeed ? false : true;
+      std::cout << "Movement speed "<< SPD << std::endl;
+    }
+    if (input.getKeyOnce(K7)) {
+      window.toggle_vsync();
+      std::cout << "Toggling vsync" << std::endl;
     }
 
     timing1 = std::chrono::high_resolution_clock::now();
