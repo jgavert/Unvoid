@@ -34,7 +34,7 @@ void ParticleManager::Initialize(int computeProgram)
   std::mt19937 eng;
   std::uniform_real_distribution<float> dist(-10.0f,10.0f);
   std::uniform_real_distribution<float> dist2(0.0f,0.005f);
-  std::uniform_real_distribution<float> dist3(500.f,1000.f);
+  std::uniform_real_distribution<float> dist3(0.f,1000.f);
 
   for(int i = 0; i < numParticles; ++i){
     particles[i].currPosition = glm::vec4(0.f,0.f,0.f,1.f);

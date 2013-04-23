@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
   timing0 = timing1;
   auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
-  bool flip = true,limit = true, particlesEnabled = false, highspeed = true;
+  bool flip = true,limit = true, particlesEnabled = false, highspeed = true, fbo = true;
   auto timing3 = std::chrono::high_resolution_clock::now();
 
   while(!input.hasQuit()) {
@@ -142,8 +142,9 @@ int main(int argc, char *argv[])
       std::cout << "Movement speed "<< SPD << std::endl;
     }
     if (input.getKeyOnce(K7)) {
-      window.toggle_vsync();
-      std::cout << "Toggling vsync" << std::endl;
+      fbo = fbo ? false : true;
+      //window.toggle_vsync();
+      std::cout << "Toggling FSQuad/postprocessing fbo: " << (fbo ? "on" : "off") << std::endl;
     }
 
     timing1 = std::chrono::high_resolution_clock::now();
@@ -156,7 +157,7 @@ int main(int argc, char *argv[])
     }
     long long currentframe  = std::chrono::duration_cast<std::chrono::nanoseconds>(timing1 - timing3).count();
     float speedMod = (float)currentframe / (float)FPSLIMIT;
-    render.render(speedMod, particlesEnabled); //renders the scene
+    render.render(speedMod, particlesEnabled, fbo); //renders the scene
     look(render, input, speedMod); //where to look at
     timing3 = timing1;
     timing1 = std::chrono::high_resolution_clock::now();

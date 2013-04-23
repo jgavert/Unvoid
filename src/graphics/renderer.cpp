@@ -88,6 +88,9 @@ void Renderer::initialize()
   compVisTime = glGetUniformLocation(shaders.programs.at(2), "time" );
   compResolutionGLP = glGetUniformLocation(shaders.programs.at(2), "resolution");
   particleManager.Initialize(shaders.ComProgramId);
+
+  fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.programs.at(3));
+  fbo.loadToGpu();
 }
 
 void Renderer::loadObject(std::string unparsedData){
@@ -203,10 +206,14 @@ void Renderer::reloadShaders() {
   cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
 }
 
-void Renderer::render(float time, bool pEnabled)
+void Renderer::render(float time, bool pEnabled, bool fboEnabled)
 {
   ++FrameCount;
   timeGLV += 0.02f*time;
+
+  if (fboEnabled) {
+    fbo.drawToFBO();
+  }
 
   glClearColor(0.f, 0.f, 0.f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -243,7 +250,9 @@ void Renderer::render(float time, bool pEnabled)
     it.draw();
   }
 
-  
+  if (fboEnabled) {
+    fbo.drawFBO();
+  }
   glUseProgram(0);
 
   window.swap_buffers();

@@ -48,6 +48,9 @@
     <ClCompile Include="..\src\graphics\particleManager.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\graphics\fsquad.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\window.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\src\graphics\particleManager.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\fsquad.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

@@ -30,6 +30,7 @@
 #include "window.h"
 #include "shaders.h"
 #include "vbo.h"
+#include "fsquad.h"
 #include "particleManager.h"
 
 class Renderer {
@@ -37,7 +38,7 @@ public:
   Renderer(Window& window);
   ~Renderer();
   void initialize();
-  void render(float time, bool pEnabled);
+  void render(float time, bool pEnabled, bool);
   void lookAt(float, float, float, float, float, float);
   long long getFrames();
   void reloadShaders();
@@ -53,6 +54,7 @@ private:
   Window& window;
   Shaders shaders;
   glm::mat4 view, projection;
+  FSQuad fbo;
   GLint viewMatrix, projectionMatrix, modelMatrix, timeGLP, resolutionGLP, cameraPosGLP;
   GLint compVisProjection,compVisView, compVisTime,compResolutionGLP;
   //TODO: implement below
