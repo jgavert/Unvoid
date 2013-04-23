@@ -277,6 +277,34 @@ void Shaders::reload()
   glLinkProgram(programs.at(2));
   checkForGLError("Linking Program VisualCompute");
   checkProgramLinkStatus(programs.at(2), "VisualCompute");
+
+  // postprocess shader reload
+    VertexShader = shaderSources.at(2).c_str();
+  FragmentShader = shaderSources.at(3).c_str();
+
+  glDetachShader(programs.at(3), shaders.at(2));
+  glDetachShader(programs.at(3), shaders.at(3));
+
+  length =  shaderSources.at(2).size();
+  glShaderSource(shaders.at(2), 1, &VertexShader, &length);
+  glCompileShader(shaders.at(2));
+  checkShaderCompileStatus(shaders.at(2), "PostprocessVertex");
+
+  length =  shaderSources.at(3).size();
+  glShaderSource(shaders.at(3), 1, &FragmentShader, &length);
+  glCompileShader(shaders.at(3));
+  checkShaderCompileStatus(shaders.at(3), "PostprocessFragment");
+
+
+  int PostProcessProgram = glCreateProgram();
+  checkForGLError("Creating computevisualprogram");
+
+  glAttachShader(PostProcessProgram, shaders.at(2));
+  glAttachShader(PostProcessProgram, shaders.at(3));
+  glLinkProgram(PostProcessProgram);
+  programs.push_back(PostProcessProgram);
+  checkForGLError("Linking Program PostProcess");
+  checkProgramLinkStatus(PostProcessProgram, "PostProcess");
 }
 
 void Shaders::destroyShaders(void)
