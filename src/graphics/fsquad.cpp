@@ -80,10 +80,7 @@ void FSQuad::loadToGpu() {
   glBindFramebuffer(GL_FRAMEBUFFER, fbo);
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fbo_texture, 0);
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo_depth);
-  GLenum status;
-  if ((status = glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE) {
-    fprintf(stderr, "glCheckFramebufferStatus: error %p", status);
-  }
+
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   fbotextureUniLoc = glGetAttribLocation(shaderProgramId, "fbo_texture");

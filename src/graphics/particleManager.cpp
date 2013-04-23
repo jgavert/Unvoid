@@ -37,8 +37,10 @@ void ParticleManager::Initialize(int computeProgram)
   std::uniform_real_distribution<float> dist3(0.f,1000.f);
 
   for(int i = 0; i < numParticles; ++i){
-    particles[i].currPosition = glm::vec4(0.f,0.f,0.f,1.f);
-    particles[i].speedVector = glm::normalize(glm::vec4(dist(eng), dist(eng), dist(eng), 1.0f)) * dist2(eng);
+    particles[i].currPosition = glm::vec4(0.f,0.f,0.4f * i,0.2f);
+    particles[i].speedVector = glm::vec4();
+    //particles[i].speedVector = glm::normalize(glm::vec4(dist(eng), dist(eng), dist(eng), 1.0f)) * dist2(eng);
+    //particles[i].speedVector = glm::normalize(glm::vec4(0.f,0.f,0.f,1.f));
     particles[i].ttl = dist3(eng);
   }
 
@@ -59,6 +61,7 @@ void ParticleManager::Simulate(float time, glm::vec4 targetPos)
 
   glDispatchCompute((numParticles/WORK_GROUP_SIZE)+1, 1, 1);
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT);
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
 }
 
 GLuint ParticleManager::getBufferID()

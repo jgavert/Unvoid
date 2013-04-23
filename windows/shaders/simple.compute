@@ -22,13 +22,8 @@ void main(){
 	
 	if(gid < maxParticles) {
 		particle part = p[gid];
-		if(part.ttl > 0) {
-			part.currPos = part.currPos + part.speedVec*frameTimeDiff;
-			part.ttl = part.ttl - (1*frameTimeDiff);
-		} else {
-			part.currPos = originPoint;
-			part.ttl = 750;
-		}
+			//part.currPos = part.currPos + part.speedVec*frameTimeDiff;
+			//part.ttl = part.ttl - (1*frameTimeDiff);
 
 		p[gid] = part;
 	}

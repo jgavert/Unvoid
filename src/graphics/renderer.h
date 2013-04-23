@@ -54,9 +54,10 @@ private:
   Window& window;
   Shaders shaders;
   glm::mat4 view, projection;
+  glm::vec4 position;
   FSQuad fbo;
   GLint viewMatrix, projectionMatrix, modelMatrix, timeGLP, resolutionGLP, cameraPosGLP;
-  GLint compVisProjection,compVisView, compVisTime,compResolutionGLP;
+  GLint compVisProjection,compVisView, compVisTime,compResolutionGLP,compCamPosLoc;
   //TODO: implement below
   std::vector<int> screenStack;
   std::vector<VBO> vbos;

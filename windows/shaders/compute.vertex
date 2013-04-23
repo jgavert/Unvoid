@@ -4,13 +4,10 @@ layout(location=0) in vec4 currentPos;
 layout(location=1) in vec4 speedVec;
 layout(location=2) in float ttl;
 
-out float ex_ttl;
-
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 
 void main(void)
 {
-   gl_Position = (ProjectionMatrix * ViewMatrix) * currentPos;
-   ex_ttl = ttl;
+   gl_Position = currentPos;
 }

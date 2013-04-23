@@ -23,7 +23,7 @@ Renderer::Renderer(Window& w):
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
 
-  particleManager = ParticleManager(500000);
+  particleManager = ParticleManager(8);
 }
 
 Renderer::~Renderer() {
@@ -59,7 +59,9 @@ void Renderer::initialize()
   glEnable( GL_CULL_FACE);
   glCullFace(GL_BACK);
   glFrontFace(GL_CCW);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
   shaders.loadShaders();
   GLint shaderProgram = shaders.createShaders();
@@ -79,6 +81,7 @@ void Renderer::initialize()
     glm::vec3( 0.0f, 0.0f, 0.0f ), //minne katon
     glm::vec3( 0.0f, 0.0f, 1.0f )  //vektori ylöspäin kamerasta
   );
+  position = glm::vec4( -5.0f, 0.0f, -1.0f, 1.0f);
   projection = glm::perspective( 45.0f, static_cast<float>(CurrentWidth) / static_cast<float>(CurrentHeight), 0.01f, 100.0f );
 
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
@@ -88,6 +91,7 @@ void Renderer::initialize()
   compVisView = glGetUniformLocation(shaders.programs.at(2), "ViewMatrix");
   compVisTime = glGetUniformLocation(shaders.programs.at(2), "time" );
   compResolutionGLP = glGetUniformLocation(shaders.programs.at(2), "resolution");
+  compCamPosLoc = glGetUniformLocation(shaders.programs.at(2), "camPos");
   particleManager.Initialize(shaders.ComProgramId);
 
   fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.programs.at(3));
@@ -193,6 +197,7 @@ void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
   );
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glm::vec3 pos = glm::vec3(x+tx, y+ty, z+tz);
+  position = glm::vec4(pos, 1.0f);
   glUniform3fv(cameraPosGLP,1, glm::value_ptr(pos));
 
 }
@@ -222,17 +227,18 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
   if (pEnabled){
     particleManager.Simulate(time, glm::vec4(0.f,0.f,0.f,1.f));
     glUseProgram(shaders.programs.at(2));
-
+    glEnable(GL_BLEND);
     glUniform1fv(compVisTime, 1, &timeGLV);
     glUniformMatrix4fv( compVisView, 1, GL_FALSE, glm::value_ptr( view ) );
     glUniformMatrix4fv( compVisProjection, 1, GL_FALSE, glm::value_ptr( projection ) );
+    glUniform4fv(compCamPosLoc, 1, glm::value_ptr( position) );
 
     glBindBuffer(GL_ARRAY_BUFFER, particleManager.getBufferID());
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)0);
     glEnableVertexAttribArray(0);
-    //glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     glDrawArrays(GL_POINTS, 0, particleManager.getParticleCount());
-    //glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
   
@@ -248,10 +254,11 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
         glm::vec3( 0.0f, 0.0f, 0.01 )
       );
     glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
-    it.draw();
+    //it.draw();
   }
 
   if (fboEnabled) {
+    glDisable(GL_BLEND);
     fbo.drawFBO();
   }
   glUseProgram(0);
