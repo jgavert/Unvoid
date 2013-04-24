@@ -33,15 +33,13 @@ void ParticleManager::Initialize(int computeProgram)
 
   std::mt19937 eng;
   std::uniform_real_distribution<float> dist(-10.0f,10.0f);
-  std::uniform_real_distribution<float> dist2(0.0f,0.005f);
-  std::uniform_real_distribution<float> dist3(0.f,1000.f);
+  std::uniform_real_distribution<float> dist2(0.0f,0.05f);
+  std::uniform_real_distribution<float> dist3(0.f,750.f);
 
   for(int i = 0; i < numParticles; ++i){
-    particles[i].currPosition = glm::vec4(0.f,0.f,0.4f * i,0.2f);
-    particles[i].speedVector = glm::vec4();
-    //particles[i].speedVector = glm::normalize(glm::vec4(dist(eng), dist(eng), dist(eng), 1.0f)) * dist2(eng);
-    //particles[i].speedVector = glm::normalize(glm::vec4(0.f,0.f,0.f,1.f));
-    particles[i].ttl = dist3(eng);
+    particles[i].currPosition = glm::vec4(0.f,4.f,0.0f,1.f);
+    particles[i].speedVector = glm::normalize(glm::vec4(dist(eng), dist(eng), dist(eng), 0.0f)) * dist2(eng);
+    particles[i].ttl = glm::mediump_float(5.0f);
   }
 
 	if(glUnmapBuffer(GL_SHADER_STORAGE_BUFFER) == GL_FALSE){

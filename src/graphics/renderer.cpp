@@ -23,7 +23,7 @@ Renderer::Renderer(Window& w):
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
 
-  particleManager = ParticleManager(8);
+  particleManager = ParticleManager(1000);
 }
 
 Renderer::~Renderer() {
@@ -224,9 +224,28 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
   glClearColor(0.f, 0.f, 0.f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   
+
+  
+  glUseProgram(shaders.ProgramId);
+  glUniform1fv(timeGLP, 1, &timeGLV);
+  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+
+  for (auto &it: vbos) {
+    //it.modelMatrix = glm::rotate(
+    //    vbos[0].modelMatrix,
+    //    1.f*time,
+    //    glm::vec3( 0.0f, 0.0f, 0.01 )
+    //  );
+    glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
+    it.draw();
+  }
+
   if (pEnabled){
+    //std::cout << "time: " << time << std::endl;
     particleManager.Simulate(time, glm::vec4(0.f,0.f,0.f,1.f));
     glUseProgram(shaders.programs.at(2));
+    glDepthMask(GL_FALSE);
     glEnable(GL_BLEND);
     glUniform1fv(compVisTime, 1, &timeGLV);
     glUniformMatrix4fv( compVisView, 1, GL_FALSE, glm::value_ptr( view ) );
@@ -240,21 +259,7 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
     glDrawArrays(GL_POINTS, 0, particleManager.getParticleCount());
     glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-  }
-  
-  glUseProgram(shaders.ProgramId);
-  glUniform1fv(timeGLP, 1, &timeGLV);
-  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
-  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-
-  for (auto &it: vbos) {
-    it.modelMatrix = glm::rotate(
-        vbos[0].modelMatrix,
-        1.f*time,
-        glm::vec3( 0.0f, 0.0f, 0.01 )
-      );
-    glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
-    //it.draw();
+    glDepthMask(GL_TRUE);
   }
 
   if (fboEnabled) {

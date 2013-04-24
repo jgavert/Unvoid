@@ -16,7 +16,7 @@
 struct Particle{
 	glm::vec4	currPosition;
 	glm::vec4	speedVector;
-  float ttl;
+  glm::mediump_float ttl;
 };
 
 #endif
