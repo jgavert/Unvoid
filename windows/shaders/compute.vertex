@@ -1,19 +1,17 @@
 #version 430
 
 struct particle {
-	mediump vec4	currPos;
-	mediump vec4	speedVec;
-	mediump float ttl;
+ vec3	currPos;
+ vec3	speedVec;
+ float ttl;
 };
 
 layout(location=0) in particle part;
-
 
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 
 void main(void)
 {
-  vec4 asd = vec4(part.currPos.x, part.currPos.y - 2.0, part.currPos.za);
-  gl_Position =asd;
+  gl_Position = vec4(part.currPos, 1.0);
 }

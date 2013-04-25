@@ -14,9 +14,9 @@
 #endif
 
 struct Particle{
-	glm::vec4	currPosition;
-	glm::vec4	speedVector;
-  glm::mediump_float ttl;
+	GLfloat	x,y,z;
+	GLfloat	sx,sy,sz;
+  GLfloat ttl;
 };
 
 #endif

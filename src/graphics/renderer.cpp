@@ -23,7 +23,7 @@ Renderer::Renderer(Window& w):
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
 
-  particleManager = ParticleManager(1000);
+  particleManager = ParticleManager(10);
 }
 
 Renderer::~Renderer() {
@@ -238,12 +238,12 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
     //    glm::vec3( 0.0f, 0.0f, 0.01 )
     //  );
     glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
-    it.draw();
+    //it.draw();
   }
 
   if (pEnabled){
     //std::cout << "time: " << time << std::endl;
-    particleManager.Simulate(time, glm::vec4(0.f,0.f,0.f,1.f));
+    particleManager.Simulate(time, glm::vec3(0.f,0.f,0.f));
     glUseProgram(shaders.programs.at(2));
     glDepthMask(GL_FALSE);
     glEnable(GL_BLEND);

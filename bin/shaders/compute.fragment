@@ -3,7 +3,6 @@
 uniform float time;
 uniform vec2 resolution;
 
-in float ttl;
 out vec4 out_Color;
 
 float linearize(float z)
@@ -25,8 +24,8 @@ void main(void)
 
   float color = 0.0;
 
-  color = 0.10*linearize(gl_FragCoord.z);
+  //color = 0.10*linearize(gl_FragCoord.z);
   //color = modttl(ttl);
 
-  out_Color = vec4(1.0-color, ttl, 1.0, 0.5);
+  out_Color = vec4(1.0-color, 0.0, 1.0, 0.2);
 }

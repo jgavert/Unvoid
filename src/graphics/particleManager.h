@@ -14,7 +14,7 @@ public:
   ParticleManager(int);
   ~ParticleManager();
   void Initialize(int);
-  void Simulate(float, glm::vec4);
+  void Simulate(float, glm::vec3);
   GLuint getBufferID();
   int getParticleCount();
 private:
