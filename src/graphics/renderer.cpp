@@ -23,7 +23,7 @@ Renderer::Renderer(Window& w):
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
 
-  particleManager = ParticleManager(10);
+  particleManager = ParticleManager(10000);
 }
 
 Renderer::~Renderer() {
@@ -223,9 +223,9 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
 
   glClearColor(0.f, 0.f, 0.f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  
 
-  
+
+
   glUseProgram(shaders.ProgramId);
   glUniform1fv(timeGLP, 1, &timeGLV);
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
@@ -243,7 +243,7 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
 
   if (pEnabled){
     //std::cout << "time: " << time << std::endl;
-    particleManager.Simulate(time, glm::vec3(0.f,0.f,0.f));
+    particleManager.Simulate(time, glm::vec4(0.f,0.f,0.f,0.f));
     glUseProgram(shaders.programs.at(2));
     glDepthMask(GL_FALSE);
     glEnable(GL_BLEND);

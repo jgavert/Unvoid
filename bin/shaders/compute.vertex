@@ -1,9 +1,8 @@
 #version 430
 
 struct particle {
- vec3	currPos;
- vec3	speedVec;
- float ttl;
+ vec4	currPos;
+ vec4	speedVec;
 };
 
 layout(location=0) in particle part;
@@ -11,7 +10,9 @@ layout(location=0) in particle part;
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 
+out float ttl;
 void main(void)
 {
-  gl_Position = vec4(part.currPos, 1.0);
+  gl_Position = vec4(part.currPos.xyz, 1.0);
+  ttl = part.speedVec.a;
 }

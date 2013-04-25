@@ -80,7 +80,7 @@ void Shaders::checkShaderCompileStatus(GLint ShaderID, std::string ShaderName)
     GLchar* log = (GLchar*)malloc(sizeof(GLchar)*length);
 	  glGetShaderInfoLog(ShaderID, length, &length, log);
 	  std::cerr << "Compiler log:" << std::endl << log << std::endl;
-  } 
+  }
 }
 
 void Shaders::checkProgramLinkStatus(GLint ProgramID, std::string ProgramName)
@@ -94,7 +94,7 @@ void Shaders::checkProgramLinkStatus(GLint ProgramID, std::string ProgramName)
     GLchar* log = (GLchar*)malloc(sizeof(GLchar)*length);
 	  glGetProgramInfoLog(ProgramID, length, &length, log);
 	  std::cerr << "Compiler log:" << std::endl << log << std::endl;
-  } 
+  }
 }
 
 void Shaders::checkForGLError(std::string info)
@@ -212,10 +212,10 @@ GLint Shaders::createShaders(void)
   FragmentShader = shaderSources.at(4).c_str();
 
   int postVertex = glCreateShader(GL_VERTEX_SHADER);
-  shaders.push_back(compVertex);
+  shaders.push_back(postVertex);
   checkForGLError("Creating GL_VERTEX_SHADER");
   int postFragment = glCreateShader(GL_FRAGMENT_SHADER);
-  shaders.push_back(compFragment);
+  shaders.push_back(postFragment);
   checkForGLError("Creating GL_FRAGMENT_SHADER");
 
 
@@ -231,7 +231,7 @@ GLint Shaders::createShaders(void)
 
 
   int PostProcessProgram = glCreateProgram();
-  checkForGLError("Creating computevisualprogram");
+  checkForGLError("Creating postProcessprogram");
 
   glAttachShader(PostProcessProgram, postVertex);
   glAttachShader(PostProcessProgram, postFragment);
@@ -245,6 +245,7 @@ GLint Shaders::createShaders(void)
 
 void Shaders::reload()
 {
+  checkForGLError("whaaat1");
   glUseProgram(0);
   loadShaders();
   const GLchar *VertexShader = vertex.c_str();
@@ -274,21 +275,25 @@ void Shaders::reload()
   glDetachShader(programs.at(2), shaders.at(0));
   glDetachShader(programs.at(2), shaders.at(1));
   glDetachShader(programs.at(2), shaders.at(2));
+  checkForGLError("Linking Program VisualCompute0");
 
   int length =  shaderSources.at(0).size();
   glShaderSource(shaders.at(0), 1, &VertexShader, &length);
   glCompileShader(shaders.at(0));
   checkShaderCompileStatus(shaders.at(0), "ComputeVertex");
+  checkForGLError("Linking Program VisualCompute1");
 
   length =  shaderSources.at(2).size();
   glShaderSource(shaders.at(2), 1, &GeometryShader, &length);
   glCompileShader(shaders.at(2));
   checkShaderCompileStatus(shaders.at(2), "ComputeGeometry");
+  checkForGLError("Linking Program VisualCompute2");
 
   length =  shaderSources.at(1).size();
   glShaderSource(shaders.at(1), 1, &FragmentShader, &length);
   glCompileShader(shaders.at(1));
   checkShaderCompileStatus(shaders.at(1), "ComputeFragment");
+  checkForGLError("Linking Program VisualCompute3");
 
 
   glAttachShader(programs.at(2), shaders.at(0));
@@ -303,7 +308,9 @@ void Shaders::reload()
   FragmentShader = shaderSources.at(4).c_str();
 
   glDetachShader(programs.at(3), shaders.at(3));
+  checkForGLError("Linking Program PostProcess1");
   glDetachShader(programs.at(3), shaders.at(4));
+  checkForGLError("Linking Program PostProcess2");
 
   length =  shaderSources.at(3).size();
   glShaderSource(shaders.at(3), 1, &VertexShader, &length);
@@ -316,15 +323,12 @@ void Shaders::reload()
   checkShaderCompileStatus(shaders.at(4), "PostprocessFragment");
 
 
-  int PostProcessProgram = glCreateProgram();
-  checkForGLError("Creating computevisualprogram");
-
-  glAttachShader(PostProcessProgram, shaders.at(3));
-  glAttachShader(PostProcessProgram, shaders.at(4));
-  glLinkProgram(PostProcessProgram);
-  programs.push_back(PostProcessProgram);
+  checkForGLError("Linking Program PostProcess2");
+  glAttachShader(programs.at(3), shaders.at(3));
+  glAttachShader(programs.at(3), shaders.at(4));
+  glLinkProgram(programs.at(3));
   checkForGLError("Linking Program PostProcess");
-  checkProgramLinkStatus(PostProcessProgram, "PostProcess");
+  checkProgramLinkStatus(programs.at(3), "PostProcess");
 }
 
 void Shaders::destroyShaders(void)
