@@ -196,7 +196,7 @@ void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
     glm::vec3( 0.0f, 1.0f, 0.0f )  //vektori ylöspäin kamerasta
   );
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
-  glm::vec3 pos = glm::vec3(x+tx, y+ty, z+tz);
+  glm::vec3 pos = glm::vec3(x, y, z);
   position = glm::vec4(pos, 1.0f);
   glUniform3fv(cameraPosGLP,1, glm::value_ptr(pos));
 
