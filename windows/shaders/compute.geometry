@@ -25,29 +25,29 @@ void main(void){
 	vec4 particlePos	= ViewMatrix*gl_PositionIn[0];
 
 	gl_Position = particlePos-rightVector*(quadLength*0.5f)-upVector*(quadLength*0.5f);
-	gl_Position.y -= 0.02;
-	gl_Position.x -= 0.02;
+	gl_Position.y -= quadLength;
+	gl_Position.x -= quadLength;
 	gl_Position = ProjectionMatrix*gl_Position;
 	ex_TexCoor = vec2(0,0);
 	EmitVertex();
 
 	gl_Position = particlePos+rightVector*(quadLength*0.5f)-upVector*(quadLength*0.5f);
-	gl_Position.y -= 0.02;
-	gl_Position.x += 0.02;
+	gl_Position.y -= quadLength;
+	gl_Position.x += quadLength;
 	gl_Position = ProjectionMatrix*gl_Position;
 	ex_TexCoor = vec2(1,0);
 	EmitVertex();
 
 	gl_Position = particlePos-rightVector*(quadLength*0.5f)+upVector*(quadLength*0.5f);
-	gl_Position.y += 0.02;
-	gl_Position.x -= 0.02;
+	gl_Position.y += quadLength;
+	gl_Position.x -= quadLength;
 	gl_Position = ProjectionMatrix*gl_Position;
 	ex_TexCoor = vec2(0,1);
 	EmitVertex();
 
 	gl_Position = particlePos+rightVector*(quadLength*0.5f)+upVector*(quadLength*0.5f);
-	gl_Position.y += 0.02;
-	gl_Position.x += 0.02;
+	gl_Position.y += quadLength;
+	gl_Position.x += quadLength;
 	gl_Position = ProjectionMatrix*gl_Position;
 	ex_TexCoor = vec2(1,1);
 	EmitVertex();

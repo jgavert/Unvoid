@@ -247,6 +247,7 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
     glUseProgram(shaders.programs.at(2));
     glDepthMask(GL_FALSE);
     glEnable(GL_BLEND);
+    //std::cout << timeGLV << std::endl;
     glUniform1fv(compVisTime, 1, &timeGLV);
     glUniformMatrix4fv( compVisView, 1, GL_FALSE, glm::value_ptr( view ) );
     glUniformMatrix4fv( compVisProjection, 1, GL_FALSE, glm::value_ptr( projection ) );
