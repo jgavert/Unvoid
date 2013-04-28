@@ -7,20 +7,89 @@ in float ttl;
 in vec2 ex_TexCoor;
 out vec4 out_Color;
 
-float linearize(float z)
-{
-    float zNear = 0.01;
-    float zFar = 100.0;
-    float z_n = 2.0 * z - 1.0;
-    float z_e = 2.0 * zNear * zFar / (zFar + zNear - z_n * (zFar - zNear));
-    return z_e;
+#define PI 3.1415926535897932384626433832795
+
+vec3 fromYCbCr(vec3 yCbCr) {
+    mat3 m = mat3(
+        1.000,  1.000,  1.000,
+        0.000, -0.343,  1.765,
+        1.400, -0.711,  0.000
+    );
+    vec3 tmp = yCbCr * vec3(255.0, 128.0, 128.0);
+    vec3 t = m * tmp;
+    vec3 rgb = t / vec3(255.0, 255.0, 255.0);
+    rgb = clamp(rgb, vec3(0.0, 0.0, 0.0), vec3(1.0, 1.0, 1.0));
+    return rgb;
 }
 
-float modttl(float f)
-{
-  return f/30.0;
+float bias(float b, float x) {
+    return pow(x, log(b) / log(0.5));
 }
 
+float gain(float g, float x) {
+    if (x < 0.5) {
+        return bias(1.0 - g, 2.0 * x) / 2.0;
+    }
+    else {
+        return 1.0 - bias(1.0 - g, 2.0 - 2.0 * x) / 2.0;
+    }
+}
+
+float hash(float n) {
+	return fract(sin(n)*43758.5453);
+}
+
+float noise(in vec2 x) {
+	vec2 p = floor(x);
+	vec2 f = fract(x);
+
+    f = f * f * (3.0 - 2.0 * f);
+    float n = p.x + p.y * 57.0;
+    float res = mix(mix(hash(n + 0.0), hash(n + 1.0), f.x), mix(hash(n + 57.0), hash(n + 58.0), f.x), f.y);
+    return res;
+}
+
+float red = radians(140.0);
+float blue = red + radians(180.0);
+float saturation = 1.0;
+
+float cbRed = cos(red) * saturation;
+float crRed = sin(red) * saturation;
+float cbBlue = cos(blue) * saturation;
+float crBlue = sin(blue) * saturation;
+
+float flareFactor(float x) {
+    return pow(clamp(1.0 - abs(x * 8.0), 0.0, 1.0), 30.0);
+}
+	
+void main( void ) {
+    vec2 position = ex_TexCoor;
+	
+    // parameters
+    float brightness = 0.8;
+    float size = 1.0;
+    float hue = sin(time * 0.1 * PI) * 0.5 + 0.5;
+    
+    // Distance
+    vec2 pos = (position * vec2(2, 2) - vec2(1, 1)) / size;
+    float d = clamp(1.0 - length(pos), 0.0, 1.0);
+    // Angle
+    float a = atan(pos[1], pos[0]) / PI + 0.5;
+    
+    float glow = pow(d, 10.0) * 1.0;
+    float corona = pow(d, 4.0) * 0.5;
+    float rays = noise(vec2(a * 6.0 * PI, 0.0)) * pow(d / 1.2, 6.0);
+    float center = (flareFactor(pos[0]) + flareFactor(pos[1])) * d * pow(brightness, 8.0);
+	
+    float cb = mix(cbRed, cbBlue, hue);
+    float cr = mix(crRed, crBlue, hue);
+    float y = (rays + glow + corona + center) * brightness;
+    vec3 color = fromYCbCr(vec3(y, cb * y, cr * y));
+	    
+    out_Color = vec4(color, y);
+}
+
+/*
 void main(void)
 {
   float color;
@@ -31,9 +100,9 @@ void main(void)
   //vec2 res = vec2(1024,768); 
   vec2 position = ex_TexCoor;
 	vec2 mid = vec2(0.5,0.5);
-	float distanceToMid = length(position-mid)*4; 
+	float distanceToMid = length(position-mid)*8; 
 
-	color = 1.0-distanceToMid;
+	color = 1.0-pow(distanceToMid,2.0);
 
 	//color = 1.0;
 	vec4 output = vec4( 1.0,1.0,1.0, color );
@@ -46,3 +115,4 @@ void main(void)
   //end
   //out_Color = vec4(1-color, ttl, 0.0, 0.2);
 }
+*/

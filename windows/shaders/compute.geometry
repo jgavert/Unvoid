@@ -11,7 +11,7 @@ uniform mat4 ProjectionMatrix;
 uniform vec4 camPos;
 
 void main(void){
-  float 	quadLength = 0.1;
+  float 	quadLength = 0.4;
 	vec4 normal = gl_PositionIn[0] - camPos;
 	normal = ViewMatrix*normal;
 
