@@ -28,21 +28,21 @@ void main(void)
 
 
   //start
-  //vec2 res = vec2(1024,768); 
+  //vec2 res = vec2(1024,768);
   vec2 position = ex_TexCoor;
 	vec2 mid = vec2(0.5,0.5);
-	float distanceToMid = length(position-mid)*4; 
+	float distanceToMid = length(position-mid)*4;
 
 	color = 1.0-distanceToMid;
 
 	//color = 1.0;
-	vec4 output = vec4( 1.0,1.0,1.0, color );
+	vec4 something = vec4( 1.0,1.0,1.0, color );
 
-  output.x = output.x -0.5 + cos(time*0.4+1.5)*0.5;
-	output.y = output.y -0.5 + cos(time*0.6)*sin(time*0.3)*0.35;
-	output.z = output.z -0.5 + sin(time*0.2)*0.5;
+  something.x = something.x -0.5 + cos(time*0.4+1.5)*0.5;
+	something.y = something.y -0.5 + cos(time*0.6)*sin(time*0.3)*0.35;
+	something.z = something.z -0.5 + sin(time*0.2)*0.5;
 
-  out_Color = output;
+  out_Color = something;
   //end
   //out_Color = vec4(1-color, ttl, 0.0, 0.2);
 }
