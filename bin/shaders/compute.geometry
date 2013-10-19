@@ -5,6 +5,7 @@ layout(points) in;
 layout(triangle_strip, max_vertices = 4) out;
 
 out vec2 ex_TexCoor;
+out vec2 coords;
 
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
@@ -14,6 +15,7 @@ void main(void){
   float 	quadLength = 0.1;
 	vec4 normal = gl_PositionIn[0] - camPos;
 	normal = ViewMatrix*normal;
+  coords = gl_PositionIn[0].xy;
 
 	vec3 rightAxis 	= cross(normal.xyz, vec3(0,1,0));
 	vec3 upAxis 	= cross(rightAxis, normal.xyz);

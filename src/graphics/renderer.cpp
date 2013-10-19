@@ -16,14 +16,14 @@
 Renderer::Renderer(Window& w):
 	window(w)
 {
-  CurrentWidth = 1280;
-  CurrentHeight = 720;
+  CurrentWidth = 1600;
+  CurrentHeight = 900;
   WindowHandle = 0;
   timeGLV = 0.f;
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
 
-  particleManager = ParticleManager(500);
+  particleManager = ParticleManager(1000);
 }
 
 Renderer::~Renderer() {

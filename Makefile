@@ -6,10 +6,10 @@ WARNINGS := -pedantic -Wall -Wextra -Wno-parentheses
 
 PACKAGES := gl glu libpng
 CXX      := clang++
-CXXFLAGS := $(WARNINGS) -std=c++11 -stdlib=libc++ -O0 $(INCLUDE_DIRS)
+CXXFLAGS := $(WARNINGS) -std=c++11 -O0 $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
-LIBS := -L ./lib/linux/ -lGLEW -lSDL2 -pthread -lc++
+LIBS := -L ./lib/linux/ -lGLEW -lSDL2 -pthread
 LIBS += $(shell pkg-config --libs $(PACKAGES))
 
 PROGRAM = bin/main

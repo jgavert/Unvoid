@@ -5,6 +5,7 @@ uniform vec2 resolution;
 
 in float ttl;
 in vec2 ex_TexCoor;
+in vec2 coords;
 out vec4 out_Color;
 
 float linearize(float z)
@@ -37,10 +38,12 @@ void main(void)
 
 	//color = 1.0;
 	vec4 something = vec4( 1.0,1.0,1.0, color );
+  float poscol = sin(coords.x+coords.y);
 
-  something.x = something.x -0.5 + cos(time*0.4+1.5)*0.5;
-	something.y = something.y -0.5 + cos(time*0.6)*sin(time*0.3)*0.35;
-	something.z = something.z -0.5 + sin(time*0.2)*0.5;
+
+  something.x = something.x -0.5 + cos(time*0.4+1.5*poscol)*0.5;
+	something.y = something.y -0.5 + cos(time*0.6*poscol)*sin(time*0.3)*0.35;
+	something.z = something.z -0.5 + sin(time*0.2*poscol)*0.5;
 
   out_Color = something;
   //end
