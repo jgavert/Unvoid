@@ -34,7 +34,8 @@ void checkForGLError(std::string info)
   GLenum ErrorCheckValue = glGetError();
   if (ErrorCheckValue != GL_NO_ERROR)
   {
-    std::cerr << "GL_ERROR \"" << info << "\":" << gluErrorString(ErrorCheckValue) << std::endl;
+    std::cerr << "GL_ERROR \"" << info << "\":";
+    std::cerr << gluErrorString(ErrorCheckValue) << std::endl;
     //exit(-1);
   }
 }
@@ -47,18 +48,22 @@ void Renderer::initialize()
   GlewInitResult = glewInit();
 
   if (GLEW_OK != GlewInitResult) {
-    std::cerr << "ERROR: %s" << glewGetErrorString(GlewInitResult) << std::endl << std::endl;
+    std::cerr << "ERROR: %s" << glewGetErrorString(GlewInitResult) <<std::endl;
     exit(EXIT_FAILURE);
   }
   //SDL_GL_SetAttribute(GL_CONTEXT_, int value)
   std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+  int majorVersion, minorVersion;
+  glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
+  glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
+  std::cout << "OpenGL Major: " << majorVersion<< ", Minor: " << minorVersion << std::endl;
   glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
 
   glEnable( GL_DEPTH_TEST );
   glDepthFunc(GL_LEQUAL);
-  //glEnable( GL_CULL_FACE);
-  //glCullFace(GL_BACK);
-  //glFrontFace(GL_CCW);
+  glEnable( GL_CULL_FACE);
+  glCullFace(GL_BACK);
+  glFrontFace(GL_CCW);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -97,10 +102,12 @@ void Renderer::initialize()
   fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.programs.at(3));
   fbo.loadToGpu();
 }
+
 void Renderer::loadVBO(VBO data) {
   vbos.push_back(data);
   vbos.back().loadToGpu();
 }
+
 void Renderer::loadObject(std::string unparsedData){
   std::string buf; // Have a buffer string
   std::stringstream ss(unparsedData); // Insert the string into a stream
