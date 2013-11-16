@@ -145,7 +145,7 @@ GLint Shaders::createShaders(void)
 
 
   //computeshader stuff --------------------------------------------------
-
+  /*
   ComputeShaderId = glCreateShader(GL_COMPUTE_SHADER);
   checkForGLError("Creating ComputeShader");
 
@@ -204,7 +204,7 @@ GLint Shaders::createShaders(void)
   programs.push_back(computevisualprogram);
   checkForGLError("Linking Program VisualCompute");
   checkProgramLinkStatus(computevisualprogram, "VisualCompute");
-
+*/
 //--------------------------------------------------------------------
 
 //---------   POSTPROCESS -------------------------------------------

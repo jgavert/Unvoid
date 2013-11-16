@@ -91,15 +91,15 @@ void Renderer::initialize()
 
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-
+/*
   compVisProjection = glGetUniformLocation(shaders.programs.at(2), "ProjectionMatrix");
   compVisView = glGetUniformLocation(shaders.programs.at(2), "ViewMatrix");
   compVisTime = glGetUniformLocation(shaders.programs.at(2), "time" );
   compResolutionGLP = glGetUniformLocation(shaders.programs.at(2), "resolution");
   compCamPosLoc = glGetUniformLocation(shaders.programs.at(2), "camPos");
   particleManager.Initialize(shaders.ComProgramId);
-
-  fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.programs.at(3));
+*/
+  fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.programs.at(1));
   fbo.loadToGpu();
 }
 
@@ -252,6 +252,7 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
   }
 
   if (pEnabled){
+    /*
     //std::cout << "time: " << time << std::endl;
     particleManager.Simulate(time, glm::vec4(15.f,0.f,0.f,0.f));
     glUseProgram(shaders.programs.at(2));
@@ -271,6 +272,7 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
     glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glDepthMask(GL_TRUE);
+    */
   }
 
   if (fboEnabled) {
