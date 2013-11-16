@@ -56,9 +56,9 @@ void Renderer::initialize()
 
   glEnable( GL_DEPTH_TEST );
   glDepthFunc(GL_LEQUAL);
-  glEnable( GL_CULL_FACE);
-  glCullFace(GL_BACK);
-  glFrontFace(GL_CCW);
+  //glEnable( GL_CULL_FACE);
+  //glCullFace(GL_BACK);
+  //glFrontFace(GL_CCW);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -97,7 +97,10 @@ void Renderer::initialize()
   fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.programs.at(3));
   fbo.loadToGpu();
 }
-
+void Renderer::loadVBO(VBO data) {
+  vbos.push_back(data);
+  vbos.back().loadToGpu();
+}
 void Renderer::loadObject(std::string unparsedData){
   std::string buf; // Have a buffer string
   std::stringstream ss(unparsedData); // Insert the string into a stream

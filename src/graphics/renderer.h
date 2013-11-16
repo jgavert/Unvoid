@@ -43,6 +43,7 @@ public:
   long long getFrames();
   void reloadShaders();
   void loadObject(std::string);
+  void loadVBO(VBO data);
 private:
   int CurrentWidth;
   int CurrentHeight;
