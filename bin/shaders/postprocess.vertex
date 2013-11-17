@@ -1,5 +1,5 @@
-#version 330
-layout(location=0) in vec4 in_Position;
+#version 140
+in vec4 in_Position;
 
 out vec2 f_texcoord;
 

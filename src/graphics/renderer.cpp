@@ -52,11 +52,13 @@ void Renderer::initialize()
     exit(EXIT_FAILURE);
   }
   //SDL_GL_SetAttribute(GL_CONTEXT_, int value)
-  std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+  std::cout << "OpenGL renderer: " << glGetString(GL_RENDERER) << std::endl;
+  std::cout << "OpenGL vendor:   " << glGetString(GL_VENDOR) << std::endl;
+  std::cout << "OpenGL Version:  " << glGetString(GL_VERSION) << std::endl;
   int majorVersion, minorVersion;
   glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
   glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
-  std::cout << "OpenGL Major: " << majorVersion<< ", Minor: " << minorVersion << std::endl;
+  std::cout << "OpenGL Major:    " << majorVersion<< ", Minor: " << minorVersion << std::endl;
   glClearColor(0.3f, 0.1f, 0.5f, 0.0f);
 
   glEnable( GL_DEPTH_TEST );
