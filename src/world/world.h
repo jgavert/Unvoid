@@ -9,11 +9,13 @@
 #define	WORLD_H
 
 #include <vector>
+#include "WObject.h"
 
 class World {
 public:
   World();
   ~World();
+  std::vector<WObject> objs;
   private:
 };
 
