@@ -47,10 +47,12 @@ void look(Renderer& render, Controller& input, float speedMod)
   //  return;
   y_a += (float)mouse[1]*0.001f;
   zx_a += (float)mouse[0]*0.001f;
-  //std::cout << "zx_a: " << zx_a << std::endl;
+  if (y_a > 1.f) y_a = 1.f;
+  if (y_a < -1.f) y_a = -1.f;
+  //std::cout << "mouse[1]: " << mouse[1] << " ,y_a: " << y_a << ", acosf(y_a): " << acosf(y_a) << std::endl;
   tx = cosf(zx_a);
   tz = sinf(zx_a);
-  ty = -y_a;
+  ty = acosf(y_a) - 1.f;
 //}
   //std::cout << "tx: " << tx << std::endl;
   //std::cout << "tz: " << tz << std::endl;
@@ -108,8 +110,8 @@ int main(int argc, char *argv[])
     }
 
     if (input.getKeyOnce(K2)) {
-      std::cout << "Reloading shaders..." << std::endl;
-      render.reloadShaders();
+      //std::cout << "Reloading shaders..." << std::endl;
+      //render.reloadShaders();
     }
     if (input.getKeyOnce(K3)) {
       limit = limit ? false : true;

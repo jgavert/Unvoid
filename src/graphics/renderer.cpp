@@ -16,8 +16,8 @@
 Renderer::Renderer(Window& w):
 	window(w)
 {
-  CurrentWidth = 1600;
-  CurrentHeight = 900;
+  CurrentWidth = 800;
+  CurrentHeight = 640;
   WindowHandle = 0;
   timeGLV = 0.f;
   FrameCount = 0;
