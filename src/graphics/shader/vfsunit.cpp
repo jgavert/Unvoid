@@ -68,7 +68,7 @@ void VFSUnit::load()
   glUseProgram(0);
   checkForGLError("What!?");
   auto vertex = ShaderParser::process(VertFile);
-  std::cout << vertex << std::endl;
+  //std::cout << vertex << std::endl;
   const char *VertexShader = vertex.c_str();
   auto fragment = ShaderParser::process(FragFile);
   const char *FragmentShader = fragment.c_str();
@@ -138,11 +138,12 @@ void VFSUnit::update()
   glUseProgram(0); // Just in case
   std::cout << name << ": Updating Shaders" << std::endl;
   auto vertex = ShaderParser::process(VertFile);
-  std::cout << vertex << std::endl;
+  //std::cout << vertex << std::endl;
   const char *VertexShader = vertex.c_str();
   auto fragment = ShaderParser::process(FragFile);
   const char *FragmentShader = fragment.c_str();
 
+  checkForGLError(name + ": Random error before anything");
   glDetachShader(ProgramId, VertexShaderId);
   glDetachShader(ProgramId, FragmentShaderId);
   checkForGLError(name + ": Detaching Shaders");
