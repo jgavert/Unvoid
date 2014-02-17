@@ -16,7 +16,7 @@ void Shaders::initialize(void)
   //remove after clear
   //local directory is the one where you run the main from
   //shaders.insert(std::make_pair<std::string,std::unique_ptr<ShaderUnit>>("Basic", std::unique_ptr<VFSUnit>(VFSUnit("Basic", "shaders/simple.vertex", "shaders/simple.vertex"))));
-  auto p1 = std::unique_ptr<VFSUnit>(new VFSUnit("Basic", "shaders/simple.vertex", "shaders/simple.vertex"));
+  auto p1 = std::unique_ptr<VFSUnit>(new VFSUnit("Basic", "shaders/simple.vertex", "shaders/simple.fragment"));
   shaders.insert( std::make_pair( std::string("Basic"), std::move(p1)));
   auto p2 = std::unique_ptr<VFSUnit>(new VFSUnit("PostProcess", "shaders/postprocess.vertex", "shaders/postprocess.fragment"));
   shaders.insert( std::make_pair( std::string("PostProcess"), std::move(p2)));
