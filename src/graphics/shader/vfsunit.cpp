@@ -137,8 +137,11 @@ void VFSUnit::update()
 {
   glUseProgram(0); // Just in case
   std::cout << name << ": Updating Shaders" << std::endl;
-  const char *VertexShader = ShaderParser::process(VertFile).c_str();
-  const char *FragmentShader = ShaderParser::process(FragFile).c_str();
+  auto vertex = ShaderParser::process(VertFile);
+  std::cout << vertex << std::endl;
+  const char *VertexShader = vertex.c_str();
+  auto fragment = ShaderParser::process(FragFile);
+  const char *FragmentShader = fragment.c_str();
 
   glDetachShader(ProgramId, VertexShaderId);
   glDetachShader(ProgramId, FragmentShaderId);
