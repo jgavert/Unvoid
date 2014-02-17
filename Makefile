@@ -1,12 +1,12 @@
-DIRS := src src/graphics src/input src/utils
+DIRS := src src/graphics src/input src/utils src/graphics/shader
 PROGRAM_DIRS := $(DIRS)
 
 INCLUDE_DIRS := -DGLEW_STATIC -I lib/linux/glew/include -isystem lib/shared
 WARNINGS := -pedantic -Wall -Wextra -Wno-parentheses
 
 PACKAGES := gl glu libpng
-CXX      := clang++
-CXXFLAGS := $(WARNINGS) -std=c++11 -O0 $(INCLUDE_DIRS)
+CXX      := g++
+CXXFLAGS := $(WARNINGS) -std=c++11 -O2 $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
 LIBS := -L ./lib/linux/ -lGLEW -lSDL2 -pthread

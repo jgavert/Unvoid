@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
         flip = true;
       }
     }
-
+    render.reloadShaders();
     if (input.getKeyOnce(K2)) {
       //std::cout << "Reloading shaders..." << std::endl;
       //render.reloadShaders();

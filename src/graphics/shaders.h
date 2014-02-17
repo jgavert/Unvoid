@@ -1,6 +1,5 @@
-
 #ifndef SHADERS_H
-#define	SHADERS_H
+#define SHADERS_H
 #include <string>
 #include <cstdlib>
 #include <fstream>
@@ -13,29 +12,20 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #endif
+#include <map>
+#include <memory>
+#include "shader/vfsunit.hpp"
 
 class Shaders
 {
 public:
-	Shaders(void);
-	~Shaders(void);
-	void loadShaders();
-  GLint createShaders();
-  void reload();
-  void destroyShaders();
-  GLuint VertexShaderId, FragmentShaderId, ProgramId, ComProgramId, ComputeShaderId;
-  std::vector<GLint> programs;
+  Shaders();
+  ~Shaders();
+  void initialize();
+  void update();
+  GLuint get(std::string name);
 private:
-  std::string parseShaderForComments(std::string);
-  std::string readShaderFile(std::string);
-  void checkProgramLinkStatus(GLint, std::string);
-  void checkShaderCompileStatus(GLint, std::string);
-  void checkForGLError(std::string);
-  std::string vertex;
-  std::string fragment;
-  std::string compute;
-  std::vector<std::string> shaderSources;
-  std::vector<GLint> shaders;
+  std::map<std::string, std::unique_ptr<ShaderUnit>> shaders;
 };
 
 

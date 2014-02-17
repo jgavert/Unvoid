@@ -48,6 +48,7 @@ private:
   int CurrentWidth;
   int CurrentHeight;
   int WindowHandle;
+  void checkForGLError(std::string info);
 
   ParticleManager particleManager;
   long long FrameCount;

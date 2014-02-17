@@ -29,7 +29,7 @@ Renderer::Renderer(Window& w):
 Renderer::~Renderer() {
 }
 
-void checkForGLError(std::string info)
+void Renderer::checkForGLError(std::string info)
 {
   GLenum ErrorCheckValue = glGetError();
   if (ErrorCheckValue != GL_NO_ERROR)
@@ -70,15 +70,15 @@ void Renderer::initialize()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
-  shaders.loadShaders();
-  GLint shaderProgram = shaders.createShaders();
+  shaders.initialize();
+  GLint shaderProgram = shaders.get("Basic");
   glUseProgram(shaderProgram);
   viewMatrix = glGetUniformLocation( shaderProgram, "ViewMatrix" );
   projectionMatrix = glGetUniformLocation( shaderProgram, "ProjectionMatrix" );
   modelMatrix = glGetUniformLocation( shaderProgram, "ModelMatrix" );
   timeGLP = glGetUniformLocation( shaderProgram, "time");
   resolutionGLP = glGetUniformLocation( shaderProgram, "resolution");
-  cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
+  cameraPosGLP = glGetUniformLocation( shaderProgram, "cameraPos");
   glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
   glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
 
@@ -101,7 +101,7 @@ void Renderer::initialize()
   compCamPosLoc = glGetUniformLocation(shaders.programs.at(2), "camPos");
   particleManager.Initialize(shaders.ComProgramId);
 */
-  fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.programs.at(1));
+  fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.get("PostProcess"));
   fbo.loadToGpu();
 }
 
@@ -196,7 +196,6 @@ void Renderer::DestroyVBOs()
 }
 void Renderer::Cleanup(void)
 {
-  shaders.destroyShaders();
   DestroyVBOs();
 }
 
@@ -215,13 +214,14 @@ void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
 }
 
 void Renderer::reloadShaders() {
-  shaders.reload();
-  viewMatrix = glGetUniformLocation( shaders.ProgramId, "ViewMatrix" );
-  projectionMatrix = glGetUniformLocation( shaders.ProgramId, "ProjectionMatrix" );
-  modelMatrix = glGetUniformLocation( shaders.ProgramId, "ModelMatrix" );
-  timeGLP = glGetUniformLocation( shaders.ProgramId, "time");
-  resolutionGLP = glGetUniformLocation( shaders.ProgramId, "resolution");
-  cameraPosGLP = glGetUniformLocation( shaders.ProgramId, "cameraPos");
+  shaders.update();
+
+  viewMatrix = glGetUniformLocation( shaders.get("Basic"), "ViewMatrix" );
+  projectionMatrix = glGetUniformLocation( shaders.get("Basic"), "ProjectionMatrix" );
+  modelMatrix = glGetUniformLocation( shaders.get("Basic"), "ModelMatrix" );
+  timeGLP = glGetUniformLocation( shaders.get("Basic"), "time");
+  resolutionGLP = glGetUniformLocation( shaders.get("Basic"), "resolution");
+  cameraPosGLP = glGetUniformLocation( shaders.get("Basic"), "cameraPos");
 }
 
 void Renderer::render(float time, bool pEnabled, bool fboEnabled)
@@ -238,7 +238,7 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled)
 
 
 
-  glUseProgram(shaders.ProgramId);
+  glUseProgram(shaders.get("Basic"));
   glUniform1fv(timeGLP, 1, &timeGLV);
   glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
   glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
