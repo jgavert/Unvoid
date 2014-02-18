@@ -29,11 +29,11 @@ void Controller::update() {
         quit = true;
         break;
       case SDL_KEYDOWN:
-      	handleKeyDownEvent(event);
-      	break;
-     	case SDL_KEYUP:
-     		handleKeyUpEvent(event);
-     		break;
+handleKeyDownEvent(event);
+break;
+case SDL_KEYUP:
+	handleKeyUpEvent(event);
+	break;
       /*case SDL_MOUSEMOTION:
         handleMouseMotionEvent(event);*/
       default:
@@ -41,7 +41,7 @@ void Controller::update() {
     }
   }
   if (getKeyState(ESC))
-  	quit = true;
+quit = true;
 }
 
 bool Controller::hasQuit(void) {
@@ -58,7 +58,7 @@ void Controller::handleMouseMotionEvent(SDL_Event event)
 void Controller::handleKeyDownEvent(SDL_Event keyevent) {
 	switch(keyevent.key.keysym.sym){
     case SDLK_ESCAPE:
-    	keyboard |= keys[ESC];
+keyboard |= keys[ESC];
       break;
     case SDLK_UP:
       keyboard |= keys[UP];
@@ -104,6 +104,12 @@ void Controller::handleKeyDownEvent(SDL_Event keyevent) {
       break;
     case SDLK_2:
       keyboard |= keys[K2];
+      break;
+    case SDLK_8:
+      keyboard |= keys[K8];
+      break;
+    case SDLK_9:
+      keyboard |= keys[K9];
     default:
       break;
 	}
@@ -112,7 +118,7 @@ void Controller::handleKeyDownEvent(SDL_Event keyevent) {
 void Controller::handleKeyUpEvent(SDL_Event keyevent) {
 	switch(keyevent.key.keysym.sym){
     case SDLK_ESCAPE:
-    	keyboard &= (~keys[ESC]);
+keyboard &= (~keys[ESC]);
       break;
     case SDLK_UP:
       keyboard &= (~keys[UP]);
@@ -137,6 +143,12 @@ void Controller::handleKeyUpEvent(SDL_Event keyevent) {
       break;
     case SDLK_d:
       keyboard &= (~16);
+      break;
+    case SDLK_8:
+      keyboard &= (~keys[K8]);
+      break;
+    case SDLK_9:
+      keyboard &= (~keys[K9]);
       break;
     case SDLK_7:
       keyboard &= (~keys[K7]);

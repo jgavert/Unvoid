@@ -22,9 +22,9 @@ FSQuad::~FSQuad() {
   glDeleteRenderbuffers(1, &rbo_depth);
   glDeleteTextures(1, &fbo_texture);
   glDeleteFramebuffers(1, &fbo);
-	glDeleteBuffers( 1, &eboId );
-	glDeleteBuffers( 1, &vboId );
-	glDeleteVertexArrays( 1, &vaoId );
+  glDeleteBuffers( 1, &eboId );
+  glDeleteBuffers( 1, &vboId );
+  glDeleteVertexArrays( 1, &vaoId );
 }
 
 void FSQuad::loadToGpu() {
@@ -74,7 +74,7 @@ void FSQuad::loadToGpu() {
   glBindRenderbuffer(GL_RENDERBUFFER, rbo_depth);
   glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, screenWidth, screenHeight);
   glBindRenderbuffer(GL_RENDERBUFFER, 0);
- 
+
   /* Framebuffer to link everything together */
   glGenFramebuffers(1, &fbo);
   glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -95,8 +95,8 @@ void FSQuad::drawFBO() {
   glUniform1i(fbotextureUniLoc, 0);
   glBindTexture(GL_TEXTURE_2D, fbo_texture);
 
-	glBindVertexArray(vaoId);
-	glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+  glBindVertexArray(vaoId);
+  glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
   glBindVertexArray(0);
 
   glUseProgram(0);
@@ -113,7 +113,7 @@ void FSQuad::reshape(int height, int width)
   glBindTexture(GL_TEXTURE_2D, fbo_texture);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, screenWidth, screenHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
   glBindTexture(GL_TEXTURE_2D, 0);
- 
+
   glBindRenderbuffer(GL_RENDERBUFFER, rbo_depth);
   glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, screenWidth, screenHeight);
   glBindRenderbuffer(GL_RENDERBUFFER, 0);

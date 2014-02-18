@@ -1,0 +1,31 @@
+#version 400
+
+uniform float time;
+uniform vec2 resolution;
+uniform vec3 cameraPos;
+
+in vec4 ex_Color;
+out vec4 out_Color;
+
+#define MAXITER 512.0
+#define STEP 1.0
+#define LIMIT 1.8
+
+void main(void)
+{
+  vec2 m = vec2(0.0);
+  m.x -= 0.613;
+  m.y -= 0.455;
+  vec2 pos = gl_FragCoord.xy / resolution.xy * 0.7;
+  vec2 coord = pos-m*2.0;
+  vec2 vf = vec2(0.4,-1.0);
+  float iter = 0.0;
+  for (float i=0.0; i < MAXITER;i+=STEP)
+  {
+    if (distance(vf.x,vf.y) > LIMIT) break;
+    vf = vec2(vf.x*vf.x-vf.y*vf.y+coord.x,1.65*vf.y*vf.x+coord.y);
+    iter ++;
+  }
+  out_Color = vec4(4.0/MAXITER*iter,2.0/MAXITER*iter,3.0/MAXITER*iter,1.0);
+}
+

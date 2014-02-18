@@ -5,7 +5,7 @@ INCLUDE_DIRS := -DGLEW_STATIC -I lib/linux/glew/include -isystem lib/shared
 WARNINGS := -pedantic -Wall -Wextra -Wno-parentheses
 
 PACKAGES := gl glu libpng
-CXX      := g++
+CXX      := clang++
 CXXFLAGS := $(WARNINGS) -std=c++11 -O2 $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 

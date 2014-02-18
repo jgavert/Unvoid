@@ -38,7 +38,7 @@ public:
   Renderer(Window& window);
   ~Renderer();
   void initialize();
-  void render(float time, bool pEnabled, bool);
+  void render(float time, bool pEnabled, bool, bool);
   void lookAt(float, float, float, float, float, float);
   long long getFrames();
   void reloadShaders();
@@ -57,7 +57,7 @@ private:
   Shaders shaders;
   glm::mat4 view, projection;
   glm::vec4 position;
-  FSQuad fbo;
+  FSQuad fbo, vbo_glsl;
   GLint viewMatrix, projectionMatrix, modelMatrix, timeGLP, resolutionGLP, cameraPosGLP;
   GLint compVisProjection,compVisView, compVisTime,compResolutionGLP,compCamPosLoc;
   //TODO: implement below

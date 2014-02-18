@@ -90,12 +90,13 @@ int main(int argc, char *argv[])
   timing0 = timing1;
   auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
-  bool flip = true,limit = true, particlesEnabled = false, highspeed = true, fbo = true;
+  bool flip = true,limit = true, particlesEnabled = false, highspeed = true, fbo = true, glsl = false;
   auto timing3 = std::chrono::high_resolution_clock::now();
 
   while(!input.hasQuit()) {
     timing2 = std::chrono::high_resolution_clock::now();
-    input.update();
+    input.update(); // Need to update inputs.
+                    // I probably should change to event based.
 
     if (input.getKeyOnce(K1)) {
       if (flip) {
@@ -108,10 +109,9 @@ int main(int argc, char *argv[])
         flip = true;
       }
     }
-    render.reloadShaders();
+    render.reloadShaders(); // Lets just poll until inotify works, who cares
     if (input.getKeyOnce(K2)) {
-      //std::cout << "Reloading shaders..." << std::endl;
-      //render.reloadShaders();
+      std::cout << "Reloading shaders...(already on)" << std::endl;
     }
     if (input.getKeyOnce(K3)) {
       limit = limit ? false : true;
@@ -135,6 +135,14 @@ int main(int argc, char *argv[])
       //window.toggle_vsync();
       std::cout << "Toggling FSQuad/postprocessing fbo: " << (fbo ? "on" : "off") << std::endl;
     }
+    if (input.getKeyOnce(K8)) {
+      glsl = glsl ? false : true;
+      std::cout << "Toggle live glsl edit (watches for changes): "<< (glsl ? "on" : "off") << std::endl;
+    }
+    if (input.getKeyOnce(K9)) {
+      //window.toggle_vsync();
+      std::cout << "Raytracer not implemented yet. ETA unknown" << std::endl;
+    }
 
     timing1 = std::chrono::high_resolution_clock::now();
     if (std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() > 5000) {
@@ -146,7 +154,7 @@ int main(int argc, char *argv[])
     }
     long long currentframe  = std::chrono::duration_cast<std::chrono::nanoseconds>(timing1 - timing3).count();
     float speedMod = (float)currentframe / (float)FPSLIMIT;
-    render.render(speedMod, particlesEnabled, fbo); //renders the scene
+    render.render(speedMod, particlesEnabled, fbo, glsl); //renders the scene
     look(render, input, speedMod); //where to look at
     timing3 = timing1;
     timing1 = std::chrono::high_resolution_clock::now();

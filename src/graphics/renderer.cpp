@@ -14,7 +14,7 @@
 #include "renderer.h"
 
 Renderer::Renderer(Window& w):
-	window(w)
+  window(w)
 {
   CurrentWidth = 800;
   CurrentHeight = 640;
@@ -23,7 +23,7 @@ Renderer::Renderer(Window& w):
   FrameCount = 0;
   window.createWindow(CurrentWidth, CurrentHeight);
 
-  particleManager = ParticleManager(1000);
+  //particleManager = ParticleManager(1000);
 }
 
 Renderer::~Renderer() {
@@ -103,6 +103,8 @@ void Renderer::initialize()
 */
   fbo = FSQuad(CurrentHeight, CurrentWidth, shaders.get("PostProcess"));
   fbo.loadToGpu();
+  vbo_glsl = FSQuad(CurrentHeight, CurrentWidth, shaders.get("glsl"));
+  vbo_glsl.loadToGpu();
 }
 
 void Renderer::loadVBO(VBO data) {
@@ -224,62 +226,72 @@ void Renderer::reloadShaders() {
   cameraPosGLP = glGetUniformLocation( shaders.get("Basic"), "cameraPos");
 }
 
-void Renderer::render(float time, bool pEnabled, bool fboEnabled)
+void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
 {
   ++FrameCount;
   timeGLV += 0.02f*time;
 
-  if (fboEnabled) {
-    fbo.drawToFBO();
-  }
+  if (glsl) {
+    glClearColor(0.f, 0.f, 0.f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glClearColor(0.f, 0.f, 0.f, 0.0f);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glUniform1fv(timeGLP, 1, &timeGLV);
 
-
-
-  glUseProgram(shaders.get("Basic"));
-  glUniform1fv(timeGLP, 1, &timeGLV);
-  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
-  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
-
-  for (auto &it: vbos) {
-    it.modelMatrix = glm::rotate(
-        vbos[0].modelMatrix,
-        1.f*time,
-        glm::vec3( 0.0f, 0.0f, 0.01 )
-      );
-    glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
-    it.draw();
-  }
-
-  if (pEnabled){
-    /*
-    //std::cout << "time: " << time << std::endl;
-    particleManager.Simulate(time, glm::vec4(15.f,0.f,0.f,0.f));
-    glUseProgram(shaders.programs.at(2));
-    glDepthMask(GL_FALSE);
-    glEnable(GL_BLEND);
-    //std::cout << timeGLV << std::endl;
-    glUniform1fv(compVisTime, 1, &timeGLV);
-    glUniformMatrix4fv( compVisView, 1, GL_FALSE, glm::value_ptr( view ) );
-    glUniformMatrix4fv( compVisProjection, 1, GL_FALSE, glm::value_ptr( projection ) );
-    glUniform4fv(compCamPosLoc, 1, glm::value_ptr( position) );
-
-    glBindBuffer(GL_ARRAY_BUFFER, particleManager.getBufferID());
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glDrawArrays(GL_POINTS, 0, particleManager.getParticleCount());
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glDepthMask(GL_TRUE);
-    */
-  }
-
-  if (fboEnabled) {
     glDisable(GL_BLEND);
     fbo.drawFBO();
+  } else {
+    if (fboEnabled) {
+      fbo.drawToFBO();
+    }
+
+    glClearColor(0.f, 0.f, 0.f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glUseProgram(shaders.get("Basic"));
+    glUniform1fv(timeGLP, 1, &timeGLV);
+    glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+    glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+
+
+
+    for (auto &it: vbos) {
+      it.modelMatrix = glm::rotate(
+          vbos[0].modelMatrix,
+          1.f*time,
+          glm::vec3( 0.0f, 0.0f, 0.01 )
+        );
+      glUniformMatrix4fv( modelMatrix, 1, GL_FALSE, glm::value_ptr( it.modelMatrix ) );
+      it.draw();
+    }
+
+    if (pEnabled){
+      /*
+      //std::cout << "time: " << time << std::endl;
+      particleManager.Simulate(time, glm::vec4(15.f,0.f,0.f,0.f));
+      glUseProgram(shaders.programs.at(2));
+      glDepthMask(GL_FALSE);
+      glEnable(GL_BLEND);
+      //std::cout << timeGLV << std::endl;
+      glUniform1fv(compVisTime, 1, &timeGLV);
+      glUniformMatrix4fv( compVisView, 1, GL_FALSE, glm::value_ptr( view ) );
+      glUniformMatrix4fv( compVisProjection, 1, GL_FALSE, glm::value_ptr( projection ) );
+      glUniform4fv(compCamPosLoc, 1, glm::value_ptr( position) );
+
+      glBindBuffer(GL_ARRAY_BUFFER, particleManager.getBufferID());
+      glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Particle), (GLvoid*)0);
+      glEnableVertexAttribArray(0);
+      glEnableClientState(GL_VERTEX_ARRAY);
+      glDrawArrays(GL_POINTS, 0, particleManager.getParticleCount());
+      glDisableClientState(GL_VERTEX_ARRAY);
+      glBindBuffer(GL_ARRAY_BUFFER, 0);
+      glDepthMask(GL_TRUE);
+      */
+    }
+
+    if (fboEnabled) {
+      glDisable(GL_BLEND);
+      fbo.drawFBO();
+    }
   }
   glUseProgram(0);
 
