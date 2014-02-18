@@ -1,6 +1,6 @@
 #include "shaders.h"
 
-Shaders::Shaders(void)
+Shaders::Shaders(void): updated(false)
 {
 }
 
@@ -16,13 +16,9 @@ void Shaders::initialize(void)
   //remove after clear
   //local directory is the one where you run the main from
   //shaders.insert(std::make_pair<std::string,std::unique_ptr<ShaderUnit>>("Basic", std::unique_ptr<VFSUnit>(VFSUnit("Basic", "shaders/simple.vertex", "shaders/simple.vertex"))));
-  auto p1 = std::unique_ptr<VFSUnit>(new VFSUnit("Basic", "shaders/simple.vertex", "shaders/simple.fragment"));
-  shaders.insert( std::make_pair( std::string("Basic"), std::move(p1)));
-  auto p2 = std::unique_ptr<VFSUnit>(new VFSUnit("PostProcess", "shaders/postprocess.vertex", "shaders/postprocess.fragment"));
-  shaders.insert( std::make_pair( std::string("PostProcess"), std::move(p2)));
-  auto p3 = std::unique_ptr<VFSUnit>(new VFSUnit("glsl", "shaders/simple.vertex", "shaders/glsl.fragment"));
-  shaders.insert( std::make_pair( std::string("glsl"), std::move(p3)));
-  //shaders.insert(std::make_pair<std::string,std::unique_ptr<ShaderUnit>>("PostProcess",std::unique_ptr<VFSUnit>(VFSUnit("PostProcess", "shaders/postprocess.vertex", "shaders/postprocess.fragment"))));
+  addProgram("Basic", "shaders/simple.vertex", "shaders/simple.fragment");
+  addProgram("PostProcess", "shaders/postprocess.vertex", "shaders/postprocess.fragment");
+  addProgram("glsl", "shaders/simple.vertex", "shaders/glsl.fragment");
   for (auto& kv : shaders) {
     kv.second->load();
   }
@@ -33,10 +29,32 @@ GLuint Shaders::get(std::string name)
   return shaders.at(name)->pid();
 }
 
+void Shaders::addProgram(std::string name, std::string vertex, std::string fragment)
+{
+  auto p1 = std::unique_ptr<VFSUnit>(new VFSUnit(name, vertex, fragment));
+  shaders.insert( std::make_pair( name, std::move(p1)));
+  filewatchlist.insert( std::make_pair(fwatcher.add(vertex), name));
+  filewatchlist.insert( std::make_pair(fwatcher.add(fragment), name));
+  //shaders.insert(std::make_pair<std::string,std::unique_ptr<ShaderUnit>>("PostProcess",std::unique_ptr<VFSUnit>(VFSUnit("PostProcess", "shaders/postprocess.vertex", "shaders/postprocess.fragment"))));
+}
+
 void Shaders::update()
 {
+  if (updated) {
+    fwatcher.update();
+    updated = false;
+  } else {
+    if (fwatcher.update()) {
+      auto queue = fwatcher.getChanged();
+      for (auto& i : queue) {
+        shaders.at(filewatchlist.at(i))->reload();
+      }
+      updated = true;
+    }
+  }
+  /*
   for (auto& kv : shaders) {
     kv.second->reload();
-  }
+  } */
 }
 

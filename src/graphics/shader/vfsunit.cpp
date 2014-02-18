@@ -40,6 +40,12 @@ void checkForGLError(std::string info)
 
 VFSUnit::VFSUnit(std::string programName, std::string VertexFile, std::string FragmentFile):name(programName), FragFile(FragmentFile), VertFile(VertexFile)
 {
+  fd = inotify_init();
+  FD_ZERO( &watch_set );
+  FD_SET( fd, &watch_set );
+  wd = inotify_add_watch( fd, FragmentFile.c_str(), IN_MODIFY );
+  req.tv_sec = (time_t)(0);
+  req.tv_nsec = 1;
 }
 
 VFSUnit::~VFSUnit()
@@ -106,34 +112,13 @@ void VFSUnit::load()
   checkProgramLinkStatus(ProgramId, name + ": Program LinkStatus");
 }
 
-void VFSUnit::reload()
-{
-  struct stat fileinfo;
-  int vmtime = 0, fmtime = 0;
-
-  if(-1 != stat(VertFile.c_str(), &fileinfo))
-    vmtime = fileinfo.st_mtime;
-
-  if(-1 != stat(FragFile.c_str(), &fileinfo))
-    fmtime = fileinfo.st_mtime;
-
-  if (vert_mtime < vmtime)
-  {
-    update();
-  } else if (frag_mtime < fmtime)
-  {
-    update();
-  }
-  vert_mtime = vmtime;
-  frag_mtime = fmtime;
-}
 
 GLuint VFSUnit::pid()
 {
   return ProgramId;
 }
 
-void VFSUnit::update()
+void VFSUnit::reload()
 {
   glUseProgram(0); // Just in case
   std::cout << name << ": Updating Shaders" << std::endl;
