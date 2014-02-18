@@ -40,12 +40,6 @@ void checkForGLError(std::string info)
 
 VFSUnit::VFSUnit(std::string programName, std::string VertexFile, std::string FragmentFile):name(programName), FragFile(FragmentFile), VertFile(VertexFile)
 {
-  fd = inotify_init();
-  FD_ZERO( &watch_set );
-  FD_SET( fd, &watch_set );
-  wd = inotify_add_watch( fd, FragmentFile.c_str(), IN_MODIFY );
-  req.tv_sec = (time_t)(0);
-  req.tv_nsec = 1;
 }
 
 VFSUnit::~VFSUnit()
@@ -78,13 +72,6 @@ void VFSUnit::load()
   const char *VertexShader = vertex.c_str();
   auto fragment = ShaderParser::process(FragFile);
   const char *FragmentShader = fragment.c_str();
-  struct stat fileinfo;
-
-  if(-1 != stat(VertFile.c_str(), &fileinfo))
-    vert_mtime = fileinfo.st_mtime;
-
-  if(-1 != stat(FragFile.c_str(), &fileinfo))
-    frag_mtime = fileinfo.st_mtime;
 
   VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
   checkForGLError(name + ": Creating VertexShader");

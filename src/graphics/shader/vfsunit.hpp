@@ -11,11 +11,6 @@
 #include <GL/glew.h>
 #endif
 #include "shaderparser.hpp"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/inotify.h>
-#include <time.h>
-#include <unistd.h>
 
 // Vertex Fragment Shader Unit
 class VFSUnit : public ShaderUnit
@@ -27,11 +22,6 @@ public:
   virtual void reload();
   virtual GLuint pid();
 private:
-  void update();
-  fd_set watch_set;
-  struct timespec req;
-  int wd, fd;
-  int frag_mtime, vert_mtime;
   std::string name, FragFile, VertFile;
   GLuint VertexShaderId, FragmentShaderId, ProgramId;
 };
