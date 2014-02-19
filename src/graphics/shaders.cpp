@@ -1,6 +1,6 @@
 #include "shaders.h"
 
-Shaders::Shaders(void): updated(false)
+Shaders::Shaders(void)
 {
 }
 
@@ -40,21 +40,11 @@ void Shaders::addProgram(std::string name, std::string vertex, std::string fragm
 
 void Shaders::update()
 {
-  if (updated) {
-    fwatcher.update();
-    updated = false;
-  } else {
-    if (fwatcher.update()) {
-      auto queue = fwatcher.getChanged();
-      for (auto& i : queue) {
-        shaders.at(filewatchlist.at(i))->reload();
-      }
-      updated = true;
+  if (fwatcher.update()) {
+    auto queue = fwatcher.getChanged();
+    for (auto& i : queue) {
+      shaders.at(filewatchlist.at(i))->reload();
     }
   }
-  /*
-  for (auto& kv : shaders) {
-    kv.second->reload();
-  } */
 }
 

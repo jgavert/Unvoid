@@ -30,7 +30,6 @@ private:
   std::map<std::string, std::unique_ptr<ShaderUnit>> shaders;
   std::map<int, std::string> filewatchlist;
   FileWatch fwatcher;
-  bool updated;
 };
 
 
