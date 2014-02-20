@@ -71,16 +71,20 @@ void Renderer::initialize()
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
   shaders.initialize();
-  GLint shaderProgram = shaders.get("Basic");
-  glUseProgram(shaderProgram);
-  viewMatrix = glGetUniformLocation( shaderProgram, "ViewMatrix" );
-  projectionMatrix = glGetUniformLocation( shaderProgram, "ProjectionMatrix" );
-  modelMatrix = glGetUniformLocation( shaderProgram, "ModelMatrix" );
-  timeGLP = glGetUniformLocation( shaderProgram, "time");
-  resolutionGLP = glGetUniformLocation( shaderProgram, "resolution");
-  cameraPosGLP = glGetUniformLocation( shaderProgram, "cameraPos");
+  //GLint shaderProgram = shaders.get("Basic");
+  //glUseProgram(shaderProgram);
+  viewMatrix = glGetUniformLocation( shaders.get("Basic"), "ViewMatrix" );
+  projectionMatrix = glGetUniformLocation(shaders.get("Basic") , "ProjectionMatrix" );
+  modelMatrix = glGetUniformLocation(shaders.get("Basic") , "ModelMatrix" );
+  timeGLP = glGetUniformLocation( shaders.get("Basic"), "time");
+  resolutionGLP = glGetUniformLocation( shaders.get("Basic"), "resolution");
+  cameraPosGLP = glGetUniformLocation( shaders.get("Basic"), "cameraPos");
+
+  tGLP = glGetUniformLocation( shaders.get("glsl"), "time");
+  rGLP = glGetUniformLocation( shaders.get("glsl"), "resolution");
   glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
   glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
+  glUniform2fv(rGLP, 1, glm::value_ptr(res));
 
   projection = view = glm::mat4();
   view = glm::lookAt(
@@ -224,6 +228,12 @@ void Renderer::reloadShaders() {
   timeGLP = glGetUniformLocation( shaders.get("Basic"), "time");
   resolutionGLP = glGetUniformLocation( shaders.get("Basic"), "resolution");
   cameraPosGLP = glGetUniformLocation( shaders.get("Basic"), "cameraPos");
+
+  tGLP = glGetUniformLocation( shaders.get("glsl"), "time");
+  rGLP = glGetUniformLocation( shaders.get("glsl"), "resolution");
+  glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
+  glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
+  glUniform2fv(rGLP, 1, glm::value_ptr(res));
 }
 
 void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
@@ -232,13 +242,14 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
   timeGLV += 0.02f*time;
 
   if (glsl) {
+    vbo_glsl.drawToFBO();
     glClearColor(0.f, 0.f, 0.f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUniform1fv(timeGLP, 1, &timeGLV);
+    glUniform1fv(tGLP, 1, &timeGLV);
 
     glDisable(GL_BLEND);
-    fbo.drawFBO();
+    vbo_glsl.drawFBO();
   } else {
     if (fboEnabled) {
       fbo.drawToFBO();

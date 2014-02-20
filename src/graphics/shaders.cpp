@@ -18,7 +18,7 @@ void Shaders::initialize(void)
   //shaders.insert(std::make_pair<std::string,std::unique_ptr<ShaderUnit>>("Basic", std::unique_ptr<VFSUnit>(VFSUnit("Basic", "shaders/simple.vertex", "shaders/simple.vertex"))));
   addProgram("Basic", "shaders/simple.vertex", "shaders/simple.fragment");
   addProgram("PostProcess", "shaders/postprocess.vertex", "shaders/postprocess.fragment");
-  addProgram("glsl", "shaders/simple.vertex", "shaders/glsl.fragment");
+  addProgram("glsl", "shaders/glsl.vertex", "shaders/glsl.fragment");
   for (auto& kv : shaders) {
     kv.second->load();
   }

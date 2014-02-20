@@ -6,7 +6,7 @@
  */
 
 #ifndef RENDERER_H
-#define	RENDERER_H
+#define RENDERER_H
 #define WINDOW_TITLE_PREFIX "Project Unvoid"
 
 #ifdef _WIN32
@@ -58,8 +58,11 @@ private:
   glm::mat4 view, projection;
   glm::vec4 position;
   FSQuad fbo, vbo_glsl;
+
+  GLint vMat, pMat, mMat, tGLP, rGLP, cGLP;
+
   GLint viewMatrix, projectionMatrix, modelMatrix, timeGLP, resolutionGLP, cameraPosGLP;
-  GLint compVisProjection,compVisView, compVisTime,compResolutionGLP,compCamPosLoc;
+  //GLint compVisProjection,compVisView, compVisTime,compResolutionGLP,compCamPosLoc;
   //TODO: implement below
   std::vector<int> screenStack;
   std::vector<VBO> vbos;
