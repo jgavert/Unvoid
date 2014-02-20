@@ -23,5 +23,5 @@ void main(void)
 
   color = 0.10*linearize(gl_FragCoord.z);
 
-  out_Color = vec4((1.4-color)*ex_Color.x, (1.0-color)*ex_Color.y, (1.0-color)*ex_Color.z, 1.0);
+  out_Color = vec4((1.0-color)*ex_Color.x, (1.0-color)*ex_Color.y, (1.0-color)*ex_Color.z, 1.0);
 }

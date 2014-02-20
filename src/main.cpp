@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
   auto fpslimit = std::chrono::nanoseconds(FPSLIMIT);
   auto timing0 = std::chrono::high_resolution_clock::now();
   Window window;
-  Renderer render(window);
+  Renderer render(window, 1024, 764);
   Controller input;
   Objloader lol;
   std::cout << "initializing\n";

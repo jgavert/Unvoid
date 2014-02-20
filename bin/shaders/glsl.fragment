@@ -12,10 +12,9 @@ out vec4 out_Color;
 /*
 void main(void)
 {
-  vec2 res = vec2(800,640);
   vec2 m = vec2(0.0);
   m.x -= 0.213;
-  vec2 pos = gl_FragCoord.xy / res.xy * 0.5;
+  vec2 pos = gl_FragCoord.xy / resolution.xy * 0.5;
   vec2 coord = pos-m*1.4;
   vec2 vf = vec2(0.4,-1.0);
   float iter = 0.0;

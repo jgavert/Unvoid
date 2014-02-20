@@ -35,7 +35,7 @@
 
 class Renderer {
 public:
-  Renderer(Window& window);
+  Renderer(Window& w,int width, int height);
   ~Renderer();
   void initialize();
   void render(float time, bool pEnabled, bool, bool);

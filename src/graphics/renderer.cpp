@@ -13,11 +13,9 @@
 #include "window.h"
 #include "renderer.h"
 
-Renderer::Renderer(Window& w):
-  window(w)
+Renderer::Renderer(Window& w, int width, int height):
+  window(w), CurrentWidth(width), CurrentHeight(height)
 {
-  CurrentWidth = 800;
-  CurrentHeight = 640;
   WindowHandle = 0;
   timeGLV = 0.f;
   FrameCount = 0;
@@ -242,16 +240,16 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
 
   if (glsl) {
     vbo_glsl.drawToFBO();
-    glUseProgram(shaders.get("glsl"));
+    glUseProgram(shaders.get("glsl")); //Remember to activate program before...
     glClearColor(0.f, 0.f, 0.f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
-    glUniform2fv(rGLP, 1, glm::value_ptr(res));
+    glUniform2fv(rGLP, 1, glm::value_ptr(res)); // ...adding any Uniforms
     glUniform1fv(tGLP, 1, &timeGLV);
 
     glDisable(GL_BLEND);
-    vbo_glsl.drawFBO();
+    vbo_glsl.drawFBO(); //this call is too specific which is why above is done.
   } else {
     if (fboEnabled) {
       fbo.drawToFBO();
