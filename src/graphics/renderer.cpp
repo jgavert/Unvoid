@@ -72,7 +72,6 @@ void Renderer::initialize()
 
   shaders.initialize();
   //GLint shaderProgram = shaders.get("Basic");
-  //glUseProgram(shaderProgram);
   viewMatrix = glGetUniformLocation( shaders.get("Basic"), "ViewMatrix" );
   projectionMatrix = glGetUniformLocation(shaders.get("Basic") , "ProjectionMatrix" );
   modelMatrix = glGetUniformLocation(shaders.get("Basic") , "ModelMatrix" );
@@ -82,6 +81,7 @@ void Renderer::initialize()
 
   tGLP = glGetUniformLocation( shaders.get("glsl"), "time");
   rGLP = glGetUniformLocation( shaders.get("glsl"), "resolution");
+  glUseProgram(0);
   glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
   glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
   glUniform2fv(rGLP, 1, glm::value_ptr(res));
@@ -233,7 +233,6 @@ void Renderer::reloadShaders() {
   rGLP = glGetUniformLocation( shaders.get("glsl"), "resolution");
   glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
   glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
-  glUniform2fv(rGLP, 1, glm::value_ptr(res));
 }
 
 void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
@@ -243,9 +242,12 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
 
   if (glsl) {
     vbo_glsl.drawToFBO();
+    glUseProgram(shaders.get("glsl"));
     glClearColor(0.f, 0.f, 0.f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
+    glUniform2fv(rGLP, 1, glm::value_ptr(res));
     glUniform1fv(tGLP, 1, &timeGLV);
 
     glDisable(GL_BLEND);

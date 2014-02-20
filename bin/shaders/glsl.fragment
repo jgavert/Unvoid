@@ -1,4 +1,4 @@
-#version 400
+#version 140
 
 uniform float time;
 uniform vec2 resolution;
@@ -9,7 +9,7 @@ out vec4 out_Color;
 #define MAXITER 512.0
 #define STEP 1.0
 #define LIMIT 1.8
-
+/*
 void main(void)
 {
   vec2 res = vec2(800,640);
@@ -27,5 +27,85 @@ void main(void)
   }
   out_Color = vec4(4.0/MAXITER*iter,2.0/MAXITER*iter,3.0/MAXITER*iter,1.0);
   //out_Color = vec4(1.0,0.0,1.0,1.0);
+}*/
+
+//legend: rd: ray direction, ro: ray origin, pd: plade normal, po: plane origin, r: distance from center plane
+vec4 intersectionRD(vec3 rd, vec3 ro, vec3 pd, vec3 po, float r) {
+  float denom = dot(rd,pd);
+  if (denom == 0.0)
+    return vec4(0.0);
+  float d = dot((po-ro),pd) / denom;
+  vec3 hit = rd*d+ro;
+  vec3 v = hit-po;
+  float d2 = dot(v, v);
+  if (d2 <= r*r)
+    return vec4(pd,d);
+  return vec4(0.0);
 }
 
+vec4 combine(vec4 tar, vec4 ref){
+  if (ref.w  <  0.0002)
+    return tar;
+  if (tar.w > 0.0002 && tar.w < ref.w)
+    return tar;
+  else
+    return ref;
+}
+
+//Specify all the objects that exist
+vec4 checkCoillisions(vec3 rd, vec3 ro) {
+  vec4 result = vec4(0.0);
+  result = combine(intersectionRD(rd, ro, normalize(vec3(-0.5, 0.5, -1.0)),vec3(-0.4, 0.4, 1.4),  0.4), result);
+  result = combine(intersectionRD(rd, ro, normalize(vec3(0.0, 0.0, 1.0)),vec3(0.0, 0.0, 1.2),  0.4), result);
+  result = combine(intersectionRD(rd, ro, normalize(vec3(0.0, 0.0, 1.0)),vec3(0.0, 0.0, 1.8),  1.6), result);
+  //result = combine(intersectionRD(rd, ro, normalize(vec3(0.0,0.5, 0.1)),vec3(0.0, 0.0, 1.8),  1.6), result);
+  return result;
+}
+
+vec3 shadowray(vec3 rd, vec3 ro, vec3 normal) {
+  vec4 coil = checkCoillisions(rd, ro);
+  vec3 AOL = vec3(0);
+
+  if (coil.w < 0.000001)
+  { // Since we didnt coillide with anything, it's fine to assume we can see the light
+    float d = abs(dot(rd,normal));
+    if (d > 0.07)
+    {
+      AOL = pow(d,8.0)+vec3(0.0,1.0,0.0)*0.1;
+    }
+  }
+  return AOL;
+}
+
+void main( void ) {
+  float aspect = resolution.x/resolution.y;
+  vec2 uvUnit = 1.0 / resolution.xy;
+
+  vec2 uv = ( gl_FragCoord.xy / resolution.xy );
+  vec2 pos = (uv-0.5);
+  pos.x *= aspect;
+  pos.y -= 0.0;
+
+  //vec2 pmouse = mouse-vec2(0.5);
+  //pmouse.x *= aspect;
+
+
+  vec3 ro = vec3(0.0,0.0,-1.5);
+  vec3 lightCoord = vec3(vec2(sin(time*0.3)*1.4,-cos(time*0.3)*1.4),0.0);
+  vec3 rd = normalize(vec3(pos,0)-ro);
+  vec4 dist = checkCoillisions(rd, ro);
+  vec3 point = rd*dist.w+ro;
+  vec4 color = vec4(0);
+  vec3 AOL = vec3(0);
+  if (dist.w > 0.01)
+  {
+    // shadowray, seems like one ray isnt enough
+    // obviously
+    float guess = 0.02;
+    vec3 ln = normalize(lightCoord-point);
+    AOL = shadowray(ln, point, dist.xyz);
+  }else{
+    AOL.xy = pos.xy;
+  }
+  gl_FragColor = vec4(AOL,1.0);;
+}
