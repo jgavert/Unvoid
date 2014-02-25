@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
   auto fpslimit = std::chrono::nanoseconds(FPSLIMIT);
   auto timing0 = std::chrono::high_resolution_clock::now();
   Window window;
-  Renderer render(window, 1024, 764);
+  Renderer render(window, 1280, 720);
   Controller input;
   Objloader lol;
   std::cout << "initializing\n";
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
   timing0 = timing1;
   auto timing2 = std::chrono::high_resolution_clock::now();
   auto fbefore = 0;
-  bool flip = true,limit = true, particlesEnabled = false, highspeed = true, fbo = true, glsl = false;
+  bool flip = true,limit = false, particlesEnabled = false, highspeed = true, fbo = true, glsl = false;
   auto timing3 = std::chrono::high_resolution_clock::now();
 
   while(!input.hasQuit()) {
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
       std::cout << "Toggle live glsl edit (watches for changes): "<< (glsl ? "on" : "off") << std::endl;
     }
     if (input.getKeyOnce(K9)) {
-      //window.toggle_vsync();
+      window.toggle_vsync();
       std::cout << "Raytracer not implemented yet. ETA unknown" << std::endl;
     }
 

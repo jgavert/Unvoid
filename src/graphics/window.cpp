@@ -80,6 +80,7 @@ void Window::createWindow(int width, int height)
 		throw std::runtime_error("Unable to set SDL video mode");
 	}
   drawContext = SDL_GL_CreateContext(mainwindow);
+  SDL_GL_SetSwapInterval(0);
 }
 
 size_t Window::width() const
