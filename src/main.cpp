@@ -15,8 +15,8 @@
 #define FPSLIMIT 16666667 //nanoseconds
 
 
-float x=-4.f,y=0.f,z=0.f;
-float tx=0.f,ty=0.f,tz=0.f;
+float x=0.f,y=0.f,z=-1.5f;
+float tx=0.f,ty=0.f,tz=1.f;
 float forward=0.f, strafe=0.f;
 float zx_a=0.f, y_a=0.f;
 int* mouse;
@@ -52,7 +52,8 @@ void look(Renderer& render, Controller& input, float speedMod)
   //std::cout << "mouse[1]: " << mouse[1] << " ,y_a: " << y_a << ", acosf(y_a): " << acosf(y_a) << std::endl;
   tx = cosf(zx_a);
   tz = sinf(zx_a);
-  ty = acosf(y_a) - 1.f;
+  ty = acosf(y_a)-acosf(0.0f);
+  ty = ty * 4.0f;
 //}
   //std::cout << "tx: " << tx << std::endl;
   //std::cout << "tz: " << tz << std::endl;
@@ -69,6 +70,7 @@ void look(Renderer& render, Controller& input, float speedMod)
 //std::cout << z << ", " << tz << std::endl;
 
 
+  //std::cout << x << ", "<< y << ", "<< z << ", "<< tx << ", "<< ty << ", "<< tz << "\n ";
   render.lookAt(x, y, z, x+tx, y+ty, z+tz);
 }
 
@@ -77,14 +79,14 @@ int main(int argc, char *argv[])
   auto fpslimit = std::chrono::nanoseconds(FPSLIMIT);
   auto timing0 = std::chrono::high_resolution_clock::now();
   Window window;
-  Renderer render(window, 1280, 720);
+  Renderer render(window, 1600, 1200);
   Controller input;
   Objloader lol;
   std::cout << "initializing\n";
   render.initialize();
   std::cout << "loading objects...\n";
   VBO vbo1 = lol.readObj("test.obj");
-  render.loadVBO(vbo1);
+  render.loadVBO(std::move(vbo1));
   auto timing1 = std::chrono::high_resolution_clock::now();
   std::cout << "Initialisation took " << std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() << "ms." << std::endl;
   timing0 = timing1;

@@ -14,6 +14,7 @@
 #ifndef VBO_H
 #define VBO_H
 
+//TODO: introduce proper initializer list and make it more clean.
 class VBO {
 public:
   glm::mat4 modelMatrix,viewMatrix;

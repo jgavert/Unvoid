@@ -1,19 +1,10 @@
-#include "vbo.h"
-#include <iostream>
+#include "modeldata.hpp"
 
-VBO::VBO()
+
+ModelData::ModelData(std::vector<float> verts,std::vector<float> colrs, std::vector<GLuint> inds):
+  vertices(std::move(verts)), colors(std::move(colrs)), indices(std::move(inds)),
+  vaoId(0), vboId(0), eboId(0), colorBufferId(0)
 {
-  modelMatrix = viewMatrix = glm::mat4();
-}
-
-VBO::~VBO() {
-  glDeleteBuffers( 1, &colorBufferId);
-	glDeleteBuffers( 1, &eboId );
-	glDeleteBuffers( 1, &vboId );
-	glDeleteVertexArrays( 1, &vaoId );
-}
-
-void VBO::loadToGpu() {
   GLenum ErrorCheckValue = glGetError();
   glGenVertexArrays(1, &vaoId);
   glBindVertexArray(vaoId);
@@ -47,14 +38,20 @@ void VBO::loadToGpu() {
   glBindVertexArray(0);
 }
 
-void VBO::draw() {
-	glBindVertexArray(vaoId);
-	glDrawElements( GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0 );
-  glBindVertexArray(0);
+ModelData::~ModelData()
+{
+  glDeleteBuffers( 1, &colorBufferId);
+  glDeleteBuffers( 1, &eboId );
+  glDeleteBuffers( 1, &vboId );
+  glDeleteVertexArrays( 1, &vaoId );
 }
 
-glm::mat4 VBO::getModelMatrix() {
-  return modelMatrix;
+
+GLuint ModelData::getVaoID()
+{
+  return vaoId;
 }
-
-
+int ModelData::getSize()
+{
+  return vertices.size();
+}

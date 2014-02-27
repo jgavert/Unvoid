@@ -1,4 +1,4 @@
-#include "shaders.h"
+#include "shaders.hpp"
 
 Shaders::Shaders(void)
 {
@@ -38,13 +38,15 @@ void Shaders::addProgram(std::string name, std::string vertex, std::string fragm
   //shaders.insert(std::make_pair<std::string,std::unique_ptr<ShaderUnit>>("PostProcess",std::unique_ptr<VFSUnit>(VFSUnit("PostProcess", "shaders/postprocess.vertex", "shaders/postprocess.fragment"))));
 }
 
-void Shaders::update()
+bool Shaders::update()
 {
   if (fwatcher.update()) {
     auto queue = fwatcher.getChanged();
     for (auto& i : queue) {
       shaders.at(filewatchlist.at(i))->reload();
     }
+    return true;
   }
+  return false;
 }
 

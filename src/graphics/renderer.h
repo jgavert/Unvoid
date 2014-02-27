@@ -28,7 +28,7 @@
 #include <vector>
 
 #include "window.h"
-#include "shaders.h"
+#include "shaders.hpp"
 #include "vbo.h"
 #include "fsquad.h"
 #include "particleManager.h"
@@ -42,7 +42,6 @@ public:
   void lookAt(float, float, float, float, float, float);
   long long getFrames();
   void reloadShaders();
-  void loadObject(std::string);
   void loadVBO(VBO data);
 private:
   int CurrentWidth;
@@ -56,10 +55,11 @@ private:
   Window& window;
   Shaders shaders;
   glm::mat4 view, projection;
-  glm::vec4 position;
+  glm::vec3 position;
+  glm::vec3 direction;
   FSQuad fbo, vbo_glsl;
 
-  GLint vMat, pMat, mMat, tGLP, rGLP, cGLP;
+  GLint lookGLP, positionGLP, tGLP, rGLP;
 
   GLint viewMatrix, projectionMatrix, modelMatrix, timeGLP, resolutionGLP, cameraPosGLP;
   //GLint compVisProjection,compVisView, compVisTime,compResolutionGLP,compCamPosLoc;

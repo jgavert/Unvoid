@@ -79,22 +79,27 @@ void Renderer::initialize()
 
   tGLP = glGetUniformLocation( shaders.get("glsl"), "time");
   rGLP = glGetUniformLocation( shaders.get("glsl"), "resolution");
+  positionGLP = glGetUniformLocation( shaders.get("glsl"), "position");
+  lookGLP = glGetUniformLocation( shaders.get("glsl"), "direction");
+
+
   glUseProgram(0);
-  glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
-  glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
-  glUniform2fv(rGLP, 1, glm::value_ptr(res));
+  //glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
+  //glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
+  //glUniform2fv(rGLP, 1, glm::value_ptr(res));
 
   projection = view = glm::mat4();
   view = glm::lookAt(
     glm::vec3( -5.0f, 0.0f, -1.0f ), //missä olen
     glm::vec3( 0.0f, 0.0f, 0.0f ), //minne katon
-    glm::vec3( 0.0f, 0.0f, 1.0f )  //vektori ylöspäin kamerasta
+    glm::vec3( 0.0f, 1.0f, 0.0f )  //vektori ylöspäin kamerasta
   );
-  position = glm::vec4( -5.0f, 0.0f, -1.0f, 1.0f);
-  projection = glm::perspective( 45.0f, static_cast<float>(CurrentWidth) / static_cast<float>(CurrentHeight), 0.01f, 100.0f );
+  position = glm::vec3( -5.0f, 0.0f, -1.0f);
+  direction = glm::vec3(0.0f, 0.0f, 0.0f);
+  projection = glm::perspective( 45.0f, static_cast<float>(CurrentWidth) / static_cast<float>(CurrentHeight), 0.01f, 1000.0f );
 
-  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
-  glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+  //glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
+  //glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
 /*
   compVisProjection = glGetUniformLocation(shaders.programs.at(2), "ProjectionMatrix");
   compVisView = glGetUniformLocation(shaders.programs.at(2), "ViewMatrix");
@@ -110,75 +115,10 @@ void Renderer::initialize()
 }
 
 void Renderer::loadVBO(VBO data) {
-  vbos.push_back(data);
+  vbos.push_back(std::move(data));
   vbos.back().loadToGpu();
 }
 
-void Renderer::loadObject(std::string unparsedData){
-  std::string buf; // Have a buffer string
-  std::stringstream ss(unparsedData); // Insert the string into a stream
-
-  std::vector<std::string> tokens; // Create vector to hold our words
-
-  while (ss >> buf) {
-    tokens.push_back(buf);
-  }
-
-  //std::cout << objectString << std::endl;
-  //std::cout << "" << std::endl;
-  //std::cout << "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||" << std::endl;
-  //std::cout << "" << std::endl;
-  std::vector<GLuint> indices;
-  std::vector<float> vertices, colors;
-  int itemCount = 3;
-  int currentChoice = 0;
-  bool end = false;
-
-  for (auto &it: tokens){
-    if (it == "ORDER") {
-      currentChoice = 1;
-      continue;
-    }
-    else if (it == "VERTICES") {
-      currentChoice = 2;
-      continue;
-    }
-    else if (it == "COLORS") {
-      currentChoice = 3;
-      continue;
-    }
-    else if (it == "END") {
-      currentChoice = 0;
-      itemCount--;
-      if (itemCount <= 0)
-        end = true;
-      else
-        continue;
-    }
-    if (end)
-      break;
-
-    switch(currentChoice) {
-      case 1:
-        indices.push_back(static_cast<GLuint>(std::atoi(it.c_str())));
-        break;
-      case 2:
-        vertices.push_back(static_cast<float>(std::atof(it.c_str())));
-        break;
-      case 3:
-        colors.push_back(static_cast<float>(std::atof(it.c_str())));
-      default:
-        break;
-    }
-  }
-  VBO vbo;
-  vbo.colors = colors;
-  vbo.indices = indices;
-  vbo.vertices = vertices;
-
-  vbos.push_back(vbo);
-  vbos.back().loadToGpu();
-}
 
 void Renderer::DestroyVBOs()
 {
@@ -205,32 +145,34 @@ void Renderer::Cleanup(void)
 
 void Renderer::lookAt(float x, float y, float z, float tx, float ty, float tz)
 {
+  position = glm::vec3(x, y, z);
+  direction = glm::vec3(tx,ty,tz);
   view = glm::lookAt(
-    glm::vec3( x, y, z ), //missä olen
-    glm::vec3( tx, ty, tz ), //minne katon
+    position, //missä olen
+    direction, //minne katon
     glm::vec3( 0.0f, 1.0f, 0.0f )  //vektori ylöspäin kamerasta
   );
-  glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
-  glm::vec3 pos = glm::vec3(x, y, z);
-  position = glm::vec4(pos, 1.0f);
-  glUniform3fv(cameraPosGLP,1, glm::value_ptr(pos));
+  //glUniform3fv(cameraPosGLP,1, glm::value_ptr(pos));
+  //glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
 
 }
 
 void Renderer::reloadShaders() {
-  shaders.update();
+  bool result = shaders.update();
 
-  viewMatrix = glGetUniformLocation( shaders.get("Basic"), "ViewMatrix" );
-  projectionMatrix = glGetUniformLocation( shaders.get("Basic"), "ProjectionMatrix" );
-  modelMatrix = glGetUniformLocation( shaders.get("Basic"), "ModelMatrix" );
-  timeGLP = glGetUniformLocation( shaders.get("Basic"), "time");
-  resolutionGLP = glGetUniformLocation( shaders.get("Basic"), "resolution");
-  cameraPosGLP = glGetUniformLocation( shaders.get("Basic"), "cameraPos");
+  if (result) {
+    viewMatrix = glGetUniformLocation( shaders.get("Basic"), "ViewMatrix" );
+    projectionMatrix = glGetUniformLocation( shaders.get("Basic"), "ProjectionMatrix" );
+    modelMatrix = glGetUniformLocation( shaders.get("Basic"), "ModelMatrix" );
+    timeGLP = glGetUniformLocation( shaders.get("Basic"), "time");
+    resolutionGLP = glGetUniformLocation( shaders.get("Basic"), "resolution");
+    cameraPosGLP = glGetUniformLocation( shaders.get("Basic"), "cameraPos");
 
-  tGLP = glGetUniformLocation( shaders.get("glsl"), "time");
-  rGLP = glGetUniformLocation( shaders.get("glsl"), "resolution");
-  glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
-  glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
+    tGLP = glGetUniformLocation( shaders.get("glsl"), "time");
+    rGLP = glGetUniformLocation( shaders.get("glsl"), "resolution");
+    positionGLP = glGetUniformLocation( shaders.get("glsl"), "position");
+    lookGLP = glGetUniformLocation( shaders.get("glsl"), "direction");
+  }
 }
 
 void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
@@ -247,6 +189,8 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
     glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
     glUniform2fv(rGLP, 1, glm::value_ptr(res)); // ...adding any Uniforms
     glUniform1fv(tGLP, 1, &timeGLV);
+    glUniform3fv(positionGLP, 1, glm::value_ptr(position));
+    glUniform3fv(lookGLP, 1, glm::value_ptr(direction));
 
     glDisable(GL_BLEND);
     vbo_glsl.drawFBO(); //this call is too specific which is why above is done.
@@ -262,6 +206,9 @@ void Renderer::render(float time, bool pEnabled, bool fboEnabled, bool glsl)
     glUniform1fv(timeGLP, 1, &timeGLV);
     glUniformMatrix4fv( viewMatrix, 1, GL_FALSE, glm::value_ptr( view ) );
     glUniformMatrix4fv( projectionMatrix, 1, GL_FALSE, glm::value_ptr( projection ) );
+    glm::vec2 res = glm::vec2(static_cast<float>(CurrentWidth),static_cast<float>(CurrentHeight));
+    glUniform2fv(resolutionGLP, 1, glm::value_ptr(res));
+    glUniform3fv(cameraPosGLP,1, glm::value_ptr(position));
 
 
 

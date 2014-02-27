@@ -2,11 +2,13 @@
 
 uniform float time;
 uniform vec2 resolution;
+uniform vec3 position;
+uniform vec3 direction;
 
 in vec2 f_texcoord;
 out vec4 out_Color;
 
-#define MAX_ITER 128.0
+#define MAX_ITER 160.0
 #define EPSILON 0.001
 //in raymarching we dont have intersectinos
 
@@ -106,8 +108,16 @@ void main( void ) {
   pos.x *= aspect;
   pos.y -= 0.0;
 
-  vec3 ro = vec3(0.0,0.0,-1.5);
-  vec3 rd = normalize(vec3(pos,0)-ro);
+  vec3 posi = vec3(0.0,0.0,-1.5);
+  vec3 dire = normalize(vec3(0.0,0.0,1.0));
+  posi = position.xyz;
+  dire = normalize(direction-position);
+  vec3 c_r = cross(dire, vec3(0.0,1.0,0.0));
+  vec3 c_up = cross(c_r, dire);
+  vec3 image_point = pos.x * c_r + pos.y*c_up + posi+dire;
+  vec3 rd = image_point-posi;
+  vec3 ro = posi;
+  //rd = normalize(direction);
   vec3 lightPos = vec3(1.0+sin(time*0.2)*2.5,0.0-cos(time*0.2)*2.5,0.0);
   vec2 res = castRay(ro, rd);
   if (res.y < MAX_ITER) {

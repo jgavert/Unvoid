@@ -23,7 +23,7 @@ public:
   Shaders();
   ~Shaders();
   void initialize();
-  void update();
+  bool update();
   GLuint get(std::string name);
 private:
   void addProgram(std::string name, std::string vertex, std::string fragment);
