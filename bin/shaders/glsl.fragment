@@ -99,7 +99,7 @@ vec3 shadowray(vec3 rd, vec3 ro) {
   return AOL;
 }
 
-void main( void ) {
+vec3 getCameraRay(vec3 posi, vec3 dir) {
   float aspect = resolution.x/resolution.y;
   vec2 uvUnit = 1.0 / resolution.xy;
 
@@ -108,15 +108,15 @@ void main( void ) {
   pos.x *= aspect;
   pos.y -= 0.0;
 
-  vec3 posi = vec3(0.0,0.0,-1.5);
-  vec3 dire = normalize(vec3(0.0,0.0,1.0));
-  posi = position.xyz;
-  dire = normalize(direction-position);
-  vec3 c_r = cross(dire, vec3(0.0,1.0,0.0));
-  vec3 c_up = cross(c_r, dire);
-  vec3 image_point = pos.x * c_r + pos.y*c_up + posi+dire;
-  vec3 rd = image_point-posi;
-  vec3 ro = posi;
+  vec3 camera_right = cross(dir, vec3(0.0,1.0,0.0));
+  vec3 camera_up = cross(camera_right, dir);
+  vec3 image_point = pos.x * camera_right + pos.y*camera_up + posi+dir;
+  return image_point-posi;
+}
+
+void main( void ) {
+  vec3 ro = position;
+  vec3 rd = getCameraRay(position, normalize(direction-position));
   //rd = normalize(direction);
   vec3 lightPos = vec3(1.0+sin(time*0.2)*2.5,0.0-cos(time*0.2)*2.5,0.0);
   vec2 res = castRay(ro, rd);
@@ -125,7 +125,7 @@ void main( void ) {
     vec3 ln = normalize(lightPos-point);
     vec4 aol = vec4(shadowray(ln, point), 1.0);
 
-    out_Color = (aol + vec4(res.y/MAX_ITER,0.0,res.y/MAX_ITER,1.0))/2.0;
+    out_Color = (aol + 3.0*vec4(res.y/MAX_ITER,0.0,res.y/MAX_ITER,1.0));
   } else {
     out_Color = vec4(0.0);
   }
