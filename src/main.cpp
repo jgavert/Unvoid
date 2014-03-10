@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
   std::cout << "initializing\n";
   render.initialize();
   std::cout << "loading objects...\n";
-  VBO vbo1 = lol.readObj("test.obj");
+  VBO vbo1 = lol.readObj("data/test.obj");
   render.loadVBO(std::move(vbo1));
   auto timing1 = std::chrono::high_resolution_clock::now();
   std::cout << "Initialisation took " << std::chrono::duration_cast<std::chrono::milliseconds>(timing1 - timing0).count() << "ms." << std::endl;

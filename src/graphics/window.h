@@ -2,11 +2,22 @@
 #define WINDOW_H
 
 #ifdef _WIN32
+#include <windows.h>
 #include <SDL.h>
+#include <GL\glew.h>
 #else
 #include <SDL2/SDL.h>
+#include <GL/glew.h>
 #endif
 
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <cassert>
+#include <iomanip>
+#include <stdexcept>
 #include <cstddef>
 
 class Window

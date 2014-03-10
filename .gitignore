@@ -12,6 +12,7 @@ windows/*.sdf
 windows/*.cd
 windows/*.psess
 windows/*.vsp
+windows/x64
 bin/example.txt
 unvoid.sublime-workspace
 testcode

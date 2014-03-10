@@ -1,31 +1,6 @@
 #include "window.h"
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
-#ifdef _WIN32
-#include <SDL.h>
-#else
-#include <SDL2/SDL.h>
-#endif
-
-#ifdef _WIN32
-#include <GL\glew.h>
-#else
-#include <GL/glew.h>
-#endif
-
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <cassert>
-#include <iomanip>
-#include <stdexcept>
-
-using namespace std;
+using namespace std; //oho
 
 void checkForGLError2(std::string info)
 {
