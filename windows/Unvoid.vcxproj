@@ -18,13 +18,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -96,20 +96,31 @@
     <ClCompile Include="..\src\graphics\particleManager.cpp" />
     <ClCompile Include="..\src\graphics\renderer.cpp" />
     <ClCompile Include="..\src\Graphics\shaders.cpp" />
+    <ClCompile Include="..\src\graphics\shader\shaderparser.cpp" />
+    <ClCompile Include="..\src\graphics\shader\vfsunit.cpp" />
     <ClCompile Include="..\src\graphics\vbo.cpp" />
     <ClCompile Include="..\src\graphics\window.cpp" />
     <ClCompile Include="..\src\input\controller.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\utils\filewatch.cpp" />
+    <ClCompile Include="..\src\utils\objloader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\fsquad.h" />
+    <ClInclude Include="..\src\graphics\modeldata.hpp" />
+    <ClInclude Include="..\src\graphics\modelstorage.hpp" />
     <ClInclude Include="..\src\graphics\particle.h" />
     <ClInclude Include="..\src\graphics\particleManager.h" />
     <ClInclude Include="..\src\graphics\renderer.h" />
-    <ClInclude Include="..\src\Graphics\shaders.h" />
+    <ClInclude Include="..\src\graphics\shaders.hpp" />
+    <ClInclude Include="..\src\graphics\shader\shaderparser.hpp" />
+    <ClInclude Include="..\src\graphics\shader\shaderunit.hpp" />
+    <ClInclude Include="..\src\graphics\shader\vfsunit.hpp" />
     <ClInclude Include="..\src\graphics\vbo.h" />
     <ClInclude Include="..\src\graphics\window.h" />
     <ClInclude Include="..\src\input\controller.h" />
+    <ClInclude Include="..\src\utils\filewatch.hpp" />
+    <ClInclude Include="..\src\utils\objloader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

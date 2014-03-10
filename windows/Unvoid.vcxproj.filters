@@ -25,6 +25,18 @@
     <Filter Include="Header Files\input">
       <UniqueIdentifier>{af54c552-db93-4c42-bbd8-0c553e06e46b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{3cc6c2f8-783d-4bd2-8ed7-a8760c9884cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\shader">
+      <UniqueIdentifier>{ee22751b-fc41-423f-96c2-83f0ae0fe22f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{16e840f8-0874-440b-8441-1b29c09b6c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\shader">
+      <UniqueIdentifier>{d903d019-02f8-4a16-b8d5-a181d10710fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -51,12 +63,21 @@
     <ClCompile Include="..\src\graphics\fsquad.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\graphics\shader\shaderparser.cpp">
+      <Filter>Source Files\Graphics\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\shader\vfsunit.cpp">
+      <Filter>Source Files\Graphics\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utils\filewatch.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utils\objloader.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics\window.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Graphics\shaders.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\src\graphics\renderer.h">
@@ -76,6 +97,30 @@
     </ClInclude>
     <ClInclude Include="..\src\graphics\fsquad.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\shaders.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\utils\objloader.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\utils\filewatch.hpp">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\modeldata.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\modelstorage.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\shader\shaderparser.hpp">
+      <Filter>Header Files\Graphics\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\shader\shaderunit.hpp">
+      <Filter>Header Files\Graphics\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\graphics\shader\vfsunit.hpp">
+      <Filter>Header Files\Graphics\shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

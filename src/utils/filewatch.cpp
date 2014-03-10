@@ -1,5 +1,6 @@
 #include "filewatch.hpp"
-
+#ifdef _WIN32
+#else
 FileWatch::FileWatch():fd(inotify_init())
 {
   FD_ZERO( &watch_set );
@@ -58,3 +59,4 @@ void FileWatch::process()
   FD_SET( fd, &watch_set );
 }
 
+#endif

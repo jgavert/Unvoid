@@ -29,7 +29,10 @@ private:
   void addProgram(std::string name, std::string vertex, std::string fragment);
   std::map<std::string, std::unique_ptr<ShaderUnit>> shaders;
   std::map<int, std::string> filewatchlist;
+#ifdef _WIN32
+#else
   FileWatch fwatcher;
+#endif
 };
 
 

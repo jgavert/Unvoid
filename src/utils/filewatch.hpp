@@ -1,4 +1,6 @@
 #pragma once
+#ifdef _WIN32
+#else
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
@@ -32,4 +34,5 @@ private:
   char buf[BUF_LEN];
   int len, i = 0;
 };
+#endif
 
