@@ -89,16 +89,16 @@
       <EnablePREfast>true</EnablePREfast>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <MinimalRebuild>false</MinimalRebuild>
-      <AdditionalIncludeDirectories>C:\Users\juho\Documents\GitHub\Unvoid\lib\shared;$(ProjectDir)..\lib\win32\SDL2\include;$(ProjectDir)..\lib\win32\pthread\include;$(ProjectDir)..\lib\win32\glew-1.9.0\include;$(ProjectDir)..\lib\win32\SDL_mixer-1.2.11\include;$(ProjectDir)..\lib\win32\libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\juho\Documents\GitHub\Unvoid\lib\shared\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>libpng15.lib;zlib.lib;SDL_mixer.lib;opengl32.lib;glu32.lib;glew32.lib;sdl.lib;wsock32.lib;SDLmain.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\win32\glew-1.9.0\lib;$(ProjectDir)..\lib\win32\pthread\lib;$(ProjectDir)..\lib\win32\SDL2\lib;$(ProjectDir)..\lib\win32\libpng;$(ProjectDir)..\lib\win32\SDL_mixer-1.2.11\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>

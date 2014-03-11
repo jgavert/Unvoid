@@ -4,3 +4,6 @@
 [submodule "lib/linux/glew"]
 	path = lib/linux/glew
 	url = git@github.com:nigels-com/glew.git
+[submodule "lib/win/SDL2"]
+	path = lib/win/SDL2
+	url = git@github.com:spurious/SDL-mirror.git
