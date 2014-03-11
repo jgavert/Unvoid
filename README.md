@@ -3,7 +3,6 @@ OpenGL project focusing on 4.x specification.
 
 Targets
 -------
-* Getting rid of libraries from git, providing a way to install them easily. (They will be completely removed from git history to make project a little smaller.)
 * Too many so I'll just list the current one:
 * It has come to my attention that a menu system of a sort could be a challenging task to implement, and it's also needed for future projects(Sound studio of a sort).
 
