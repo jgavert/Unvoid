@@ -3,3 +3,4 @@ cd lib/linux/glew
 make clean
 make extensions
 make -j4
+make clean lib lib/libGLEW.a

@@ -1,7 +1,7 @@
 DIRS := src src/graphics src/input src/utils src/graphics/shader
 PROGRAM_DIRS := $(DIRS)
 
-INCLUDE_DIRS := -DGLEW_STATIC -I lib/linux/glew/include -isystem lib/shared/glm
+INCLUDE_DIRS := -I lib/linux/glew/include -isystem lib/shared/glm
 WARNINGS := -pedantic -Wall -Wextra -Wno-parentheses
 
 PACKAGES := gl glu
@@ -9,7 +9,7 @@ CXX      := clang++
 CXXFLAGS := $(WARNINGS) -std=c++11 -O2 $(INCLUDE_DIRS)
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 
-LIBS := -L ./lib/linux/glew/lib -lGLEW -lSDL2 -pthread
+LIBS := -DGLEW_STATIC -L ./lib/linux/glew/lib -lGLEW -lSDL2 -pthread
 LIBS += $(shell pkg-config --libs $(PACKAGES))
 
 PROGRAM = bin/main
@@ -43,6 +43,7 @@ $(PROGRAM): $(OBJ_PROGRAM)
 
 $(BIN)/%:
 	@echo LINK $@
+	@echo $(CXX) $^ $(LIBS) -o $@
 	@$(CXX) $^ $(LIBS) -o $@
 
 $(OBJ)/%.o: $(SRC)/%.cpp
