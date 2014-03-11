@@ -15,6 +15,3 @@ unvoid.sublime-workspace
 testcode
 bin/*.dll
 lib/win
-lib/shared
-lib/shared/glm/CMakeLists.txt
-lib/shared/glm/CMakeLists.txt

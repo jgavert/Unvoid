@@ -1,0 +1,5 @@
+#!/bin/bash
+cd lib/linux/glew
+make clean
+make extensions
+make -j4

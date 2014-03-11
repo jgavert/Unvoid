@@ -1,0 +1,6 @@
+[submodule "lib/shared/glm"]
+	path = lib/shared/glm
+	url = git@github.com:g-truc/glm.git
+[submodule "lib/linux/glew"]
+	path = lib/linux/glew
+	url = git@github.com:nigels-com/glew.git
