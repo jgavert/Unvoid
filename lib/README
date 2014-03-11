@@ -1,0 +1,24 @@
+Linux
+
+Get glm like 
+
+
+Windows dependencies
+
+Get these files.
+
+Latest glm should work.
+http://www.libsdl.org/release/SDL2-devel-2.0.2-VC.zip
+http://sourceforge.net/projects/glew/files/glew/1.10.0/glew-1.10.0-win32.zip/download
+
+To get the pathing working correctly for visual studio:
+
+- all the paths expect you to be in folder named "./lib". 
+- unzip the contents of glm.zip to folder named "shared", should contain only a folder named 'glm'. Inside it there should be a folder named 'glm', there should be the .hpp files. Then it's correct.
+- unzip SDL2 to folder named "win/SDL2", and below it you should find all the "include" and other directories.
+- unzip glew to folder named "win/glew". The folder should contain "include" and "lib".
+
+NOTICE
+
+You might have to move the correct dlls to root folder "bin", to the directory that is specified in 'Solution' right click 'properties', 'Debugging' -> 'Working directory'.
+Will provide a batch file to do this later...

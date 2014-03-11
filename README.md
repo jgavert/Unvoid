@@ -3,15 +3,16 @@ OpenGL project focusing on 4.x specification.
 
 Targets
 -------
+* Getting rid of libraries from git, providing a way to install them easily. (They will be completely removed from git history to make project a little smaller.)
 * Too many so I'll just list the current one:
 * It has come to my attention that a menu system of a sort could be a challenging task to implement, and it's also needed for future projects(Sound studio of a sort).
 
 Features
 --------
-* Tried with opengl3.1 (intel HD3000) and worked.
+* OpenGL 3.1 compliant... except for ati.
 * Can draw a your favorite .obj file (without colors, and dont include normals).
 * Works on Win/Linux!
-* Ability to hack it in your favourite editor {project files for Visual Studio 2012 and sublime text2 with sublimeclang}
+* Ability to hack it in your favourite editor {project files for Visual Studio 2013 and sublime text2 with sublimeclang}
 
 TODO
 ----
@@ -21,7 +22,7 @@ TODO
 * Some kind of smart way to get ati, nvidia and intel to play together nicely
 with shaders. Currently opengl dependency to 3.1 means that I will hit ati bug
 with reading vertex/color data in to vertex shaders.
-Extension available in GLSL 3.3 and up, GL_ARB_explicit_attrib_location.
+Extension available in GLSL 3.1 and up, GL_ARB_explicit_attrib_location.
 
 Controls
 --------
@@ -33,7 +34,7 @@ Controls
 * '5' to toggle fullscreen. (careful on linux(nvidia+cinerama) sets the mode for the first screen and wont revert)
 * '6' to toggle movement speed.
 * '7' toggle postprocessing (currently only enables FXAA)
-* '8' toggle showing 'bin/shaders/glsl.fragment' file on screen for live editing.
+* '8' toggle showing 'bin/shaders/glsl.fragment' file on screen for live(linux only) editing.
 * '9' not implemented
 
 Building tips
@@ -45,9 +46,8 @@ Building tips
 	    Works best with the latest clang++ v3.2 or g++-4.7 (or greater versions of either).
 		Graphics drivers are also needed.</dd>
 
-	<dt>Windows(currently broken, looking into it)</dt>
-	<dd>Visual Studio 2012 with
-		Visual C++ Compiler November 2012 CTP (dem c++11 features) or 2013.</dd>
+	<dt>Windows</dt>
+	<dd>Visual Studio 2013, look at lib/README for dependencies</dd>
 
 	<dt>OSX</dt>
 	<dd>Not supported.
